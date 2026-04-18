@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Client Reviews | Kunwar Accounting Services Delhi</title>
+  <meta name="description" content="See what small business owners in Delhi say about Kunwar Accounting Services. Trusted GST, ITR and accounting firm in Dwarka, Delhi."/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/testimonials.html"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div class="page-hero"><h1>Client Testimonials</h1><p>What small business owners across Delhi say about us</p></div>
+  <div class="section">
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem;">
+      <div style="background:var(--ice);border-radius:12px;padding:1.25rem 1.5rem;text-align:center;flex:1;min-width:130px;"><div style="font-size:1.8rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;">100+</div><div style="font-size:12px;color:var(--gray);">Happy Clients</div></div>
+      <div style="background:var(--ice);border-radius:12px;padding:1.25rem 1.5rem;text-align:center;flex:1;min-width:130px;"><div style="font-size:1.8rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;">4.9★</div><div style="font-size:12px;color:var(--gray);">Average Rating</div></div>
+      <div style="background:var(--ice);border-radius:12px;padding:1.25rem 1.5rem;text-align:center;flex:1;min-width:130px;"><div style="font-size:1.8rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;">5+</div><div style="font-size:12px;color:var(--gray);">Years Experience</div></div>
+    </div>
+    <div class="testimonials-grid" id="tc"></div>
+    <div class="cta-banner" style="margin-top:3rem;">
+      <h2>Ready to join our happy clients?</h2>
+      <p>Book a free 30-minute consultation today.</p>
+      <a href="contact.html" class="btn-primary">Book Free Consultation →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('testimonials');
+const T=[
+  {n:'Rajesh Sharma',b:'Sharma Electronics, Dwarka',s:'GST Filing',i:'RS',c:'#0C447C',r:5,t:'Sukant has been handling our GST returns for 2 years. Never a single missed deadline. Best accountant in Dwarka!'},
+  {n:'Priya Gupta',b:'PG Boutique, Uttam Nagar',s:'Bookkeeping & ITR',i:'PG',c:'#185FA5',r:5,t:'Explained everything clearly and filed my ITR in 2 days. The monthly bookkeeping has helped me understand my business finances.'},
+  {n:'Amit Verma',b:'AV Traders, Nawada',s:'Payroll & Compliance',i:'AV',c:'#1D9E75',r:5,t:'Managing payroll for 8 employees was a headache. Kunwar Accounting Services took over PF, ESI, TDS — all on time every month.'},
+  {n:'Sunita Malhotra',b:'SM Catering, Janakpuri',s:'GST Registration',i:'SM',c:'#854F0B',r:5,t:'Got GST registration done in just 3 days. Sukant guided me through the whole process. Recommended to all my friends!'},
+  {n:'Deepak Kumar',b:'DK Constructions, Palam',s:'CFO Advisory',i:'DK',c:'#534AB7',r:5,t:'The monthly MIS reports have been a game changer. I finally understand where my money is going. Worth every rupee.'},
+  {n:'Neha Jain',b:'Neha\'s Dental Clinic, Vikaspuri',s:'ITR Filing',i:'NJ',c:'#993556',r:5,t:'As a doctor running my own clinic, taxes were confusing. Sukant made it simple, found deductions I didn\'t know about, saved me significant tax.'},
+];
+document.getElementById('tc').innerHTML=T.map(t=>`
+<div class="testimonial-card">
+  <span class="t-tag">${t.s}</span>
+  <div class="stars">${'★'.repeat(t.r)}</div>
+  <p class="t-text">${t.t}</p>
+  <div class="t-author"><div class="t-avatar" style="background:${t.c};">${t.i}</div><div><div class="t-name">${t.n}</div><div class="t-biz">${t.b}</div></div></div>
+</div>`).join('');
+</script>
+</body></html>

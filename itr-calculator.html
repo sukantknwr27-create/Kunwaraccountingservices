@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Income Tax Calculator FY 2026-27 | Old vs New Regime | Kunwar Accounting Delhi</title>
+  <meta name="description" content="Free income tax calculator FY 2026-27 (AY 2027-28). Compare old vs new tax regime. Calculate your income tax liability online instantly. Delhi NCR."/>
+  <meta name="keywords" content="income tax calculator 2026-27, ITR calculator India, old vs new regime 2026, tax liability calculator, income tax AY 2027-28"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/itr-calculator.html"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:900px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--charcoal); margin-bottom:1.5rem; }
+    .field-group { margin-bottom:1.25rem; }
+    .field-group label { display:block; font-size:12px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+    .field-group input, .field-group select { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:15px; font-family:'DM Sans',sans-serif; color:var(--charcoal); outline:none; transition:border-color 0.2s; background:white; }
+    .field-group input:focus, .field-group select:focus { border-color:var(--navy); }
+    .field-hint { font-size:11px; color:var(--gray); margin-top:3px; }
+    .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .calc-btn { width:100%; background:var(--navy); color:white; padding:13px; border-radius:10px; font-size:15px; font-weight:600; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+    .calc-btn:hover { background:var(--navy-dark); }
+    .result-grid { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.5rem; }
+    .regime-card { border-radius:14px; padding:1.5rem; }
+    .regime-old { background:var(--light); border:1.5px solid var(--border); }
+    .regime-new { background:var(--navy-dark); color:white; }
+    .regime-label { font-size:11px; text-transform:uppercase; letter-spacing:0.08em; font-weight:600; margin-bottom:8px; }
+    .regime-old .regime-label { color:var(--gray); }
+    .regime-new .regime-label { color:rgba(255,255,255,0.7); }
+    .regime-tax { font-size:1.8rem; font-weight:700; font-family:'Playfair Display',serif; margin-bottom:4px; }
+    .regime-old .regime-tax { color:var(--charcoal); }
+    .regime-new .regime-tax { color:var(--gold); }
+    .regime-breakdown { font-size:12px; line-height:1.8; }
+    .regime-old .regime-breakdown { color:var(--gray); }
+    .regime-new .regime-breakdown { color:rgba(255,255,255,0.7); }
+    .better-badge { display:inline-block; background:#DCFCE7; color:#16A34A; font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; margin-bottom:8px; }
+    .result-panel { display:none; }
+    .result-panel.show { display:block; animation:fadeUp 0.3s ease; }
+    .savings-box { border-radius:12px; padding:1.25rem 1.5rem; text-align:center; margin-bottom:1.5rem; }
+    .slab-table { width:100%; border-collapse:collapse; font-size:13px; margin-top:1rem; }
+    .slab-table th { text-align:left; padding:8px 12px; background:var(--light); color:var(--gray); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; }
+    .slab-table td { padding:10px 12px; border-bottom:1px solid var(--border); }
+    .slab-table tr:last-child td { border-bottom:none; }
+    @media(max-width:600px) { .grid2,.result-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge" style="position:relative;display:inline-block;margin-bottom:1rem;">📊 FY 2026-27 (AY 2027-28) · Free · Instant</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">Income Tax Calculator</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:480px;margin:0 auto;">Compare Old vs New Tax Regime for FY 2026-27. Find out which saves you more tax.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="calc-card">
+      <h2>Enter Your Income Details</h2>
+      <div class="grid2">
+        <div class="field-group">
+          <label>Annual Gross Income ₹</label>
+          <input type="number" id="gross" placeholder="e.g. 800000" min="0"/>
+          <div class="field-hint">Total salary / business income before deductions</div>
+        </div>
+        <div class="field-group">
+          <label>Age Group</label>
+          <select id="age">
+            <option value="below60">Below 60 years</option>
+            <option value="60to80">60 – 80 years (Senior Citizen)</option>
+            <option value="above80">Above 80 years (Super Senior)</option>
+          </select>
+        </div>
+      </div>
+
+      <div style="background:var(--ice);border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.25rem;">
+        <p style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:8px;">Old Regime Deductions</p>
+        <div class="grid2">
+          <div class="field-group" style="margin-bottom:0;">
+            <label>Section 80C ₹ <span style="text-transform:none;font-weight:400;">(max ₹1,50,000)</span></label>
+            <input type="number" id="d80c" placeholder="e.g. 150000" min="0" max="150000"/>
+            <div class="field-hint">PPF, ELSS, LIC, PF, NSC, home loan principal</div>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label>Section 80D ₹ <span style="text-transform:none;font-weight:400;">(health insurance)</span></label>
+            <input type="number" id="d80d" placeholder="e.g. 25000" min="0"/>
+            <div class="field-hint">Health insurance premium (self + family)</div>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label>HRA Exemption ₹</label>
+            <input type="number" id="hra" placeholder="e.g. 120000" min="0"/>
+            <div class="field-hint">House Rent Allowance exemption</div>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label>Other Deductions ₹</label>
+            <input type="number" id="other" placeholder="e.g. 50000" min="0"/>
+            <div class="field-hint">NPS (80CCD), home loan interest (24b), etc.</div>
+          </div>
+        </div>
+      </div>
+
+      <button class="calc-btn" onclick="calcTax()">Calculate My Tax →</button>
+    </div>
+
+    <!-- RESULTS -->
+    <div class="result-panel" id="result-panel">
+      <div class="savings-box" id="savings-box"></div>
+      <div class="result-grid">
+        <div class="regime-card regime-old" id="old-card">
+          <div class="regime-label">Old Tax Regime</div>
+          <div id="old-better" style="display:none;"><span class="better-badge">✓ Better for you</span></div>
+          <div class="regime-tax" id="old-tax">₹0</div>
+          <div class="regime-breakdown" id="old-breakdown"></div>
+        </div>
+        <div class="regime-card regime-new" id="new-card">
+          <div class="regime-label" style="color:rgba(255,255,255,0.7);">New Tax Regime (Default 2026)</div>
+          <div id="new-better" style="display:none;"><span class="better-badge">✓ Better for you</span></div>
+          <div class="regime-tax" id="new-tax">₹0</div>
+          <div class="regime-breakdown" id="new-breakdown"></div>
+        </div>
+      </div>
+
+      <div class="calc-card">
+        <h2>Detailed Comparison</h2>
+        <div style="overflow-x:auto;">
+          <table class="slab-table">
+            <thead><tr><th>Item</th><th>Old Regime</th><th>New Regime</th></tr></thead>
+            <tbody id="comparison-table"></tbody>
+          </table>
+        </div>
+        <div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:12px 16px;font-size:13px;color:#78350F;margin-top:1rem;">
+          ⚠️ This is an estimate. Standard deduction of ₹75,000 applied under new regime. Cess @ 4% included. Surcharge not included. Consult us for accurate computation.
+        </div>
+        <div style="text-align:center;margin-top:1.5rem;">
+          <button onclick="document.getElementById('result-panel').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});" style="background:none;border:1.5px solid var(--border);color:var(--gray);padding:9px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">↺ Recalculate</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAX SLABS REFERENCE -->
+    <div class="calc-card">
+      <h2>Tax Slabs FY 2026-27 Reference</h2>
+      <div class="grid2">
+        <div>
+          <p style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:8px;">New Regime (Default from FY 2023-24)</p>
+          <table class="slab-table">
+            <thead><tr><th>Income Slab</th><th>Tax Rate</th></tr></thead>
+            <tbody>
+              <tr><td>Up to ₹3,00,000</td><td style="color:#16A34A;font-weight:600;">Nil</td></tr>
+              <tr><td>₹3,00,001 – ₹7,00,000</td><td>5%</td></tr>
+              <tr><td>₹7,00,001 – ₹10,00,000</td><td>10%</td></tr>
+              <tr><td>₹10,00,001 – ₹12,00,000</td><td>15%</td></tr>
+              <tr><td>₹12,00,001 – ₹15,00,000</td><td>20%</td></tr>
+              <tr><td>Above ₹15,00,000</td><td>30%</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:11px;color:var(--gray);margin-top:6px;">Rebate u/s 87A: Tax nil if income ≤ ₹7L. Standard deduction ₹75,000.</p>
+        </div>
+        <div>
+          <p style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:8px;">Old Regime (Optional)</p>
+          <table class="slab-table">
+            <thead><tr><th>Income Slab</th><th>Tax Rate</th></tr></thead>
+            <tbody>
+              <tr><td>Up to ₹2,50,000</td><td style="color:#16A34A;font-weight:600;">Nil</td></tr>
+              <tr><td>₹2,50,001 – ₹5,00,000</td><td>5%</td></tr>
+              <tr><td>₹5,00,001 – ₹10,00,000</td><td>20%</td></tr>
+              <tr><td>Above ₹10,00,000</td><td>30%</td></tr>
+            </tbody>
+          </table>
+          <p style="font-size:11px;color:var(--gray);margin-top:6px;">Rebate u/s 87A: Tax nil if income ≤ ₹5L. All deductions (80C, 80D, HRA etc.) allowed.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-banner">
+      <h2>Need accurate tax computation?</h2>
+      <p>This calculator gives estimates. For exact ITR filing with maximum deductions, contact us.</p>
+      <a href="contact.html" class="btn-primary">Get ITR Filed →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('tools');
+
+function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+
+function calcOldRegime(income, age, d80c, d80d, hra, other) {
+  const sd = 50000; // standard deduction old regime
+  const c80c = Math.min(d80c, 150000);
+  const totalDed = sd + c80c + d80d + hra + other;
+  const taxable = Math.max(0, income - totalDed);
+
+  let exempt = age === 'below60' ? 250000 : age === '60to80' ? 300000 : 500000;
+  let tax = 0;
+  const ti = taxable;
+
+  if (ti <= exempt) { tax = 0; }
+  else if (ti <= 500000) { tax = (ti - exempt) * 0.05; }
+  else if (ti <= 1000000) { tax = (500000 - exempt) * 0.05 + (ti - 500000) * 0.20; }
+  else { tax = (500000 - exempt) * 0.05 + 500000 * 0.20 + (ti - 1000000) * 0.30; }
+
+  // Rebate 87A
+  if (ti <= 500000) tax = 0;
+
+  const cess = tax * 0.04;
+  return { taxable, deductions: totalDed, tax, cess, total: tax + cess };
+}
+
+function calcNewRegime(income) {
+  const sd = 75000;
+  const taxable = Math.max(0, income - sd);
+  let tax = 0;
+  const ti = taxable;
+
+  if (ti <= 300000) tax = 0;
+  else if (ti <= 700000) tax = (ti - 300000) * 0.05;
+  else if (ti <= 1000000) tax = 400000 * 0.05 + (ti - 700000) * 0.10;
+  else if (ti <= 1200000) tax = 400000 * 0.05 + 300000 * 0.10 + (ti - 1000000) * 0.15;
+  else if (ti <= 1500000) tax = 400000 * 0.05 + 300000 * 0.10 + 200000 * 0.15 + (ti - 1200000) * 0.20;
+  else tax = 400000 * 0.05 + 300000 * 0.10 + 200000 * 0.15 + 300000 * 0.20 + (ti - 1500000) * 0.30;
+
+  // Rebate 87A - new regime ≤7L
+  if (income <= 700000) tax = 0;
+
+  const cess = tax * 0.04;
+  return { taxable, deductions: sd, tax, cess, total: tax + cess };
+}
+
+function calcTax() {
+  const gross = parseFloat(document.getElementById('gross').value) || 0;
+  if (gross <= 0) { document.getElementById('gross').style.borderColor = '#DC2626'; return; }
+  document.getElementById('gross').style.borderColor = '';
+
+  const age = document.getElementById('age').value;
+  const d80c = parseFloat(document.getElementById('d80c').value) || 0;
+  const d80d = parseFloat(document.getElementById('d80d').value) || 0;
+  const hra  = parseFloat(document.getElementById('hra').value)  || 0;
+  const other= parseFloat(document.getElementById('other').value)|| 0;
+
+  const old = calcOldRegime(gross, age, d80c, d80d, hra, other);
+  const nw  = calcNewRegime(gross);
+
+  // Display
+  document.getElementById('old-tax').textContent = fmt(old.total);
+  document.getElementById('new-tax').textContent = fmt(nw.total);
+
+  document.getElementById('old-breakdown').innerHTML =
+    `Base: ${fmt(gross)}<br>Deductions: ${fmt(old.deductions)}<br>Taxable: ${fmt(old.taxable)}<br>Tax: ${fmt(old.tax)}<br>Health & Ed. Cess: ${fmt(old.cess)}`;
+
+  document.getElementById('new-breakdown').innerHTML =
+    `Base: ${fmt(gross)}<br>Std. Deduction: ${fmt(nw.deductions)}<br>Taxable: ${fmt(nw.taxable)}<br>Tax: ${fmt(nw.tax)}<br>Health & Ed. Cess: ${fmt(nw.cess)}`;
+
+  const savings = Math.abs(old.total - nw.total);
+  const betterRegime = old.total <= nw.total ? 'old' : 'new';
+
+  document.getElementById('old-better').style.display = betterRegime === 'old' ? 'block' : 'none';
+  document.getElementById('new-better').style.display = betterRegime === 'new' ? 'block' : 'none';
+
+  const sb = document.getElementById('savings-box');
+  if (savings === 0) {
+    sb.style.background = 'var(--light)';
+    sb.style.border = '1px solid var(--border)';
+    sb.innerHTML = '<p style="font-size:15px;font-weight:600;color:var(--charcoal);">Both regimes result in the same tax for your income.</p>';
+  } else {
+    sb.style.background = '#DCFCE7';
+    sb.style.border = '1px solid #86EFAC';
+    sb.innerHTML = `<p style="font-size:14px;color:#15803D;margin-bottom:4px;">💰 You save <strong>${fmt(savings)}</strong> by choosing the <strong>${betterRegime === 'old' ? 'Old' : 'New'} Regime</strong></p><p style="font-size:12px;color:#16A34A;">Effective tax rate: Old ${old.total > 0 ? ((old.total/gross)*100).toFixed(1) : 0}% · New ${nw.total > 0 ? ((nw.total/gross)*100).toFixed(1) : 0}%</p>`;
+  }
+
+  document.getElementById('comparison-table').innerHTML = `
+    <tr><td>Gross Income</td><td>${fmt(gross)}</td><td>${fmt(gross)}</td></tr>
+    <tr><td>Total Deductions</td><td>${fmt(old.deductions)}</td><td>${fmt(nw.deductions)} (Std. only)</td></tr>
+    <tr><td>Taxable Income</td><td>${fmt(old.taxable)}</td><td>${fmt(nw.taxable)}</td></tr>
+    <tr><td>Income Tax</td><td>${fmt(old.tax)}</td><td>${fmt(nw.tax)}</td></tr>
+    <tr><td>Health & Ed. Cess (4%)</td><td>${fmt(old.cess)}</td><td>${fmt(nw.cess)}</td></tr>
+    <tr style="font-weight:700;"><td>Total Tax Liability</td><td style="color:var(--navy);">${fmt(old.total)}</td><td style="color:var(--gold);">${fmt(nw.total)}</td></tr>
+  `;
+
+  document.getElementById('result-panel').classList.add('show');
+  document.getElementById('result-panel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+</script>
+</body>
+</html>
