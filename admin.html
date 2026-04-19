@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Panel | Kunwar Accounting Services</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { background: #0f172a; font-family: 'DM Sans', sans-serif; }
+    .admin-nav {
+      background: #1e293b; border-bottom: 1px solid #334155;
+      padding: 0 1.5rem; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    }
+    .admin-logo { color: white; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+    .admin-badge { background: #C9973A; color: #042C53; font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.06em; }
+    .admin-layout { display: flex; padding-top: 60px; min-height: 100vh; }
+    .admin-sidebar {
+      width: 220px; background: #1e293b; border-right: 1px solid #334155;
+      position: fixed; top: 60px; bottom: 0; overflow-y: auto; padding: 1rem 0;
+    }
+    .sidebar-link {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 1.25rem; color: #94a3b8; text-decoration: none;
+      font-size: 14px; transition: all 0.2s; cursor: pointer; border: none;
+      background: none; width: 100%; font-family: 'DM Sans',sans-serif;
+    }
+    .sidebar-link:hover, .sidebar-link.active { background: #0f172a; color: white; }
+    .sidebar-section { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: #475569; padding: 12px 1.25rem 4px; margin-top: 8px; }
+    .admin-main { margin-left: 220px; padding: 2rem; flex: 1; }
+    .admin-section { display: none; }
+    .admin-section.active { display: block; }
+    .admin-card {
+      background: #1e293b; border-radius: 12px; border: 1px solid #334155;
+      padding: 1.5rem; margin-bottom: 1.5rem;
+    }
+    .admin-card h3 { color: white; font-size: 15px; font-weight: 600; margin-bottom: 1.25rem; }
+    .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+    .admin-stat { background: #0f172a; border-radius: 10px; padding: 1.25rem; border: 1px solid #334155; }
+    .admin-stat .label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
+    .admin-stat .value { font-size: 1.75rem; font-weight: 700; color: white; }
+    .admin-stat .sub { font-size: 11px; color: #64748b; margin-top: 2px; }
+    table { width: 100%; border-collapse: collapse; }
+    th { text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #64748b; padding: 8px 12px; border-bottom: 1px solid #334155; }
+    td { padding: 10px 12px; font-size: 13px; color: #cbd5e1; border-bottom: 1px solid #1e293b; vertical-align: middle; }
+    tr:hover td { background: #0f172a; }
+    .badge { font-size: 11px; font-weight: 600; padding: 3px 8px; border-radius: 20px; }
+    .badge-green { background: rgba(22,163,74,0.15); color: #4ade80; }
+    .badge-yellow { background: rgba(234,179,8,0.15); color: #facc15; }
+    .badge-red { background: rgba(220,38,38,0.15); color: #f87171; }
+    .admin-form input, .admin-form select, .admin-form textarea {
+      width: 100%; background: #0f172a; border: 1px solid #334155;
+      color: white; padding: 9px 12px; border-radius: 6px;
+      font-size: 13px; font-family: 'DM Sans',sans-serif;
+      margin-bottom: 10px; outline: none;
+    }
+    .admin-form input:focus, .admin-form select:focus { border-color: #378ADD; }
+    .admin-form label { font-size: 11px; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; display: block; margin-bottom: 4px; }
+    .admin-form select option { background: #1e293b; }
+    .admin-btn {
+      background: #0C447C; color: white; border: none;
+      padding: 9px 20px; border-radius: 6px; font-size: 13px;
+      font-weight: 600; cursor: pointer; font-family: 'DM Sans',sans-serif;
+      transition: all 0.2s;
+    }
+    .admin-btn:hover { background: #185FA5; }
+    .admin-btn-danger { background: rgba(220,38,38,0.15); color: #f87171; border: 1px solid rgba(220,38,38,0.3); padding: 5px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: 'DM Sans',sans-serif; }
+    .admin-btn-danger:hover { background: rgba(220,38,38,0.25); }
+    .admin-btn-sm { padding: 5px 12px; font-size: 12px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .toast { position: fixed; bottom: 24px; right: 24px; background: #16A34A; color: white; padding: 12px 20px; border-radius: 8px; font-size: 14px; font-weight: 500; z-index: 9999; display: none; animation: fadeUp 0.3s ease; }
+    @keyframes fadeUp { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+    .unread-dot { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; display: inline-block; margin-left: 4px; }
+    @media (max-width: 768px) {
+      .admin-sidebar { display: none; }
+      .admin-main { margin-left: 0; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="admin-nav">
+  <div class="admin-logo">
+    <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+      <rect x="4" y="14" width="4" height="10" rx="1" fill="#378ADD"/>
+      <rect x="12" y="9" width="4" height="15" rx="1" fill="#378ADD"/>
+      <rect x="20" y="4" width="4" height="20" rx="1" fill="#378ADD"/>
+    </svg>
+    Kunwar Accounting
+    <span class="admin-badge">Admin</span>
+  </div>
+  <div style="display:flex;align-items:center;gap:1rem;">
+    <span style="font-size:13px;color:#64748b;">Sukant Kunwar</span>
+    <button onclick="showAdminChangePwd()" style="background:none;border:1px solid #334155;color:#94a3b8;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">Change Password</button>
+    <button onclick="adminLogout()" style="background:none;border:1px solid #334155;color:#94a3b8;padding:6px 14px;border-radius:6px;font-size:12px;cursor:pointer;font-family:'DM Sans',sans-serif;">Logout</button>
+  </div>
+</nav>
+
+<div class="admin-layout">
+  <div class="admin-sidebar">
+    <div class="sidebar-section">Overview</div>
+    <button class="sidebar-link active" onclick="showSection('dashboard')">📊 Dashboard</button>
+    <button class="sidebar-link" onclick="showSection('enquiries')">📬 Enquiries <span id="unread-dot" class="unread-dot" style="display:none;"></span></button>
+
+    <div class="sidebar-section">Clients</div>
+    <button class="sidebar-link" onclick="showSection('clients')">👥 All Clients</button>
+    <button class="sidebar-link" onclick="showSection('add-client')">➕ Add Client</button>
+    <button class="sidebar-link" onclick="showSection('due-dates')">📅 Due Dates</button>
+    <button class="sidebar-link" onclick="showSection('payments')">💳 Payments</button>
+
+    <div class="sidebar-section">Manage</div>
+    <button class="sidebar-link" onclick="showSection('packages')">📦 Packages</button>
+    <button class="sidebar-link" onclick="showSection('services')">🛠️ Services</button>
+    <button class="sidebar-link" onclick="showSection('payment-settings')">⚙️ Payment Settings</button>
+
+    <div style="padding: 1rem 1.25rem; margin-top: 1rem; border-top: 1px solid #334155;">
+      <a href="index.html" style="font-size:13px;color:#64748b;text-decoration:none;">← View Website</a>
+    </div>
+  </div>
+
+  <div class="admin-main">
+
+    <!-- DASHBOARD -->
+    <div id="section-dashboard" class="admin-section active">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">Good morning, Sukant! 👋</h2>
+      <div class="stat-grid" id="dashboard-stats">
+        <div class="admin-stat"><div class="label">Total Clients</div><div class="value" id="stat-clients">—</div></div>
+        <div class="admin-stat"><div class="label">Active Packages</div><div class="value" id="stat-packages">—</div></div>
+        <div class="admin-stat"><div class="label">New Enquiries</div><div class="value" id="stat-enquiries">—</div></div>
+        <div class="admin-stat"><div class="label">Due This Week</div><div class="value" id="stat-dues">—</div></div>
+      </div>
+
+      <div class="admin-card">
+        <h3>📅 Urgent Due Dates (Next 7 Days)</h3>
+        <div id="urgent-dues"><div style="color:#64748b;font-size:13px;">Loading...</div></div>
+      </div>
+
+      <div class="admin-card">
+        <h3>📬 Latest Enquiries</h3>
+        <div id="latest-enquiries"><div style="color:#64748b;font-size:13px;">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- ENQUIRIES -->
+    <div id="section-enquiries" class="admin-section">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">Contact Form Enquiries</h2>
+      <div class="admin-card">
+        <div id="enquiries-list"><div style="color:#64748b;font-size:13px;">Loading...</div></div>
+      </div>
+    </div>
+
+    <!-- CLIENTS -->
+    <div id="section-clients" class="admin-section">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">All Clients</h2>
+      <div class="admin-card" style="overflow-x:auto;">
+        <table id="clients-table">
+          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Phone</th><th>Package</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="clients-body"><tr><td colspan="7" style="color:#64748b;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ADD CLIENT -->
+    <div id="section-add-client" class="admin-section">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">Add New Client</h2>
+      <div class="admin-card" style="max-width:600px;">
+        <div class="admin-form">
+          <div class="form-row">
+            <div><label>Full Name *</label><input type="text" id="ac-name" placeholder="Raj Sharma"/></div>
+            <div><label>Phone *</label><input type="tel" id="ac-phone" placeholder="+91 98XXX XXXXX"/></div>
+          </div>
+          <div class="form-row">
+            <div><label>Email *</label><input type="email" id="ac-email" placeholder="raj@business.com"/></div>
+            <div><label>Business Name</label><input type="text" id="ac-business" placeholder="Raj Enterprises"/></div>
+          </div>
+          <label>Business Type</label>
+          <select id="ac-biztype">
+            <option value="">Select type</option>
+            <option>Proprietorship</option>
+            <option>Partnership / LLP</option>
+            <option>Private Limited Company</option>
+            <option>Freelancer / Consultant</option>
+            <option>Startup</option>
+          </select>
+          <label>Assign Package</label>
+          <select id="ac-package"><option value="">Select package</option></select>
+          <button class="admin-btn" onclick="addClient()">Add Client</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DUE DATES -->
+    <div id="section-due-dates" class="admin-section">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">Due Dates & Reminders</h2>
+      <div class="admin-card" style="max-width:600px;margin-bottom:1.5rem;">
+        <h3>Add Due Date</h3>
+        <div class="admin-form">
+          <label>Client</label>
+          <select id="dd-client"><option value="">Select client</option></select>
+          <div class="form-row">
+            <div><label>Service / Filing</label><input type="text" id="dd-service" placeholder="GST Return - GSTR-3B"/></div>
+            <div><label>Due Date</label><input type="date" id="dd-date"/></div>
+          </div>
+          <label>Notes (optional)</label>
+          <input type="text" id="dd-notes" placeholder="Any special notes..."/>
+          <button class="admin-btn" onclick="addDueDate()">Add Due Date</button>
+        </div>
+      </div>
+      <div class="admin-card" style="overflow-x:auto;">
+        <h3>All Due Dates</h3>
+        <table>
+          <thead><tr><th>Client</th><th>Service</th><th>Due Date</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="dues-body"><tr><td colspan="5" style="color:#64748b;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PAYMENTS -->
+    <div id="section-payments" class="admin-section">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">Payment Records</h2>
+      <div class="admin-card" style="max-width:600px;margin-bottom:1.5rem;">
+        <h3>Record Payment</h3>
+        <div class="admin-form">
+          <label>Client</label>
+          <select id="pay-client"><option value="">Select client</option></select>
+          <div class="form-row">
+            <div><label>Amount (₹)</label><input type="number" id="pay-amount" placeholder="3999"/></div>
+            <div><label>Payment Method</label>
+              <select id="pay-method">
+                <option>UPI</option><option>Bank Transfer</option><option>PayTM</option><option>Cash</option>
+              </select>
+            </div>
+          </div>
+          <label>Description</label>
+          <input type="text" id="pay-desc" placeholder="Monthly retainer - Starter package"/>
+          <div class="form-row">
+            <div><label>Payment Date</label><input type="date" id="pay-date"/></div>
+            <div><label>Status</label>
+              <select id="pay-status"><option value="completed">Completed</option><option value="pending">Pending</option></select>
+            </div>
+          </div>
+          <button class="admin-btn" onclick="recordPayment()">Record Payment</button>
+        </div>
+      </div>
+      <div class="admin-card" style="overflow-x:auto;">
+        <h3>All Payments</h3>
+        <table>
+          <thead><tr><th>Client</th><th>Amount</th><th>Method</th><th>Description</th><th>Date</th><th>Status</th></tr></thead>
+          <tbody id="payments-body"><tr><td colspan="6" style="color:#64748b;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PACKAGES -->
+    <div id="section-packages" class="admin-section">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">Manage Packages</h2>
+      <div class="admin-card" style="max-width:600px;margin-bottom:1.5rem;">
+        <h3>Add / Edit Package</h3>
+        <div class="admin-form">
+          <label>Package Name</label><input type="text" id="pkg-name" placeholder="Starter"/>
+          <div class="form-row">
+            <div><label>Price (₹/month)</label><input type="number" id="pkg-price" placeholder="3999"/></div>
+            <div><label>Status</label><select id="pkg-active"><option value="true">Active</option><option value="false">Inactive</option></select></div>
+          </div>
+          <label>Description</label><input type="text" id="pkg-desc" placeholder="Perfect for new businesses"/>
+          <label>Features (one per line)</label>
+          <textarea id="pkg-features" rows="5" style="background:#0f172a;border:1px solid #334155;color:white;padding:9px 12px;border-radius:6px;font-size:13px;width:100%;font-family:'DM Sans',sans-serif;" placeholder="Monthly bookkeeping&#10;GST return filing&#10;Bank reconciliation"></textarea>
+          <button class="admin-btn" onclick="addPackage()">Save Package</button>
+        </div>
+      </div>
+      <div class="admin-card" style="overflow-x:auto;">
+        <h3>All Packages</h3>
+        <table>
+          <thead><tr><th>Name</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="packages-body"><tr><td colspan="4" style="color:#64748b;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <div id="section-services" class="admin-section">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">Manage Services</h2>
+      <div class="admin-card" style="max-width:600px;margin-bottom:1.5rem;">
+        <h3>Add Service</h3>
+        <div class="admin-form">
+          <label>Service Name</label><input type="text" id="svc-name" placeholder="GST Filing"/>
+          <div class="form-row">
+            <div><label>Frequency</label>
+              <select id="svc-freq"><option>Monthly</option><option>Quarterly</option><option>Annual</option><option>One-time</option></select>
+            </div>
+            <div><label>Price (₹)</label><input type="number" id="svc-price" placeholder="2000"/></div>
+          </div>
+          <label>Description</label><input type="text" id="svc-desc" placeholder="Brief description..."/>
+          <button class="admin-btn" onclick="addService()">Add Service</button>
+        </div>
+      </div>
+      <div class="admin-card" style="overflow-x:auto;">
+        <h3>All Services</h3>
+        <table>
+          <thead><tr><th>Name</th><th>Frequency</th><th>Price</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="services-body"><tr><td colspan="5" style="color:#64748b;">Loading...</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PAYMENT SETTINGS -->
+    <div id="section-payment-settings" class="admin-section">
+      <h2 style="color:white;font-size:1.4rem;margin-bottom:1.5rem;font-family:'Playfair Display',serif;">Payment Gateway Settings</h2>
+      <div class="admin-card" style="max-width:600px;">
+        <h3>Active Payment Methods</h3>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:1.5rem;">
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#cbd5e1;font-size:14px;">
+            <input type="checkbox" id="pay-upi" checked style="width:16px;height:16px;"> UPI / QR Code
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#cbd5e1;font-size:14px;">
+            <input type="checkbox" id="pay-bank" checked style="width:16px;height:16px;"> Bank Transfer / NEFT
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#cbd5e1;font-size:14px;">
+            <input type="checkbox" id="pay-paytm" checked style="width:16px;height:16px;"> PayTM
+          </label>
+          <label style="display:flex;align-items:center;gap:10px;cursor:pointer;color:#cbd5e1;font-size:14px;">
+            <input type="checkbox" id="pay-razorpay" style="width:16px;height:16px;"> Razorpay (Online)
+          </label>
+        </div>
+        <div class="admin-form">
+          <label>UPI ID</label><input type="text" id="cfg-upi" placeholder="sukantknwr27@okicici" value="sukantknwr27@okicici"/>
+          <label>PayTM Number</label><input type="text" id="cfg-paytm" placeholder="+91 80761 36300" value="+91 80761 36300"/>
+          <label>Bank Account Number</label><input type="text" id="cfg-bank-acc" placeholder="XXXX XXXX XXXX"/>
+          <label>IFSC Code</label><input type="text" id="cfg-ifsc" placeholder="XXXXXXXX"/>
+          <label>Bank Name</label><input type="text" id="cfg-bank-name" placeholder="Your Bank Name"/>
+          <button class="admin-btn" onclick="showToast('Payment settings saved!')">Save Settings</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="supabase.js"></script>
+<script>
+// Check admin
+if (!getToken()) { window.location.href = 'admin-login.html'; }
+
+function showSection(id) {
+  document.querySelectorAll('.admin-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.sidebar-link').forEach(l => l.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  loadSection(id);
+}
+
+function showToast(msg, isError = false) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.background = isError ? '#DC2626' : '#16A34A';
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+let allClients = [], allPackages = [];
+
+async function loadSection(id) {
+  if (id === 'dashboard') await loadDashboard();
+  else if (id === 'enquiries') await loadEnquiries();
+  else if (id === 'clients') await loadClients();
+  else if (id === 'add-client') await loadPackagesDropdown('ac-package');
+  else if (id === 'due-dates') { await loadClientsDropdown('dd-client'); await loadDueDates(); }
+  else if (id === 'payments') { await loadClientsDropdown('pay-client'); await loadPayments(); }
+  else if (id === 'packages') await loadPackages();
+  else if (id === 'services') await loadServices();
+}
+
+async function loadDashboard() {
+  try {
+    const [clients, enquiries, dues, packages] = await Promise.all([
+      sbFetch('clients', 'GET', null, '?select=id'),
+      sbFetch('contact_forms', 'GET', null, '?select=id,is_read'),
+      sbFetch('due_dates', 'GET', null, '?status=eq.pending&select=id,due_date,service_name,clients(name)'),
+      sbFetch('packages', 'GET', null, '?is_active=eq.true&select=id')
+    ]);
+    document.getElementById('stat-clients').textContent = clients.length;
+    document.getElementById('stat-packages').textContent = packages.length;
+    const unread = enquiries.filter(e => !e.is_read).length;
+    document.getElementById('stat-enquiries').textContent = unread;
+    if (unread > 0) document.getElementById('unread-dot').style.display = 'inline-block';
+    const week = new Date(); week.setDate(week.getDate() + 7);
+    const urgentDues = dues.filter(d => new Date(d.due_date) <= week);
+    document.getElementById('stat-dues').textContent = urgentDues.length;
+    document.getElementById('urgent-dues').innerHTML = urgentDues.length ? urgentDues.map(d => `
+      <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #334155;font-size:13px;">
+        <span style="color:#cbd5e1;">${d.clients?.name || 'Unknown'} — ${d.service_name}</span>
+        <span style="color:#facc15;">${new Date(d.due_date).toLocaleDateString('en-IN')}</span>
+      </div>`).join('') : '<div style="color:#64748b;font-size:13px;">No urgent deadlines this week ✓</div>';
+    const latestEnq = enquiries.slice(-3).reverse();
+    document.getElementById('latest-enquiries').innerHTML = latestEnq.length ? latestEnq.map(e => `
+      <div style="padding:8px 0;border-bottom:1px solid #334155;font-size:13px;color:#cbd5e1;">
+        ${e.is_read ? '' : '<span class="badge badge-yellow">New</span> '}Enquiry received
+      </div>`).join('') : '<div style="color:#64748b;font-size:13px;">No enquiries yet.</div>';
+  } catch(e) { console.error(e); }
+}
+
+async function loadEnquiries() {
+  try {
+    const data = await sbFetch('contact_forms','GET',null,'?order=created_at.desc');
+    document.getElementById('enquiries-list').innerHTML = data.length ? `
+      <table><thead><tr><th>Name</th><th>Phone</th><th>Service</th><th>Business</th><th>Message</th><th>Date</th><th>Status</th></tr></thead>
+      <tbody>${data.map(e => `<tr>
+        <td style="color:white;font-weight:500;">${e.name}</td>
+        <td><a href="tel:${e.phone}" style="color:#378ADD;">${e.phone}</a></td>
+        <td>${e.service_needed || '—'}</td>
+        <td>${e.business_type || '—'}</td>
+        <td style="max-width:200px;">${e.message || '—'}</td>
+        <td>${new Date(e.created_at).toLocaleDateString('en-IN')}</td>
+        <td><span class="badge ${e.is_read ? 'badge-green' : 'badge-yellow'}">${e.is_read ? 'Read' : 'New'}</span></td>
+      </tr>`).join('')}</tbody></table>` : '<div style="color:#64748b;font-size:13px;">No enquiries yet.</div>';
+  } catch(e) { console.error(e); }
+}
+
+async function loadClients() {
+  try {
+    const data = await sbFetch('clients','GET',null,'?select=*,packages(name)&order=created_at.desc');
+    allClients = data;
+    document.getElementById('clients-body').innerHTML = data.length ? data.map(c => `<tr>
+      <td style="color:white;font-weight:500;">${c.name}</td>
+      <td>${c.business_name || '—'}</td>
+      <td>${c.email}</td>
+      <td>${c.phone || '—'}</td>
+      <td>${c.packages?.name || '—'}</td>
+      <td><span class="badge ${c.status === 'active' ? 'badge-green' : 'badge-red'}">${c.status}</span></td>
+      <td><button class="admin-btn-danger" onclick="deleteClient('${c.id}')">Delete</button></td>
+    </tr>`).join('') : '<tr><td colspan="7" style="color:#64748b;">No clients yet.</td></tr>';
+  } catch(e) { console.error(e); }
+}
+
+async function loadClientsDropdown(elId) {
+  if (!allClients.length) allClients = await sbFetch('clients','GET',null,'?select=id,name&order=name');
+  const el = document.getElementById(elId);
+  el.innerHTML = '<option value="">Select client</option>' + allClients.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+async function loadPackagesDropdown(elId) {
+  if (!allPackages.length) allPackages = await sbFetch('packages','GET',null,'?is_active=eq.true&select=id,name');
+  const el = document.getElementById(elId);
+  el.innerHTML = '<option value="">Select package</option>' + allPackages.map(p => `<option value="${p.id}">${p.name}</option>`).join('');
+}
+
+async function loadDueDates() {
+  try {
+    const data = await sbFetch('due_dates','GET',null,'?select=*,clients(name)&order=due_date.asc');
+    document.getElementById('dues-body').innerHTML = data.length ? data.map(d => {
+      const days = Math.ceil((new Date(d.due_date) - new Date()) / 86400000);
+      const cls = d.status === 'completed' ? 'badge-green' : days < 0 ? 'badge-red' : days <= 7 ? 'badge-red' : 'badge-yellow';
+      return `<tr>
+        <td style="color:white;">${d.clients?.name || '—'}</td>
+        <td>${d.service_name}</td>
+        <td>${new Date(d.due_date).toLocaleDateString('en-IN')}</td>
+        <td><span class="badge ${cls}">${d.status}</span></td>
+        <td style="display:flex;gap:6px;">
+          ${d.status !== 'completed' ? `<button class="admin-btn admin-btn-sm" onclick="markDone('${d.id}')">Mark Done</button>` : ''}
+          <button class="admin-btn-danger" onclick="deleteDue('${d.id}')">Delete</button>
+        </td>
+      </tr>`;
+    }).join('') : '<tr><td colspan="5" style="color:#64748b;">No due dates yet.</td></tr>';
+  } catch(e) { console.error(e); }
+}
+
+async function loadPayments() {
+  try {
+    const data = await sbFetch('payments','GET',null,'?select=*,clients(name)&order=created_at.desc');
+    document.getElementById('payments-body').innerHTML = data.length ? data.map(p => `<tr>
+      <td style="color:white;">${p.clients?.name || '—'}</td>
+      <td style="color:#4ade80;font-weight:600;">₹${Number(p.amount).toLocaleString('en-IN')}</td>
+      <td>${p.payment_method || '—'}</td>
+      <td>${p.service_description || '—'}</td>
+      <td>${p.payment_date ? new Date(p.payment_date).toLocaleDateString('en-IN') : '—'}</td>
+      <td><span class="badge ${p.status === 'completed' ? 'badge-green' : 'badge-yellow'}">${p.status}</span></td>
+    </tr>`).join('') : '<tr><td colspan="6" style="color:#64748b;">No payments yet.</td></tr>';
+  } catch(e) { console.error(e); }
+}
+
+async function loadPackages() {
+  try {
+    const data = await sbFetch('packages','GET',null,'?order=price.asc');
+    document.getElementById('packages-body').innerHTML = data.length ? data.map(p => `<tr>
+      <td style="color:white;font-weight:500;">${p.name}</td>
+      <td style="color:#4ade80;">₹${Number(p.price).toLocaleString('en-IN')}/mo</td>
+      <td><span class="badge ${p.is_active ? 'badge-green' : 'badge-red'}">${p.is_active ? 'Active' : 'Inactive'}</span></td>
+      <td><button class="admin-btn-danger" onclick="deletePackage('${p.id}')">Delete</button></td>
+    </tr>`).join('') : '<tr><td colspan="4" style="color:#64748b;">No packages yet.</td></tr>';
+  } catch(e) { console.error(e); }
+}
+
+async function loadServices() {
+  try {
+    const data = await sbFetch('services','GET',null,'?order=name.asc');
+    document.getElementById('services-body').innerHTML = data.length ? data.map(s => `<tr>
+      <td style="color:white;font-weight:500;">${s.name}</td>
+      <td>${s.frequency || '—'}</td>
+      <td style="color:#4ade80;">${s.price ? '₹'+Number(s.price).toLocaleString('en-IN') : '—'}</td>
+      <td><span class="badge ${s.is_active ? 'badge-green' : 'badge-red'}">${s.is_active ? 'Active' : 'Inactive'}</span></td>
+      <td><button class="admin-btn-danger" onclick="deleteService('${s.id}')">Delete</button></td>
+    </tr>`).join('') : '<tr><td colspan="5" style="color:#64748b;">No services yet.</td></tr>';
+  } catch(e) { console.error(e); }
+}
+
+// ADD FUNCTIONS
+async function addClient() {
+  const name = document.getElementById('ac-name').value.trim();
+  const email = document.getElementById('ac-email').value.trim();
+  const phone = document.getElementById('ac-phone').value.trim();
+  const business_name = document.getElementById('ac-business').value.trim();
+  const business_type = document.getElementById('ac-biztype').value;
+  const package_id = document.getElementById('ac-package').value || null;
+  if (!name || !email) return showToast('Name and email are required!', true);
+  try {
+    await sbFetch('clients','POST',{name,email,phone,business_name,business_type,package_id});
+    showToast('Client added successfully!');
+    ['ac-name','ac-email','ac-phone','ac-business'].forEach(id => document.getElementById(id).value = '');
+  } catch(e) { showToast('Error: ' + e.message, true); }
+}
+
+async function addDueDate() {
+  const client_id = document.getElementById('dd-client').value;
+  const service_name = document.getElementById('dd-service').value.trim();
+  const due_date = document.getElementById('dd-date').value;
+  const notes = document.getElementById('dd-notes').value.trim();
+  if (!client_id || !service_name || !due_date) return showToast('Please fill all required fields!', true);
+  try {
+    await sbFetch('due_dates','POST',{client_id,service_name,due_date,notes});
+    showToast('Due date added!');
+    await loadDueDates();
+  } catch(e) { showToast('Error: ' + e.message, true); }
+}
+
+async function recordPayment() {
+  const client_id = document.getElementById('pay-client').value;
+  const amount = document.getElementById('pay-amount').value;
+  const payment_method = document.getElementById('pay-method').value;
+  const service_description = document.getElementById('pay-desc').value.trim();
+  const payment_date = document.getElementById('pay-date').value;
+  const status = document.getElementById('pay-status').value;
+  if (!client_id || !amount) return showToast('Client and amount are required!', true);
+  try {
+    await sbFetch('payments','POST',{client_id,amount:Number(amount),payment_method,service_description,payment_date,status});
+    showToast('Payment recorded!');
+    await loadPayments();
+  } catch(e) { showToast('Error: ' + e.message, true); }
+}
+
+async function addPackage() {
+  const name = document.getElementById('pkg-name').value.trim();
+  const price = document.getElementById('pkg-price').value;
+  const description = document.getElementById('pkg-desc').value.trim();
+  const featuresRaw = document.getElementById('pkg-features').value;
+  const features = featuresRaw.split('\n').map(f => f.trim()).filter(Boolean);
+  const is_active = document.getElementById('pkg-active').value === 'true';
+  if (!name || !price) return showToast('Name and price are required!', true);
+  try {
+    await sbFetch('packages','POST',{name,price:Number(price),description,features,is_active});
+    showToast('Package saved!');
+    allPackages = [];
+    await loadPackages();
+  } catch(e) { showToast('Error: ' + e.message, true); }
+}
+
+async function addService() {
+  const name = document.getElementById('svc-name').value.trim();
+  const frequency = document.getElementById('svc-freq').value;
+  const price = document.getElementById('svc-price').value;
+  const description = document.getElementById('svc-desc').value.trim();
+  if (!name) return showToast('Service name is required!', true);
+  try {
+    await sbFetch('services','POST',{name,frequency,price:price?Number(price):null,description});
+    showToast('Service added!');
+    await loadServices();
+  } catch(e) { showToast('Error: ' + e.message, true); }
+}
+
+// DELETE FUNCTIONS
+async function deleteClient(id) {
+  if (!confirm('Delete this client? This cannot be undone.')) return;
+  await sbFetch('clients','DELETE',null,`?id=eq.${id}`);
+  showToast('Client deleted.'); await loadClients();
+}
+async function deleteDue(id) {
+  await sbFetch('due_dates','DELETE',null,`?id=eq.${id}`);
+  showToast('Deleted.'); await loadDueDates();
+}
+async function markDone(id) {
+  await sbFetch('due_dates','PATCH',{status:'completed'},`?id=eq.${id}`);
+  showToast('Marked as completed!'); await loadDueDates();
+}
+async function deletePackage(id) {
+  if (!confirm('Delete this package?')) return;
+  await sbFetch('packages','DELETE',null,`?id=eq.${id}`);
+  showToast('Package deleted.'); allPackages=[]; await loadPackages();
+}
+async function deleteService(id) {
+  await sbFetch('services','DELETE',null,`?id=eq.${id}`);
+  showToast('Service deleted.'); await loadServices();
+}
+
+// Load dashboard on start
+loadDashboard();
+
+function _adminLogout() {
+  localStorage.removeItem('sb_token');
+  localStorage.removeItem('sb_user');
+  window.location.href = 'admin-login.html';
+}
+
+function showAdminChangePwd() {
+  const modal = document.createElement('div');
+  modal.id = 'pwd-modal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:1rem;';
+  modal.innerHTML = `
+    <div style="background:#1e293b;border:1px solid #334155;border-radius:16px;padding:2rem;width:100%;max-width:380px;">
+      <h3 style="color:white;font-size:16px;font-weight:600;margin-bottom:1rem;">Change Password</h3>
+      <div id="pwd-msg" style="display:none;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:1rem;"></div>
+      <label style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">New Password</label>
+      <input type="password" id="new-pwd" placeholder="Minimum 6 characters" style="width:100%;background:#0f172a;border:1px solid #334155;color:white;padding:10px 14px;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:10px;outline:none;"/>
+      <label style="font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:4px;">Confirm Password</label>
+      <input type="password" id="confirm-pwd" placeholder="Repeat password" style="width:100%;background:#0f172a;border:1px solid #334155;color:white;padding:10px 14px;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;margin-bottom:14px;outline:none;"/>
+      <button onclick="doChangePassword()" style="width:100%;background:#0C447C;color:white;padding:11px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:8px;">Update Password</button>
+      <button onclick="document.getElementById('pwd-modal').remove()" style="width:100%;background:none;border:1px solid #334155;color:#64748b;padding:9px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Cancel</button>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+async function doChangePassword() {
+  const newPwd = document.getElementById('new-pwd').value;
+  const confirmPwd = document.getElementById('confirm-pwd').value;
+  const msg = document.getElementById('pwd-msg');
+  if (!newPwd || newPwd.length < 6) { msg.style.cssText='display:block;background:rgba(220,38,38,0.1);color:#f87171;border:1px solid rgba(220,38,38,0.2);padding:10px;border-radius:8px;font-size:13px;margin-bottom:1rem;'; msg.textContent='Password must be at least 6 characters.'; return; }
+  if (newPwd !== confirmPwd) { msg.style.cssText='display:block;background:rgba(220,38,38,0.1);color:#f87171;border:1px solid rgba(220,38,38,0.2);padding:10px;border-radius:8px;font-size:13px;margin-bottom:1rem;'; msg.textContent='Passwords do not match.'; return; }
+  try {
+    const res = await fetch(`${SUPABASE_URL}/auth/v1/user`, { method:'PUT', headers:{'apikey':SUPABASE_KEY,'Authorization':`Bearer ${getToken()}`,'Content-Type':'application/json'}, body:JSON.stringify({password:newPwd}) });
+    if (!res.ok) throw new Error('Failed');
+    msg.style.cssText='display:block;background:rgba(22,163,74,0.1);color:#4ade80;border:1px solid rgba(22,163,74,0.2);padding:10px;border-radius:8px;font-size:13px;margin-bottom:1rem;';
+    msg.textContent='Password updated successfully!';
+    setTimeout(()=>document.getElementById('pwd-modal')?.remove(),2000);
+  } catch(e) { msg.style.cssText='display:block;background:rgba(220,38,38,0.1);color:#f87171;border:1px solid rgba(220,38,38,0.2);padding:10px;border-radius:8px;font-size:13px;margin-bottom:1rem;'; msg.textContent='Error updating password.'; }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tax Compliance Calendar FY 2026-27 | GST TDS ITR Deadlines | Kunwar Accounting Services Delhi</title>
+  <meta name="description" content="Free tax compliance calendar FY 2026-27 for small businesses in Delhi. All GST, TDS, ITR, PF, ESI deadlines. Never miss a filing deadline again."/>
+  <meta name="keywords" content="GST deadline 2026-27, ITR last date 2026, TDS due date 2026, tax compliance calendar India, GSTR-1 due date 2026, income tax deadline Delhi"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/compliance-calendar.html"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .cal-hero{background:linear-gradient(135deg,#042C53 0%,#0C447C 60%,#185FA5 100%);padding:4rem 2rem 3rem;text-align:center;position:relative;overflow:hidden;}
+    .cal-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+    .cal-hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);color:white;margin-bottom:.75rem;position:relative;}
+    .cal-hero p{color:rgba(255,255,255,.75);font-size:15px;max-width:560px;margin:0 auto 1.5rem;position:relative;}
+    .filter-bar{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;padding:1.25rem 2rem;background:white;border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:100;}
+    .filter-btn{padding:7px 16px;border-radius:20px;font-size:13px;font-weight:500;border:1.5px solid var(--border);background:white;color:var(--gray);cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;}
+    .filter-btn:hover{border-color:var(--navy);color:var(--navy);}
+    .filter-btn.active{background:var(--navy);color:white;border-color:var(--navy);}
+    .cal-section{max-width:1100px;margin:0 auto;padding:2rem;}
+    .month-block{margin-bottom:2.5rem;}
+    .month-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem;padding-bottom:10px;border-bottom:2px solid var(--border);}
+    .month-name{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--charcoal);font-weight:600;}
+    .month-count{font-size:12px;color:var(--gray);background:var(--light);padding:3px 10px;border-radius:20px;}
+    .deadline-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;}
+    .deadline-card{background:white;border:1px solid var(--border);border-radius:10px;padding:12px 16px;display:flex;gap:12px;align-items:flex-start;transition:all .2s;}
+    .deadline-card:hover{border-color:var(--sky);box-shadow:0 4px 12px rgba(12,68,124,.08);}
+    .deadline-card.overdue{border-left:3px solid #DC2626;background:#FFF5F5;}
+    .deadline-card.urgent{border-left:3px solid #F59E0B;}
+    .deadline-card.upcoming{border-left:3px solid #16A34A;}
+    .dl-date{min-width:44px;text-align:center;background:var(--ice);border-radius:8px;padding:6px 4px;}
+    .dl-day{font-size:18px;font-weight:700;color:var(--navy);line-height:1;}
+    .dl-mon{font-size:10px;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;}
+    .dl-info{flex:1;}
+    .dl-title{font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:2px;}
+    .dl-desc{font-size:12px;color:var(--gray);line-height:1.5;}
+    .dl-tag{font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap;margin-top:4px;display:inline-block;}
+    .tag-gst{background:#E6F1FB;color:#0C447C;}.tag-tds{background:#EAF3DE;color:#3B6D11;}.tag-itr{background:#FAEEDA;color:#854F0B;}.tag-pf{background:#EEEDFE;color:#534AB7;}.tag-roc{background:#FBEAF0;color:#993556;}.tag-advance{background:#E1F5EE;color:#0F6E56;}
+    .status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+    .dot-overdue{background:#DC2626;}.dot-urgent{background:#F59E0B;}.dot-upcoming{background:#16A34A;}.dot-future{background:#D1D5DB;}
+    .legend{display:flex;gap:1rem;flex-wrap:wrap;align-items:center;background:var(--light);border-radius:10px;padding:12px 16px;margin-bottom:1.5rem;font-size:12px;color:var(--gray);}
+    .legend-item{display:flex;align-items:center;gap:6px;}
+    .notice-box{background:linear-gradient(135deg,#FEF3C7,#FEF9EC);border:1px solid #FCD34D;border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1.5rem;display:flex;gap:12px;align-items:flex-start;}
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div class="cal-hero">
+    <div class="hero-badge" style="position:relative;display:inline-block;margin-bottom:1rem;">📅 FY 2026-27 · Updated April 2026</div>
+    <h1>Tax Compliance Calendar</h1>
+    <p>All GST, TDS, ITR, PF & ESI deadlines for FY 2026-27. Bookmark this page — never miss a filing again.</p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;position:relative;">
+      <a href="contact.html" class="btn-primary">Get WhatsApp Reminders</a>
+      <a href="gst-checker.html" class="btn-secondary">Check GST Eligibility</a>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filter('all',this)">All Deadlines</button>
+    <button class="filter-btn" onclick="filter('gst',this)">GST</button>
+    <button class="filter-btn" onclick="filter('tds',this)">TDS</button>
+    <button class="filter-btn" onclick="filter('itr',this)">Income Tax</button>
+    <button class="filter-btn" onclick="filter('pf',this)">PF / ESI</button>
+    <button class="filter-btn" onclick="filter('roc',this)">ROC</button>
+    <button class="filter-btn" onclick="filter('advance',this)">Advance Tax</button>
+  </div>
+
+  <div class="cal-section">
+    <div class="notice-box">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#92400E" stroke-width="2" style="flex-shrink:0;margin-top:2px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+      <div>
+        <p style="font-size:14px;font-weight:600;color:#92400E;margin-bottom:3px;">Important Disclaimer</p>
+        <p style="font-size:13px;color:#78350F;line-height:1.6;">Dates are as per standard schedule for FY 2026-27. The government may extend deadlines — always verify on the official GST portal or Income Tax portal. <a href="contact.html" style="color:#0C447C;font-weight:600;">Contact us</a> for automatic WhatsApp reminders before every deadline.</p>
+      </div>
+    </div>
+    <div class="legend">
+      <span style="font-weight:600;color:var(--charcoal);">Status:</span>
+      <div class="legend-item"><div class="status-dot dot-overdue"></div> Overdue</div>
+      <div class="legend-item"><div class="status-dot dot-urgent"></div> Due within 7 days</div>
+      <div class="legend-item"><div class="status-dot dot-upcoming"></div> Due within 30 days</div>
+      <div class="legend-item"><div class="status-dot dot-future"></div> Upcoming</div>
+    </div>
+    <div id="cal"></div>
+    <div class="cta-banner" style="margin-top:2rem;">
+      <h2>Never miss a deadline again</h2>
+      <p>We send WhatsApp reminders 7 days and 2 days before every deadline — included in all packages.</p>
+      <a href="contact.html" class="btn-primary">Get Free Reminders →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('compliance-calendar');
+const D=[
+  {d:'2026-04-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS collected in March 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-04-10',t:'GSTR-7 & GSTR-8',ds:'TDS & TCS return for March 2026',ty:'gst',w:'E-commerce operators'},
+  {d:'2026-04-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies return for March 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-04-13',t:'GSTR-1 IFF (Quarterly)',ds:'Invoice Furnishing for Jan–Mar 2026',ty:'gst',w:'QRMP scheme filers'},
+  {d:'2026-04-15',t:'Form 16B & 16C',ds:'Issue TDS certificates for rent and property purchase',ty:'tds',w:'Property buyers, rent payers'},
+  {d:'2026-04-20',t:'GSTR-3B (Monthly)',ds:'GST payment and summary return for March 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-04-22',t:'GSTR-3B Quarterly (Cat 1)',ds:'Jan–Mar 2026 quarterly return for Category 1 states',ty:'gst',w:'QRMP Cat 1 states'},
+  {d:'2026-04-24',t:'GSTR-3B Quarterly (Cat 2)',ds:'Jan–Mar 2026 quarterly return for Category 2 states',ty:'gst',w:'QRMP Cat 2 states'},
+  {d:'2026-04-25',t:'GST PMT-06 (QRMP)',ds:'Monthly challan for QRMP scheme taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-04-30',t:'PF & ESI Deposit',ds:'Deposit PF and ESI contributions for March 2026',ty:'pf',w:'All employers'},
+  {d:'2026-04-30',t:'TDS Return Q4 (24Q/26Q)',ds:'Quarterly TDS return for Jan–Mar 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-05-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for April 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-05-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for April 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-05-15',t:'Form 16 Issue Deadline',ds:'Employer must issue Form 16 for salary FY 2025-26',ty:'tds',w:'All employers'},
+  {d:'2026-05-15',t:'PF ECR Filing',ds:'Monthly PF return for April 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2026-05-20',t:'GSTR-3B (Monthly)',ds:'GST return for April 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-05-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers (April 2026)',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-05-31',t:'PF & ESI Deposit',ds:'Deposit contributions for April 2026',ty:'pf',w:'Employers'},
+  {d:'2026-05-31',t:'Form 16A / 16B / 16C',ds:'Issue TDS certificates for non-salary Q4 FY 2025-26',ty:'tds',w:'All deductors'},
+  {d:'2026-06-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for May 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-06-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for May 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-06-15',t:'Advance Tax — 1st Instalment',ds:'Pay 15% of estimated annual tax for FY 2026-27',ty:'advance',w:'All assessees (except senior citizens)'},
+  {d:'2026-06-15',t:'PF ECR Filing',ds:'Monthly PF return for May 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2026-06-20',t:'GSTR-3B (Monthly)',ds:'GST return for May 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-06-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers (May 2026)',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-06-30',t:'PF & ESI Deposit',ds:'Deposit contributions for May 2026',ty:'pf',w:'Employers'},
+  {d:'2026-07-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for June 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-07-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for June 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-07-13',t:'GSTR-1 IFF (Quarterly)',ds:'Invoice Furnishing for Apr–Jun 2026',ty:'gst',w:'QRMP filers'},
+  {d:'2026-07-15',t:'PF ECR Filing',ds:'Monthly PF return for June 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2026-07-20',t:'GSTR-3B (Monthly)',ds:'GST return for June 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-07-22',t:'GSTR-3B Quarterly (Cat 1)',ds:'Q1 Apr–Jun 2026 return for Category 1 states',ty:'gst',w:'QRMP Cat 1 states'},
+  {d:'2026-07-24',t:'GSTR-3B Quarterly (Cat 2)',ds:'Q1 Apr–Jun 2026 return for Category 2 states',ty:'gst',w:'QRMP Cat 2 states'},
+  {d:'2026-07-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-07-30',t:'TDS Return Q1 (24Q/26Q)',ds:'Quarterly TDS return for Apr–Jun 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-07-31',t:'ITR Filing Deadline (Individuals)',ds:'Last date for ITR FY 2025-26 (AY 2026-27) without penalty',ty:'itr',w:'Individuals, HUF, firms not requiring audit'},
+  {d:'2026-07-31',t:'PF & ESI Deposit',ds:'Deposit contributions for June 2026',ty:'pf',w:'Employers'},
+  {d:'2026-08-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for July 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-08-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for July 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-08-15',t:'Form 16A (Q1)',ds:'Issue TDS certificates for Apr–Jun 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-08-15',t:'PF ECR Filing',ds:'Monthly PF return for July 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2026-08-20',t:'GSTR-3B (Monthly)',ds:'GST return for July 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-08-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-08-31',t:'PF & ESI Deposit',ds:'Deposit contributions for July 2026',ty:'pf',w:'Employers'},
+  {d:'2026-09-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for August 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-09-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for August 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-09-15',t:'Advance Tax — 2nd Instalment',ds:'Pay 45% of estimated annual tax (cumulative) FY 2026-27',ty:'advance',w:'All assessees'},
+  {d:'2026-09-15',t:'PF ECR Filing',ds:'Monthly PF return for August 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2026-09-20',t:'GSTR-3B (Monthly)',ds:'GST return for August 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-09-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-09-30',t:'ITR Filing (Audit Cases)',ds:'Last date for companies and firms requiring audit FY 2025-26',ty:'itr',w:'Companies & audit-required firms'},
+  {d:'2026-09-30',t:'PF & ESI Deposit',ds:'Deposit contributions for August 2026',ty:'pf',w:'Employers'},
+  {d:'2026-10-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for September 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-10-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for September 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-10-13',t:'GSTR-1 IFF (Quarterly)',ds:'Invoice Furnishing for Jul–Sep 2026',ty:'gst',w:'QRMP filers'},
+  {d:'2026-10-15',t:'PF ECR Filing',ds:'Monthly PF return for September 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2026-10-20',t:'GSTR-3B (Monthly)',ds:'GST return for September 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-10-22',t:'GSTR-3B Quarterly (Cat 1)',ds:'Q2 Jul–Sep 2026 for Category 1 states',ty:'gst',w:'QRMP Cat 1 states'},
+  {d:'2026-10-24',t:'GSTR-3B Quarterly (Cat 2)',ds:'Q2 Jul–Sep 2026 for Category 2 states',ty:'gst',w:'QRMP Cat 2 states'},
+  {d:'2026-10-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-10-30',t:'TDS Return Q2 (24Q/26Q)',ds:'Quarterly TDS return for Jul–Sep 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-10-31',t:'ITR Filing (Transfer Pricing)',ds:'Extended ITR deadline for companies with international transactions',ty:'itr',w:'Companies with TP'},
+  {d:'2026-10-31',t:'PF & ESI Deposit',ds:'Deposit contributions for September 2026',ty:'pf',w:'Employers'},
+  {d:'2026-10-31',t:'ROC Annual Return (AOC-4)',ds:'Annual accounts filing for companies FY 2025-26',ty:'roc',w:'Private/Public Limited Companies'},
+  {d:'2026-11-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for October 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-11-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for October 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-11-15',t:'Form 16A (Q2)',ds:'Issue TDS certificates for Jul–Sep 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-11-15',t:'PF ECR Filing',ds:'Monthly PF return for October 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2026-11-20',t:'GSTR-3B (Monthly)',ds:'GST return for October 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-11-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-11-29',t:'ROC Annual Return (MGT-7)',ds:'Annual return filing for companies FY 2025-26',ty:'roc',w:'Private/Public Limited Companies'},
+  {d:'2026-11-30',t:'PF & ESI Deposit',ds:'Deposit contributions for October 2026',ty:'pf',w:'Employers'},
+  {d:'2026-12-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for November 2026',ty:'tds',w:'All deductors'},
+  {d:'2026-12-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for November 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-12-15',t:'Advance Tax — 3rd Instalment',ds:'Pay 75% of estimated annual tax (cumulative) FY 2026-27',ty:'advance',w:'All assessees'},
+  {d:'2026-12-15',t:'PF ECR Filing',ds:'Monthly PF return for November 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2026-12-20',t:'GSTR-3B (Monthly)',ds:'GST return for November 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2026-12-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2026-12-31',t:'Belated / Revised ITR',ds:'Last date for belated or revised ITR FY 2025-26 (AY 2026-27)',ty:'itr',w:'All taxpayers'},
+  {d:'2026-12-31',t:'PF & ESI Deposit',ds:'Deposit contributions for November 2026',ty:'pf',w:'Employers'},
+  {d:'2027-01-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for December 2026',ty:'tds',w:'All deductors'},
+  {d:'2027-01-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for December 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2027-01-13',t:'GSTR-1 IFF (Quarterly)',ds:'Invoice Furnishing for Oct–Dec 2026',ty:'gst',w:'QRMP filers'},
+  {d:'2027-01-15',t:'PF ECR Filing',ds:'Monthly PF return for December 2026',ty:'pf',w:'PF-registered employers'},
+  {d:'2027-01-20',t:'GSTR-3B (Monthly)',ds:'GST return for December 2026',ty:'gst',w:'Monthly GST filers'},
+  {d:'2027-01-22',t:'GSTR-3B Quarterly (Cat 1)',ds:'Q3 Oct–Dec 2026 for Category 1 states',ty:'gst',w:'QRMP Cat 1 states'},
+  {d:'2027-01-24',t:'GSTR-3B Quarterly (Cat 2)',ds:'Q3 Oct–Dec 2026 for Category 2 states',ty:'gst',w:'QRMP Cat 2 states'},
+  {d:'2027-01-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2027-01-30',t:'TDS Return Q3 (24Q/26Q)',ds:'Quarterly TDS return for Oct–Dec 2026',ty:'tds',w:'All deductors'},
+  {d:'2027-01-31',t:'PF & ESI Deposit',ds:'Deposit contributions for December 2026',ty:'pf',w:'Employers'},
+  {d:'2027-02-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for January 2027',ty:'tds',w:'All deductors'},
+  {d:'2027-02-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for January 2027',ty:'gst',w:'Monthly GST filers'},
+  {d:'2027-02-15',t:'Form 16A (Q3)',ds:'Issue TDS certificates for Oct–Dec 2026',ty:'tds',w:'All deductors'},
+  {d:'2027-02-15',t:'PF ECR Filing',ds:'Monthly PF return for January 2027',ty:'pf',w:'PF-registered employers'},
+  {d:'2027-02-20',t:'GSTR-3B (Monthly)',ds:'GST return for January 2027',ty:'gst',w:'Monthly GST filers'},
+  {d:'2027-02-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2027-02-28',t:'PF & ESI Deposit',ds:'Deposit contributions for January 2027',ty:'pf',w:'Employers'},
+  {d:'2027-03-07',t:'TDS / TCS Deposit',ds:'Deposit TDS/TCS for February 2027',ty:'tds',w:'All deductors'},
+  {d:'2027-03-11',t:'GSTR-1 (Monthly)',ds:'Outward supplies for February 2027',ty:'gst',w:'Monthly GST filers'},
+  {d:'2027-03-15',t:'Advance Tax — 4th (Final) Instalment',ds:'Pay 100% of estimated annual tax for FY 2026-27 — most important!',ty:'advance',w:'All assessees'},
+  {d:'2027-03-15',t:'PF ECR Filing',ds:'Monthly PF return for February 2027',ty:'pf',w:'PF-registered employers'},
+  {d:'2027-03-20',t:'GSTR-3B (Monthly)',ds:'GST return for February 2027',ty:'gst',w:'Monthly GST filers'},
+  {d:'2027-03-25',t:'GST PMT-06',ds:'Monthly challan for QRMP taxpayers',ty:'gst',w:'QRMP taxpayers'},
+  {d:'2027-03-31',t:'GSTR-9 Annual Return (FY 2025-26)',ds:'Annual GST return for registered taxpayers above threshold',ty:'gst',w:'GST-registered businesses'},
+  {d:'2027-03-31',t:'Updated ITR (ITR-U)',ds:'Last date to file updated ITR for FY 2024-25 (AY 2025-26)',ty:'itr',w:'All taxpayers with updates'},
+  {d:'2027-03-31',t:'Tax Saving Investments Deadline',ds:'Last date for 80C, 80D, NPS investments for FY 2026-27 tax benefit',ty:'itr',w:'All individual taxpayers'},
+  {d:'2027-03-31',t:'PF & ESI Deposit',ds:'Deposit contributions for February 2027',ty:'pf',w:'Employers'},
+];
+
+const MN=['January','February','March','April','May','June','July','August','September','October','November','December'];
+const MS=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const TL={gst:'GST',tds:'TDS',itr:'Income Tax',pf:'PF / ESI',roc:'ROC',advance:'Advance Tax'};
+
+function getStatus(dt){
+  const today=new Date();today.setHours(0,0,0,0);
+  const diff=Math.ceil((new Date(dt)-today)/86400000);
+  if(diff<0)return'overdue';if(diff<=7)return'urgent';if(diff<=30)return'upcoming';return'future';
+}
+
+function render(f){
+  const list=f==='all'?D:D.filter(x=>x.ty===f);
+  if(!list.length){document.getElementById('cal').innerHTML='<div style="text-align:center;padding:3rem;color:var(--gray);">No deadlines found.</div>';return;}
+  const bm={};list.forEach(x=>{const k=x.d.substring(0,7);if(!bm[k])bm[k]=[];bm[k].push(x);});
+  let h='';
+  Object.keys(bm).sort().forEach(k=>{
+    const[yr,mo]=k.split('-');const mI=parseInt(mo)-1;const items=bm[k];
+    h+=`<div class="month-block"><div class="month-header"><span class="month-name">${MN[mI]} ${yr}</span><span class="month-count">${items.length} deadline${items.length>1?'s':''}</span></div><div class="deadline-grid">`;
+    items.forEach(x=>{
+      const st=getStatus(x.d);const day=parseInt(x.d.split('-')[2]);const mi=parseInt(x.d.split('-')[1])-1;
+      h+=`<div class="deadline-card ${st==='overdue'?'overdue':st==='urgent'?'urgent':st==='upcoming'?'upcoming':''}">
+        <div class="dl-date"><div class="dl-day">${day}</div><div class="dl-mon">${MS[mi]}</div></div>
+        <div class="dl-info">
+          <div style="display:flex;align-items:flex-start;gap:6px;"><div class="status-dot dot-${st}" style="margin-top:4px;flex-shrink:0;"></div><div class="dl-title">${x.t}</div></div>
+          <div class="dl-desc">${x.ds}</div>
+          <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin-top:4px;"><span class="dl-tag tag-${x.ty}">${TL[x.ty]}</span><span style="font-size:11px;color:var(--gray);">${x.w}</span></div>
+        </div></div>`;
+    });
+    h+='</div></div>';
+  });
+  document.getElementById('cal').innerHTML=h;
+}
+
+function filter(f,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');render(f);
+}
+render('all');
+</script>
+</body>
+</html>
