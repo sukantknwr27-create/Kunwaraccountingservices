@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free GST Eligibility Checker 2026 | Do I Need GST Registration? | Kunwar Accounting Delhi</title>
+  <meta name="description" content="Free GST registration eligibility checker for Indian businesses 2026. Find out if your business needs GST registration. Instant result, no login required."/>
+  <meta name="keywords" content="GST registration eligibility 2026, do I need GST 2026, GST threshold limit 2026, GST registration required India, GST checker online free Delhi"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/gst-checker.html"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body{background:var(--light);}
+    .checker-hero{background:linear-gradient(135deg,#042C53 0%,#0C447C 60%,#185FA5 100%);padding:3.5rem 2rem 2.5rem;text-align:center;}
+    .checker-hero h1{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:white;margin-bottom:.75rem;}
+    .checker-hero p{color:rgba(255,255,255,.75);font-size:15px;max-width:520px;margin:0 auto;}
+    .wrap{max-width:720px;margin:0 auto;padding:2rem;}
+    .prog-bar{height:6px;background:var(--border);border-radius:8px;margin-bottom:1.5rem;}
+    .prog-fill{height:6px;background:var(--navy);border-radius:8px;transition:width .4s ease;}
+    .step-dots{display:flex;justify-content:space-between;margin-bottom:1.5rem;}
+    .sdot{display:flex;flex-direction:column;align-items:center;gap:4px;font-size:11px;color:var(--gray);}
+    .sdot .d{width:28px;height:28px;border-radius:50%;background:white;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--gray);transition:all .3s;}
+    .sdot.done .d{background:var(--navy);border-color:var(--navy);color:white;}
+    .sdot.active .d{background:white;border-color:var(--navy);color:var(--navy);}
+    .qcard{background:white;border-radius:16px;border:1px solid var(--border);padding:2rem;margin-bottom:1rem;display:none;}
+    .qcard.active{display:block;animation:si .3s ease;}
+    @keyframes si{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .qnum{font-size:11px;font-weight:600;color:var(--navy);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px;}
+    .qtxt{font-size:1.05rem;font-weight:600;color:var(--charcoal);margin-bottom:.5rem;line-height:1.4;}
+    .qhint{font-size:13px;color:var(--gray);margin-bottom:1.5rem;line-height:1.6;}
+    .opts{display:flex;flex-direction:column;gap:10px;}
+    .opt{background:white;border:1.5px solid var(--border);border-radius:10px;padding:13px 18px;text-align:left;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif;font-size:14px;color:var(--charcoal);display:flex;align-items:center;gap:12px;}
+    .opt:hover,.opt.sel{border-color:var(--navy);background:var(--ice);color:var(--navy);}
+    .opt-icon{font-size:20px;flex-shrink:0;}
+    .opt-lbl{font-weight:600;display:block;}
+    .opt-sub{font-size:12px;color:var(--gray);display:block;margin-top:2px;}
+    .nav-btns{display:flex;gap:10px;margin-top:1.5rem;}
+    .btn-back{background:white;border:1.5px solid var(--border);color:var(--gray);padding:10px 20px;border-radius:8px;font-size:14px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+    .btn-back:hover{border-color:var(--navy);color:var(--navy);}
+    .btn-next{flex:1;background:var(--navy);color:white;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;border:none;transition:all .2s;}
+    .btn-next:hover{background:var(--navy-dark);}
+    .btn-next:disabled{opacity:.4;cursor:not-allowed;}
+    .rcard{display:none;background:white;border-radius:16px;padding:2rem;border:1px solid var(--border);}
+    .rcard.show{display:block;animation:si .4s ease;}
+    .r-mandatory{border-top:4px solid #DC2626;}
+    .r-voluntary{border-top:4px solid #F59E0B;}
+    .r-exempt{border-top:4px solid #16A34A;}
+    .r-composition{border-top:4px solid #534AB7;}
+    .ri{font-size:48px;margin-bottom:1rem;}
+    .rtitle{font-family:'Playfair Display',serif;font-size:1.5rem;margin-bottom:.5rem;}
+    .rsub{font-size:14px;color:var(--gray);margin-bottom:1.5rem;line-height:1.6;}
+    .rdetail{background:var(--light);border-radius:12px;padding:1.25rem;margin-bottom:1.25rem;}
+    .rdetail h4{font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:10px;text-transform:uppercase;letter-spacing:.06em;}
+    .rrow{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13px;}
+    .rrow:last-child{border-bottom:none;}
+    .rlbl{color:var(--gray);min-width:150px;flex-shrink:0;}
+    .rval{font-weight:500;color:var(--charcoal);}
+    .blist{list-style:none;margin:10px 0;}
+    .blist li{font-size:13px;color:var(--charcoal);padding:5px 0;display:flex;gap:8px;align-items:flex-start;}
+    .blist li::before{content:'✓';color:#16A34A;font-weight:700;flex-shrink:0;}
+    .wlist li::before{content:'⚠';color:#F59E0B;flex-shrink:0;}
+    .cta-box{background:linear-gradient(135deg,var(--navy),var(--navy-light));border-radius:12px;padding:1.5rem;text-align:center;margin-top:1.25rem;}
+    .cta-box h3{color:white;font-size:16px;font-weight:600;margin-bottom:6px;}
+    .cta-box p{color:rgba(255,255,255,.75);font-size:13px;margin-bottom:1rem;}
+    .cta-box-btns{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;}
+    .restart-btn{background:none;border:1.5px solid var(--border);color:var(--gray);padding:9px 20px;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1rem;width:100%;transition:all .2s;}
+    .restart-btn:hover{border-color:var(--navy);color:var(--navy);}
+    .tag-mandatory{background:#FEE2E2;color:#DC2626;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+    .tag-voluntary{background:#FEF3C7;color:#92400E;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+    .tag-exempt{background:#DCFCE7;color:#16A34A;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+    .tag-composition{background:#EEEDFE;color:#534AB7;padding:4px 12px;border-radius:20px;font-size:12px;font-weight:700;}
+    .info-box{background:var(--ice);border-radius:10px;padding:1rem 1.25rem;margin-top:1rem;border-left:3px solid var(--navy);}
+    .info-box p{font-size:13px;color:var(--charcoal);line-height:1.6;}
+    @media(max-width:600px){.sdot span{display:none;}}
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div class="checker-hero">
+    <div class="hero-badge" style="position:relative;display:inline-block;margin-bottom:1rem;">🔍 Updated for 2026 · Free Tool · Instant Result</div>
+    <h1>GST Registration Eligibility Checker</h1>
+    <p>Answer 6 simple questions to find out if your business needs GST registration in India — with a full explanation.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="step-dots" id="step-dots">
+      <div class="sdot active" id="sd1"><div class="d">1</div><span>Business</span></div>
+      <div class="sdot" id="sd2"><div class="d">2</div><span>Turnover</span></div>
+      <div class="sdot" id="sd3"><div class="d">3</div><span>State</span></div>
+      <div class="sdot" id="sd4"><div class="d">4</div><span>Sales</span></div>
+      <div class="sdot" id="sd5"><div class="d">5</div><span>Trade</span></div>
+      <div class="sdot" id="sd6"><div class="d">6</div><span>Platform</span></div>
+    </div>
+    <div class="prog-bar"><div class="prog-fill" id="prog" style="width:16%;"></div></div>
+
+    <!-- Q1 -->
+    <div class="qcard active" id="q1">
+      <div class="qnum">Question 1 of 6</div>
+      <div class="qtxt">What type of business do you run?</div>
+      <div class="qhint">This helps us understand your business structure and applicable GST rules for 2026.</div>
+      <div class="opts">
+        <button class="opt" onclick="pick('q1','goods',this)"><span class="opt-icon">📦</span><span><span class="opt-lbl">I sell goods / products</span><span class="opt-sub">Physical products, manufacturing, trading, retail</span></span></button>
+        <button class="opt" onclick="pick('q1','services',this)"><span class="opt-icon">💼</span><span><span class="opt-lbl">I provide services</span><span class="opt-sub">Consulting, IT, accounting, education, freelancing</span></span></button>
+        <button class="opt" onclick="pick('q1','both',this)"><span class="opt-icon">🏪</span><span><span class="opt-lbl">Both goods and services</span><span class="opt-sub">Mixed business model</span></span></button>
+        <button class="opt" onclick="pick('q1','agriculture',this)"><span class="opt-icon">🌾</span><span><span class="opt-lbl">Agriculture / Farming</span><span class="opt-sub">Primary agricultural produce</span></span></button>
+      </div>
+      <div class="nav-btns"><button class="btn-next" id="n1" disabled onclick="next(1)">Next →</button></div>
+    </div>
+
+    <!-- Q2 -->
+    <div class="qcard" id="q2">
+      <div class="qnum">Question 2 of 6</div>
+      <div class="qtxt">What is your approximate annual turnover (revenue)?</div>
+      <div class="qhint">Turnover = total sales/revenue in a financial year. GST thresholds updated for 2026: ₹40 Lakhs for goods, ₹20 Lakhs for services (general states).</div>
+      <div class="opts">
+        <button class="opt" onclick="pick('q2','under10',this)"><span class="opt-icon">💰</span><span><span class="opt-lbl">Under ₹10 Lakhs per year</span><span class="opt-sub">Less than ₹83,333 per month</span></span></button>
+        <button class="opt" onclick="pick('q2','10to20',this)"><span class="opt-icon">💰</span><span><span class="opt-lbl">₹10 Lakhs – ₹20 Lakhs</span><span class="opt-sub">₹83,333 – ₹1,66,667 per month</span></span></button>
+        <button class="opt" onclick="pick('q2','20to40',this)"><span class="opt-icon">💰</span><span><span class="opt-lbl">₹20 Lakhs – ₹40 Lakhs</span><span class="opt-sub">₹1.67L – ₹3.33L per month</span></span></button>
+        <button class="opt" onclick="pick('q2','40to150',this)"><span class="opt-icon">💰</span><span><span class="opt-lbl">₹40 Lakhs – ₹1.5 Crore</span><span class="opt-sub">May qualify for Composition Scheme</span></span></button>
+        <button class="opt" onclick="pick('q2','above150',this)"><span class="opt-icon">💰</span><span><span class="opt-lbl">Above ₹1.5 Crore</span><span class="opt-sub">Regular GST registration required</span></span></button>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prev(2)">← Back</button><button class="btn-next" id="n2" disabled onclick="next(2)">Next →</button></div>
+    </div>
+
+    <!-- Q3 -->
+    <div class="qcard" id="q3">
+      <div class="qnum">Question 3 of 6</div>
+      <div class="qtxt">Is your business in a Special Category State?</div>
+      <div class="qhint">Special Category States have a lower GST threshold of ₹10 Lakhs: Jammu & Kashmir, Himachal Pradesh, Uttarakhand, Arunachal Pradesh, Assam, Manipur, Meghalaya, Mizoram, Nagaland, Sikkim, Tripura.</div>
+      <div class="opts">
+        <button class="opt" onclick="pick('q3','special',this)"><span class="opt-icon">🏔️</span><span><span class="opt-lbl">Yes — Special Category State</span><span class="opt-sub">J&K, Himachal, Uttarakhand, North-East states, Sikkim</span></span></button>
+        <button class="opt" onclick="pick('q3','normal',this)"><span class="opt-icon">🏙️</span><span><span class="opt-lbl">No — Other State</span><span class="opt-sub">Delhi, Maharashtra, UP, Karnataka, Tamil Nadu, etc.</span></span></button>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prev(3)">← Back</button><button class="btn-next" id="n3" disabled onclick="next(3)">Next →</button></div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="qcard" id="q4">
+      <div class="qnum">Question 4 of 6</div>
+      <div class="qtxt">Do you make inter-state sales (selling to customers in other states)?</div>
+      <div class="qhint">Selling to customers in a different state requires mandatory GST registration regardless of turnover.</div>
+      <div class="opts">
+        <button class="opt" onclick="pick('q4','yes',this)"><span class="opt-icon">🚚</span><span><span class="opt-lbl">Yes — I sell to other states</span><span class="opt-sub">Customers across multiple states in India</span></span></button>
+        <button class="opt" onclick="pick('q4','no',this)"><span class="opt-icon">📍</span><span><span class="opt-lbl">No — Within my state only</span><span class="opt-sub">All customers are in the same state as my business</span></span></button>
+        <button class="opt" onclick="pick('q4','unsure',this)"><span class="opt-icon">🤔</span><span><span class="opt-lbl">I'm not sure</span><span class="opt-sub">I'll check with an accountant</span></span></button>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prev(4)">← Back</button><button class="btn-next" id="n4" disabled onclick="next(4)">Next →</button></div>
+    </div>
+
+    <!-- Q5 -->
+    <div class="qcard" id="q5">
+      <div class="qnum">Question 5 of 6</div>
+      <div class="qtxt">Are you involved in import or export of goods/services?</div>
+      <div class="qhint">Import and export businesses must register for GST regardless of turnover. Exporters also benefit from GST refunds on input tax credit.</div>
+      <div class="opts">
+        <button class="opt" onclick="pick('q5','export',this)"><span class="opt-icon">✈️</span><span><span class="opt-lbl">Yes — I export goods/services</span><span class="opt-sub">Selling to international customers</span></span></button>
+        <button class="opt" onclick="pick('q5','import',this)"><span class="opt-icon">🛳️</span><span><span class="opt-lbl">Yes — I import goods/services</span><span class="opt-sub">Buying from international suppliers</span></span></button>
+        <button class="opt" onclick="pick('q5','both_ie',this)"><span class="opt-icon">🌍</span><span><span class="opt-lbl">Both import and export</span><span class="opt-sub">International trade in both directions</span></span></button>
+        <button class="opt" onclick="pick('q5','none',this)"><span class="opt-icon">🏠</span><span><span class="opt-lbl">No — Domestic business only</span><span class="opt-sub">No international transactions</span></span></button>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prev(5)">← Back</button><button class="btn-next" id="n5" disabled onclick="next(5)">Next →</button></div>
+    </div>
+
+    <!-- Q6 -->
+    <div class="qcard" id="q6">
+      <div class="qnum">Question 6 of 6</div>
+      <div class="qtxt">Do you sell through an e-commerce platform?</div>
+      <div class="qhint">Selling on Amazon, Flipkart, Meesho, Swiggy, Zomato or any online marketplace requires mandatory GST registration regardless of turnover — even in 2026.</div>
+      <div class="opts">
+        <button class="opt" onclick="pick('q6','ecom',this)"><span class="opt-icon">🛒</span><span><span class="opt-lbl">Yes — Amazon, Flipkart, Meesho etc.</span><span class="opt-sub">Online marketplace seller</span></span></button>
+        <button class="opt" onclick="pick('q6','own_site',this)"><span class="opt-icon">💻</span><span><span class="opt-lbl">Yes — My own website</span><span class="opt-sub">Own e-commerce store</span></span></button>
+        <button class="opt" onclick="pick('q6','no_ecom',this)"><span class="opt-icon">🏬</span><span><span class="opt-lbl">No — Offline / in-person only</span><span class="opt-sub">Physical store, direct clients</span></span></button>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prev(6)">← Back</button><button class="btn-next" id="n6" disabled onclick="calcResult()">Get My Result →</button></div>
+    </div>
+
+    <!-- RESULT: MANDATORY -->
+    <div class="rcard r-mandatory" id="r-mandatory">
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <div class="ri">🔴</div>
+        <span class="tag-mandatory">GST Registration MANDATORY</span>
+        <div class="rtitle" style="margin-top:1rem;">You must register for GST</div>
+        <div class="rsub">Based on your answers, GST registration is legally required. Not registering can result in heavy penalties.</div>
+      </div>
+      <div class="rdetail"><h4>Why GST is mandatory for you</h4><div id="mandatory-reasons"></div></div>
+      <div class="rdetail">
+        <h4>Consequences of not registering</h4>
+        <ul class="blist" style="list-style:none;">
+          <li style="display:flex;gap:8px;"><span style="color:#DC2626;flex-shrink:0;">✗</span> Penalty of 10% of tax due (minimum ₹10,000)</li>
+          <li style="display:flex;gap:8px;"><span style="color:#DC2626;flex-shrink:0;">✗</span> Fraud cases: 100% penalty of tax amount</li>
+          <li style="display:flex;gap:8px;"><span style="color:#DC2626;flex-shrink:0;">✗</span> Cannot collect GST from customers legally</li>
+          <li style="display:flex;gap:8px;"><span style="color:#DC2626;flex-shrink:0;">✗</span> Cannot claim Input Tax Credit on purchases</li>
+          <li style="display:flex;gap:8px;"><span style="color:#DC2626;flex-shrink:0;">✗</span> Risk of GST department notices and scrutiny</li>
+        </ul>
+      </div>
+      <div class="rdetail">
+        <h4>Documents needed for GST registration (2026)</h4>
+        <div class="rrow"><span class="rlbl">Identity Proof</span><span class="rval">PAN Card, Aadhaar Card</span></div>
+        <div class="rrow"><span class="rlbl">Address Proof</span><span class="rval">Electricity bill, rent agreement</span></div>
+        <div class="rrow"><span class="rlbl">Business Proof</span><span class="rval">Partnership deed / MoA / Registration cert</span></div>
+        <div class="rrow"><span class="rlbl">Bank Details</span><span class="rval">Cancelled cheque or bank statement</span></div>
+        <div class="rrow"><span class="rlbl">Time to Register</span><span class="rval">3–7 working days</span></div>
+        <div class="rrow"><span class="rlbl">Our Fee</span><span class="rval">₹999 one-time (application + GSTIN)</span></div>
+      </div>
+      <div class="cta-box">
+        <h3>Get GST registered today</h3>
+        <p>We'll handle your entire GST registration in just 3–5 working days.</p>
+        <div class="cta-box-btns">
+          <a href="https://wa.me/918076136300?text=Hi%20Sukant%2C%20I%20need%20GST%20registration%20for%20my%20business." target="_blank" style="background:#25D366;color:white;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">WhatsApp Now</a>
+          <a href="contact.html" style="background:rgba(255,255,255,.15);color:white;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,.3);">Book Consultation</a>
+        </div>
+      </div>
+      <button class="restart-btn" onclick="restart()">↺ Check Again</button>
+    </div>
+
+    <!-- RESULT: VOLUNTARY -->
+    <div class="rcard r-voluntary" id="r-voluntary">
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <div class="ri">🟡</div>
+        <span class="tag-voluntary">GST Registration OPTIONAL but Recommended</span>
+        <div class="rtitle" style="margin-top:1rem;">You don't need GST right now — but consider it</div>
+        <div class="rsub">Your turnover is below the 2026 threshold, so GST is not mandatory. However, voluntary registration has real business advantages.</div>
+      </div>
+      <div class="rdetail">
+        <h4>Benefits of voluntary GST registration</h4>
+        <ul class="blist">
+          <li>Claim Input Tax Credit on purchases — saves money</li>
+          <li>More credible to corporate clients (many require GSTIN)</li>
+          <li>Easier to get loans and government tenders</li>
+          <li>Ready when your turnover crosses the threshold</li>
+          <li>Can sell on Amazon, Flipkart and other platforms</li>
+          <li>Freedom to do inter-state business</li>
+        </ul>
+      </div>
+      <div class="rdetail">
+        <h4>Things to keep in mind</h4>
+        <ul class="blist wlist">
+          <li>Must file GST returns every month/quarter once registered</li>
+          <li>Need to maintain proper invoices and records</li>
+          <li>You must collect GST from customers and deposit it</li>
+        </ul>
+      </div>
+      <div class="info-box"><p><strong>Our recommendation:</strong> If you plan to grow, work with businesses (B2B), or sell online — register for GST now. Benefits outweigh compliance effort, especially with a good accountant.</p></div>
+      <div class="cta-box">
+        <h3>Not sure what to do?</h3>
+        <p>Talk to Sukant for free — we'll tell you honestly whether GST makes sense for your business.</p>
+        <div class="cta-box-btns">
+          <a href="https://wa.me/918076136300?text=Hi%20Sukant%2C%20I%20want%20advice%20on%20whether%20I%20should%20register%20for%20GST." target="_blank" style="background:#25D366;color:white;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Free WhatsApp Advice</a>
+          <a href="contact.html" style="background:rgba(255,255,255,.15);color:white;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,.3);">Book Consultation</a>
+        </div>
+      </div>
+      <button class="restart-btn" onclick="restart()">↺ Check Again</button>
+    </div>
+
+    <!-- RESULT: EXEMPT -->
+    <div class="rcard r-exempt" id="r-exempt">
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <div class="ri">🟢</div>
+        <span class="tag-exempt">GST Registration NOT Required</span>
+        <div class="rtitle" style="margin-top:1rem;">Good news — you don't need GST registration</div>
+        <div class="rsub">Based on your answers, your business is currently exempt from mandatory GST registration under 2026 rules.</div>
+      </div>
+      <div class="rdetail">
+        <h4>Why you're exempt</h4>
+        <ul class="blist">
+          <li>Your annual turnover is below the applicable threshold</li>
+          <li>Selling only within your state (no inter-state supply)</li>
+          <li>Not selling on e-commerce platforms</li>
+          <li>No import/export transactions</li>
+        </ul>
+      </div>
+      <div class="rdetail">
+        <h4>When you WILL need GST registration</h4>
+        <div class="rrow"><span class="rlbl">Turnover crosses</span><span class="rval">₹40L goods / ₹20L services (₹10L special states)</span></div>
+        <div class="rrow"><span class="rlbl">You start selling</span><span class="rval">To customers in other states</span></div>
+        <div class="rrow"><span class="rlbl">You list on</span><span class="rval">Amazon, Flipkart, or any marketplace</span></div>
+        <div class="rrow"><span class="rlbl">You start</span><span class="rval">Exporting or importing goods/services</span></div>
+      </div>
+      <div class="info-box"><p><strong>Tip:</strong> Even if not required, consider voluntary GST if your clients are businesses (B2B) — they often prefer vendors with GST to claim their own Input Tax Credit.</p></div>
+      <div class="cta-box">
+        <h3>Still have questions?</h3>
+        <p>Free consultation — we'll tell you exactly what compliance your business needs.</p>
+        <div class="cta-box-btns"><a href="contact.html" style="background:white;color:var(--navy);padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">Book Free Consultation</a></div>
+      </div>
+      <button class="restart-btn" onclick="restart()">↺ Check Again</button>
+    </div>
+
+    <!-- RESULT: COMPOSITION -->
+    <div class="rcard r-composition" id="r-composition">
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <div class="ri">🟣</div>
+        <span class="tag-composition">Consider COMPOSITION SCHEME</span>
+        <div class="rtitle" style="margin-top:1rem;">You may qualify for the Composition Scheme</div>
+        <div class="rsub">GST registration is mandatory, but you may be eligible for the Composition Scheme — a simpler option with lower tax rates.</div>
+      </div>
+      <div class="rdetail">
+        <h4>Composition Scheme benefits (2026)</h4>
+        <ul class="blist">
+          <li>Pay tax at flat rate — 1% traders, 5% restaurants, 6% services</li>
+          <li>File only 1 return per quarter (CMP-08) + annual GSTR-4</li>
+          <li>Much simpler bookkeeping and compliance</li>
+          <li>Significantly lower tax burden for small businesses</li>
+        </ul>
+      </div>
+      <div class="rdetail">
+        <h4>Composition Scheme limitations</h4>
+        <ul class="blist wlist">
+          <li>Only for turnover up to ₹1.5 Crore</li>
+          <li>Cannot do inter-state sales of goods</li>
+          <li>Cannot sell on Amazon, Flipkart etc.</li>
+          <li>Cannot claim Input Tax Credit on purchases</li>
+        </ul>
+      </div>
+      <div class="rdetail">
+        <h4>Tax rates under Composition Scheme</h4>
+        <div class="rrow"><span class="rlbl">Manufacturers & Traders</span><span class="rval">1% of turnover</span></div>
+        <div class="rrow"><span class="rlbl">Restaurants</span><span class="rval">5% of turnover</span></div>
+        <div class="rrow"><span class="rlbl">Service Providers</span><span class="rval">6% of turnover</span></div>
+        <div class="rrow"><span class="rlbl">Returns to file</span><span class="rval">CMP-08 quarterly + GSTR-4 annually</span></div>
+      </div>
+      <div class="cta-box">
+        <h3>Not sure which scheme suits you?</h3>
+        <p>We'll help you choose between Regular GST and Composition Scheme — and handle the full registration.</p>
+        <div class="cta-box-btns">
+          <a href="https://wa.me/918076136300?text=Hi%20Sukant%2C%20I%20want%20advice%20on%20GST%20Composition%20Scheme." target="_blank" style="background:#25D366;color:white;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;">WhatsApp Now</a>
+          <a href="contact.html" style="background:rgba(255,255,255,.15);color:white;padding:10px 18px;border-radius:8px;font-size:13px;font-weight:600;text-decoration:none;border:1px solid rgba(255,255,255,.3);">Book Consultation</a>
+        </div>
+      </div>
+      <button class="restart-btn" onclick="restart()">↺ Check Again</button>
+    </div>
+
+    <!-- THRESHOLD INFO -->
+    <div style="margin-top:2rem;" id="threshold-info">
+      <div class="divider" style="margin:0 0 2rem;"></div>
+      <div class="section-label">GST thresholds 2026</div>
+      <h2 class="section-title">Know the limits</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:1.5rem;">
+        <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
+          <div style="font-size:22px;margin-bottom:8px;">📦</div>
+          <h4 style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:6px;">Goods (Products)</h4>
+          <div style="font-size:1.5rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;">₹40 Lakhs</div>
+          <p style="font-size:12px;color:var(--gray);margin-top:4px;">Annual turnover — most states</p>
+        </div>
+        <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
+          <div style="font-size:22px;margin-bottom:8px;">💼</div>
+          <h4 style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:6px;">Services</h4>
+          <div style="font-size:1.5rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;">₹20 Lakhs</div>
+          <p style="font-size:12px;color:var(--gray);margin-top:4px;">Annual turnover — most states</p>
+        </div>
+        <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
+          <div style="font-size:22px;margin-bottom:8px;">🏔️</div>
+          <h4 style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:6px;">Special States</h4>
+          <div style="font-size:1.5rem;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;">₹10 Lakhs</div>
+          <p style="font-size:12px;color:var(--gray);margin-top:4px;">J&K, Himachal, North-East, Sikkim</p>
+        </div>
+        <div style="background:white;border:1px solid var(--border);border-radius:12px;padding:1.5rem;">
+          <div style="font-size:22px;margin-bottom:8px;">🛒</div>
+          <h4 style="font-size:13px;font-weight:600;color:var(--charcoal);margin-bottom:6px;">E-commerce Sellers</h4>
+          <div style="font-size:1.5rem;font-weight:700;color:#DC2626;font-family:'Playfair Display',serif;">₹0</div>
+          <p style="font-size:12px;color:var(--gray);margin-top:4px;">Mandatory regardless of turnover</p>
+        </div>
+      </div>
+      <div class="cta-banner" style="margin-top:2rem;">
+        <h2>Need help with GST registration?</h2>
+        <p>We handle GST registration, filing and compliance for small businesses across Delhi NCR. Starting from ₹999.</p>
+        <a href="contact.html" class="btn-primary">Get GST Registered →</a>
+      </div>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('gst-checker');
+const A={};let cur=1;
+
+function pick(q,v,btn){
+  A[q]=v;
+  document.querySelectorAll(`#${q} .opt`).forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  const n=document.getElementById('n'+q.replace('q',''));
+  if(n)n.disabled=false;
+}
+
+function next(s){
+  if(!A['q'+s])return;
+  document.getElementById('q'+s).classList.remove('active');
+  cur=s+1;
+  document.getElementById('q'+cur).classList.add('active');
+  updateProg();
+}
+
+function prev(s){
+  document.getElementById('q'+s).classList.remove('active');
+  cur=s-1;
+  document.getElementById('q'+cur).classList.add('active');
+  updateProg();
+}
+
+function updateProg(){
+  document.getElementById('prog').style.width=(cur/6*100)+'%';
+  for(let i=1;i<=6;i++){
+    const d=document.getElementById('sd'+i);
+    d.classList.remove('active','done');
+    if(i<cur)d.classList.add('done');
+    else if(i===cur)d.classList.add('active');
+  }
+}
+
+function calcResult(){
+  if(!A.q6)return;
+  document.querySelectorAll('.qcard').forEach(c=>c.classList.remove('active'));
+  document.getElementById('step-dots').style.display='none';
+  document.querySelector('.prog-bar').style.display='none';
+  document.getElementById('threshold-info').style.display='none';
+
+  let result='';const reasons=[];
+
+  if(A.q1==='agriculture'){
+    result=(A.q2==='under10'||A.q2==='10to20')?'exempt':'voluntary';
+  } else if(A.q6==='ecom'){
+    result='mandatory';
+    reasons.push({r:'E-commerce Platform',v:'Selling on Amazon/Flipkart/Meesho requires mandatory GST regardless of turnover'});
+  } else if(['export','import','both_ie'].includes(A.q5)){
+    result='mandatory';
+    reasons.push({r:'International Trade',v:'Import/export businesses must be GST registered'});
+  } else if(A.q4==='yes'){
+    result='mandatory';
+    reasons.push({r:'Inter-State Sales',v:'Supplies to customers in other states require mandatory GST registration'});
+  } else {
+    const special=A.q3==='special';
+    const isGoods=(A.q1==='goods'||A.q1==='both');
+    if(A.q2==='above150'){result='mandatory';reasons.push({r:'High Turnover',v:'Turnover above ₹1.5 Crore requires mandatory regular GST'});}
+    else if(A.q2==='40to150'){result=special?'mandatory':'composition';reasons.push({r:'Turnover Range',v:special?'Exceeds ₹10L threshold for special states':'Qualifies for Composition Scheme (up to ₹1.5 Crore)'});}
+    else if(A.q2==='20to40'){result=(isGoods&&!special)?'voluntary':'mandatory';reasons.push({r:isGoods&&!special?'Below Goods Threshold':'Services Threshold',v:isGoods&&!special?'Goods threshold is ₹40L — you\'re below it':'Services threshold is ₹20L — your turnover likely exceeds this'});}
+    else if(A.q2==='10to20'){result=special?'mandatory':'voluntary';if(special)reasons.push({r:'Special State',v:'₹10L threshold — your turnover likely exceeds this'});}
+    else{result='exempt';}
+  }
+
+  const card=document.getElementById('r-'+result);
+  card.classList.add('show');
+  card.scrollIntoView({behavior:'smooth',block:'start'});
+
+  if(result==='mandatory'&&reasons.length){
+    const el=document.getElementById('mandatory-reasons');
+    if(el)el.innerHTML=reasons.map(r=>`<div class="rrow"><span class="rlbl">${r.r}</span><span class="rval">${r.v}</span></div>`).join('');
+  }
+}
+
+function restart(){
+  Object.keys(A).forEach(k=>delete A[k]);
+  cur=1;
+  document.querySelectorAll('.qcard').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.rcard').forEach(c=>c.classList.remove('show'));
+  document.querySelectorAll('.opt').forEach(b=>b.classList.remove('sel'));
+  document.querySelectorAll('.btn-next').forEach(b=>b.disabled=true);
+  document.getElementById('q1').classList.add('active');
+  document.getElementById('step-dots').style.display='flex';
+  document.querySelector('.prog-bar').style.display='block';
+  document.getElementById('threshold-info').style.display='block';
+  updateProg();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

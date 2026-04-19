@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GST Late Fee Calculator 2026 | GSTR-1 GSTR-3B Penalty | Kunwar Accounting Delhi</title>
+  <meta name="description" content="Calculate GST late fee and interest for delayed GSTR-1, GSTR-3B and GSTR-9 filing. Know your penalty before filing. Free online tool. India 2026."/>
+  <meta name="keywords" content="GST late fee calculator 2026, GSTR-3B late fee, GST penalty calculator, GST interest calculator India, delayed GST return fee"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/late-fee-calculator.html"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:800px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--charcoal); margin-bottom:1.5rem; }
+    .field-group { margin-bottom:1.25rem; }
+    .field-group label { display:block; font-size:12px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+    .field-group input, .field-group select { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:15px; font-family:'DM Sans',sans-serif; color:var(--charcoal); outline:none; transition:border-color 0.2s; background:white; }
+    .field-group input:focus, .field-group select:focus { border-color:var(--navy); }
+    .field-hint { font-size:11px; color:var(--gray); margin-top:3px; }
+    .calc-btn { width:100%; background:var(--navy); color:white; padding:13px; border-radius:10px; font-size:15px; font-weight:600; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+    .calc-btn:hover { background:var(--navy-dark); }
+    .result-panel { display:none; }
+    .result-panel.show { display:block; animation:fadeUp 0.3s ease; }
+    .result-hero { background:linear-gradient(135deg,#DC2626,#991B1B); border-radius:14px; padding:1.75rem; color:white; text-align:center; margin-bottom:1.5rem; }
+    .result-hero.safe { background:linear-gradient(135deg,#16A34A,#15803D); }
+    .result-hero h3 { font-size:14px; color:rgba(255,255,255,0.8); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.06em; }
+    .result-hero .amount { font-size:2.5rem; font-weight:700; color:white; font-family:'Playfair Display',serif; }
+    .result-hero .sub { font-size:13px; color:rgba(255,255,255,0.75); margin-top:4px; }
+    .breakdown-table { width:100%; border-collapse:collapse; font-size:13px; }
+    .breakdown-table tr { border-bottom:1px solid var(--border); }
+    .breakdown-table tr:last-child { border-bottom:none; font-weight:700; }
+    .breakdown-table td { padding:10px 14px; }
+    .breakdown-table td:last-child { text-align:right; font-weight:600; color:var(--navy); }
+    .late-fee-ref { background:var(--light); border-radius:12px; padding:1.25rem; }
+    .late-fee-ref h4 { font-size:13px; font-weight:600; color:var(--charcoal); margin-bottom:10px; }
+    .ref-row { display:flex; justify-content:space-between; font-size:13px; padding:8px 0; border-bottom:1px solid var(--border); }
+    .ref-row:last-child { border-bottom:none; }
+    .ref-row .lbl { color:var(--gray); }
+    .ref-row .val { font-weight:500; color:var(--charcoal); }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge" style="position:relative;display:inline-block;margin-bottom:1rem;">⚠️ 2026 Rates · Free · Instant</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">GST Late Fee Calculator</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:480px;margin:0 auto;">Calculate late fee and interest for delayed GST return filing. Know your penalty before you file.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="calc-card">
+      <h2>Calculate Late Fee & Interest</h2>
+
+      <div class="field-group">
+        <label>Return Type</label>
+        <select id="return-type" onchange="updateDueDate()">
+          <option value="gstr1_monthly">GSTR-1 (Monthly Filers)</option>
+          <option value="gstr1_qrmp">GSTR-1 (QRMP / Quarterly Filers)</option>
+          <option value="gstr3b" selected>GSTR-3B</option>
+          <option value="gstr9">GSTR-9 (Annual Return)</option>
+          <option value="gstr4">GSTR-4 (Composition Annual)</option>
+        </select>
+      </div>
+
+      <div class="field-group">
+        <label>Return Period</label>
+        <select id="period">
+          <option value="2026-04">April 2026</option>
+          <option value="2026-05">May 2026</option>
+          <option value="2026-06">June 2026</option>
+          <option value="2026-07">July 2026</option>
+          <option value="2026-08">August 2026</option>
+          <option value="2026-09">September 2026</option>
+          <option value="2026-10">October 2026</option>
+          <option value="2026-11">November 2026</option>
+          <option value="2026-12">December 2026</option>
+          <option value="2027-01">January 2027</option>
+          <option value="2027-02">February 2027</option>
+          <option value="2027-03">March 2027</option>
+        </select>
+        <div class="field-hint" id="due-hint">Standard due date will be auto-filled</div>
+      </div>
+
+      <div class="field-group">
+        <label>Actual Filing Date</label>
+        <input type="date" id="filing-date"/>
+        <div class="field-hint">The date you will file or have filed the return</div>
+      </div>
+
+      <div class="field-group">
+        <label>GST Tax Liability for the Period ₹</label>
+        <input type="number" id="tax-liability" placeholder="e.g. 50000" min="0"/>
+        <div class="field-hint">Net GST payable for the period (for interest calculation). Enter 0 if nil return.</div>
+      </div>
+
+      <div class="field-group">
+        <label>Taxpayer Type</label>
+        <select id="taxpayer-type">
+          <option value="regular">Regular Taxpayer</option>
+          <option value="nil">Nil Return Filer</option>
+          <option value="small">Small Taxpayer (Turnover ≤ ₹5 Crore)</option>
+        </select>
+        <div class="field-hint">Nil return filers have capped late fee. Small taxpayer caps at ₹2,000 per return.</div>
+      </div>
+
+      <button class="calc-btn" onclick="calcLateFee()">Calculate Late Fee →</button>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-panel" id="result-panel">
+      <div class="result-hero" id="result-hero">
+        <h3>Total Amount Payable</h3>
+        <div class="amount" id="res-total">₹0</div>
+        <div class="sub" id="res-days"></div>
+      </div>
+
+      <div class="calc-card">
+        <h2>Breakdown</h2>
+        <table class="breakdown-table">
+          <tbody id="breakdown-body"></tbody>
+        </table>
+
+        <div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:12px 16px;font-size:13px;color:#78350F;margin-top:1rem;">
+          ⚠️ This is an estimate based on standard late fee structure. Actual penalty may vary based on government notifications and extensions. Always verify on the GST portal.
+        </div>
+
+        <div style="text-align:center;margin-top:1.5rem;">
+          <button onclick="document.getElementById('result-panel').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});" style="background:none;border:1.5px solid var(--border);color:var(--gray);padding:9px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">↺ Recalculate</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- REFERENCE -->
+    <div class="calc-card">
+      <h2>Late Fee Reference (2026)</h2>
+      <div class="late-fee-ref">
+        <h4>GSTR-3B & GSTR-1 Late Fee</h4>
+        <div class="ref-row"><span class="lbl">Regular Taxpayer (with liability)</span><span class="val">₹50/day (₹25 CGST + ₹25 SGST)</span></div>
+        <div class="ref-row"><span class="lbl">Nil Return Filer</span><span class="val">₹20/day (₹10 CGST + ₹10 SGST)</span></div>
+        <div class="ref-row"><span class="lbl">Small Taxpayer (turnover ≤₹5 Cr)</span><span class="val">Capped at ₹2,000 per return</span></div>
+        <div class="ref-row"><span class="lbl">Maximum Late Fee (GSTR-3B)</span><span class="val">₹10,000 per return</span></div>
+        <div class="ref-row"><span class="lbl">Interest on Late Tax Payment</span><span class="val">18% per annum on outstanding tax</span></div>
+      </div>
+      <div class="late-fee-ref" style="margin-top:1rem;">
+        <h4>GSTR-9 Annual Return Late Fee</h4>
+        <div class="ref-row"><span class="lbl">Late Fee Rate</span><span class="val">₹200/day (₹100 CGST + ₹100 SGST)</span></div>
+        <div class="ref-row"><span class="lbl">Maximum</span><span class="val">0.25% of turnover in the state</span></div>
+      </div>
+    </div>
+
+    <div class="cta-banner">
+      <h2>Avoid penalties with timely filing</h2>
+      <p>We file your GST returns on time every month — included in all our packages. Never pay late fees again.</p>
+      <a href="contact.html" class="btn-primary">Get GST Filed On Time →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('tools');
+
+// Due dates map: return type + period -> due date day
+function getDueDate(returnType, period) {
+  const [yr, mo] = period.split('-').map(Number);
+  const nextMo = mo === 12 ? 1 : mo + 1;
+  const nextYr = mo === 12 ? yr + 1 : yr;
+
+  const d = (day, m=nextMo, y=nextYr) => new Date(y, m-1, day);
+
+  switch(returnType) {
+    case 'gstr1_monthly': return d(11);
+    case 'gstr1_qrmp':    return d(13);
+    case 'gstr3b':        return d(20);
+    case 'gstr9':         return new Date(nextYr, 11, 31); // Dec 31 of next year
+    case 'gstr4':         return new Date(nextYr, 3, 30);  // Apr 30
+    default:              return d(20);
+  }
+}
+
+function updateDueDate() {
+  const rt = document.getElementById('return-type').value;
+  const period = document.getElementById('period').value;
+  const due = getDueDate(rt, period);
+  const fmt = d => d.toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'});
+  document.getElementById('due-hint').textContent = `Standard due date: ${fmt(due)}`;
+}
+
+document.getElementById('return-type').addEventListener('change', updateDueDate);
+document.getElementById('period').addEventListener('change', updateDueDate);
+updateDueDate();
+
+// Set today as default filing date
+document.getElementById('filing-date').value = new Date().toISOString().split('T')[0];
+
+function calcLateFee() {
+  const rt = document.getElementById('return-type').value;
+  const period = document.getElementById('period').value;
+  const filingDate = new Date(document.getElementById('filing-date').value);
+  const taxLiability = parseFloat(document.getElementById('tax-liability').value) || 0;
+  const taxpayerType = document.getElementById('taxpayer-type').value;
+
+  if (!document.getElementById('filing-date').value) {
+    document.getElementById('filing-date').style.borderColor = '#DC2626';
+    return;
+  }
+  document.getElementById('filing-date').style.borderColor = '';
+
+  const dueDate = getDueDate(rt, period);
+  const lateDays = Math.max(0, Math.ceil((filingDate - dueDate) / 86400000));
+
+  const fmt = n => '₹' + Math.round(n).toLocaleString('en-IN');
+
+  // Late fee calculation
+  let dailyFee = 0, maxFee = Infinity;
+
+  if (taxpayerType === 'nil') {
+    dailyFee = 20;
+    maxFee = 10000;
+  } else if (taxpayerType === 'small') {
+    dailyFee = 50;
+    maxFee = 2000;
+  } else {
+    dailyFee = rt === 'gstr9' ? 200 : 50;
+    maxFee = rt === 'gstr9' ? Infinity : 10000;
+  }
+
+  let lateFee = Math.min(dailyFee * lateDays, maxFee);
+  let interest = 0;
+
+  if (taxLiability > 0 && lateDays > 0) {
+    interest = (taxLiability * 18 * lateDays) / (100 * 365);
+  }
+
+  const total = lateFee + interest;
+
+  // Display
+  const hero = document.getElementById('result-hero');
+  if (lateDays === 0) {
+    hero.className = 'result-hero safe';
+    document.getElementById('res-total').textContent = '₹0';
+    document.getElementById('res-days').textContent = '✓ Filed on time! No late fee applicable.';
+  } else {
+    hero.className = 'result-hero';
+    document.getElementById('res-total').textContent = fmt(total);
+    document.getElementById('res-days').textContent = `${lateDays} days late from due date`;
+  }
+
+  const rtLabels = {
+    gstr1_monthly:'GSTR-1 (Monthly)', gstr1_qrmp:'GSTR-1 (QRMP)',
+    gstr3b:'GSTR-3B', gstr9:'GSTR-9 Annual', gstr4:'GSTR-4'
+  };
+
+  document.getElementById('breakdown-body').innerHTML = `
+    <tr><td style="color:var(--gray);">Return Type</td><td>${rtLabels[rt]}</td></tr>
+    <tr><td style="color:var(--gray);">Standard Due Date</td><td>${dueDate.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</td></tr>
+    <tr><td style="color:var(--gray);">Actual Filing Date</td><td>${filingDate.toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</td></tr>
+    <tr><td style="color:var(--gray);">Days Late</td><td>${lateDays} days</td></tr>
+    <tr><td style="color:var(--gray);">Late Fee (₹${dailyFee}/day × ${lateDays} days)</td><td>${fmt(lateFee)}${taxpayerType==='small'?' (capped ₹2,000)':''}</td></tr>
+    <tr><td style="color:var(--gray);">Interest @18% p.a. on ₹${taxLiability.toLocaleString('en-IN')}</td><td>${fmt(interest)}</td></tr>
+    <tr style="background:var(--light);font-weight:700;"><td>Total Payable</td><td style="font-size:16px;color:${lateDays===0?'#16A34A':'#DC2626'};">${fmt(total)}</td></tr>
+  `;
+
+  document.getElementById('result-panel').classList.add('show');
+  document.getElementById('result-panel').scrollIntoView({ behavior:'smooth', block:'start' });
+}
+</script>
+</body>
+</html>
