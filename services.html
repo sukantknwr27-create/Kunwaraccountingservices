@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tax & Accounting Services Delhi | Fee Schedule FY 2026-27 | Kunwar Accounting</title>
+  <meta name="description" content="Complete tax and accounting services in Delhi — GST, ITR, bookkeeping, TDS, payroll, ROC compliance. Transparent fee schedule FY 2026-27."/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/services.html"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    .svc-tabs{display:flex;gap:8px;flex-wrap:wrap;padding:1.5rem 0 0;border-bottom:1px solid var(--border);margin-bottom:2rem;overflow-x:auto;}
+    .svc-tab{padding:8px 18px;border-radius:8px 8px 0 0;font-size:13px;font-weight:500;cursor:pointer;border:1px solid var(--border);border-bottom:none;background:var(--light);color:var(--gray);transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+    .svc-tab.active{background:white;color:var(--navy);border-bottom:2px solid white;margin-bottom:-1px;font-weight:600;}
+    .svc-panel{display:none;}
+    .svc-panel.active{display:block;animation:fadeUp 0.3s ease;}
+    .fee-table{width:100%;border-collapse:collapse;margin-top:1rem;}
+    .fee-table th{text-align:left;font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--gray);padding:10px 14px;background:var(--light);border-bottom:2px solid var(--border);}
+    .fee-table td{padding:12px 14px;font-size:13px;border-bottom:1px solid var(--border);color:var(--charcoal);}
+    .fee-table tr:last-child td{border-bottom:none;}
+    .fee-table tr:hover td{background:var(--light);}
+    .fee{font-weight:600;color:var(--navy);white-space:nowrap;}
+    .svc-note{background:var(--ice);border-radius:8px;padding:10px 14px;font-size:12px;color:var(--gray);margin-top:1rem;border-left:3px solid var(--navy);}
+    .cat-header{display:flex;align-items:center;gap:12px;margin-bottom:1rem;}
+    .cat-icon{width:44px;height:44px;background:var(--ice);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+    .loading{text-align:center;padding:3rem;color:var(--gray);}
+    .gst-note{background:#FEF3C7;border:1px solid #FCD34D;border-radius:8px;padding:12px 16px;font-size:13px;color:#78350F;margin-top:1.5rem;}
+    .empty-state{text-align:center;padding:3rem;color:var(--gray);font-size:14px;}
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div class="page-hero">
+    <h1>Our Services & Fee Schedule</h1>
+    <p>Complete tax and accounting services · FY 2026-27 · Delhi NCR · All fees exclusive of 18% GST</p>
+  </div>
+  <div class="section">
+    <div id="services-container"><div class="loading">⏳ Loading services...</div></div>
+    <div class="gst-note" id="gst-note" style="display:none;">
+      <strong>⚠️ GST Note:</strong> All fees above are exclusive of 18% GST charged separately. Government fees and out-of-pocket expenses are charged at actuals.
+    </div>
+    <div class="cta-banner" style="margin-top:2rem;">
+      <h2>Get a custom quote for your business</h2>
+      <p>Every business is unique. Contact us for a personalised fee quote based on your exact requirements.</p>
+      <a href="contact.html" class="btn-primary">Get Free Quote →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('services');
+
+const CAT_ICONS = {
+  'Income Tax':'📊','GST':'🧾','Bookkeeping':'📒','TDS':'📋',
+  'Registration':'🏢','Audit':'🔍','Payroll':'👥','ROC':'📁','Other':'📌'
+};
+
+async function loadServices() {
+  try {
+    const data = await sbFetch('services','GET',null,'?is_active=eq.true&order=category.asc,sort_order.asc');
+    if (!data || data.length === 0) {
+      document.getElementById('services-container').innerHTML = '<div class="empty-state">Services coming soon. Please contact us directly.</div>';
+      return;
+    }
+
+    // Group by category
+    const cats = {};
+    data.forEach(s => {
+      if (!cats[s.category]) cats[s.category] = [];
+      cats[s.category].push(s);
+    });
+
+    const catKeys = Object.keys(cats);
+    let tabsHtml = '';
+    let panelsHtml = '';
+
+    catKeys.forEach((cat, idx) => {
+      const icon = CAT_ICONS[cat] || '📌';
+      const safeId = cat.replace(/\s+/g,'_').toLowerCase();
+      tabsHtml += `<button class="svc-tab${idx===0?' active':''}" onclick="showTab('${safeId}',this)">${icon} ${cat}</button>`;
+
+      let rows = cats[cat].map(s => `<tr><td>${s.name}</td><td class="fee">${s.fee_range}</td></tr>`).join('');
+      panelsHtml += `
+        <div class="svc-panel${idx===0?' active':''}" id="tab-${safeId}">
+          <div class="cat-header"><div class="cat-icon">${icon}</div><div><div style="font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--charcoal);">${cat} Services</div></div></div>
+          <div style="overflow-x:auto;">
+            <table class="fee-table">
+              <thead><tr><th>Service</th><th>Fee Range (Delhi)</th></tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        </div>`;
+    });
+
+    document.getElementById('services-container').innerHTML = `<div class="svc-tabs">${tabsHtml}</div>${panelsHtml}`;
+    document.getElementById('gst-note').style.display = 'block';
+  } catch(e) {
+    console.error(e);
+    document.getElementById('services-container').innerHTML = '<div class="empty-state">Unable to load services. Please contact us directly on WhatsApp.</div>';
+  }
+}
+
+function showTab(id, btn) {
+  document.querySelectorAll('.svc-panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.svc-tab').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+loadServices();
+</script>
+</body>
+</html>
