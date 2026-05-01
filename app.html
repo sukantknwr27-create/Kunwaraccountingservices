@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, maximum-scale=1"/>
+  <meta name="mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+  <meta name="apple-mobile-web-app-title" content="Kunwar Accounting"/>
+  <meta name="theme-color" content="#042C53"/>
+  <meta name="description" content="Kunwar Accounting Services — GST, ITR, Bookkeeping & Compliance for small businesses in Delhi NCR."/>
+
+  <title>Kunwar Accounting Services</title>
+
+  <!-- PWA Manifest -->
+  <link rel="manifest" href="manifest.json"/>
+  <link rel="icon" type="image/png" href="icons/icon-192.png"/>
+  <link rel="apple-touch-icon" href="icons/icon-192.png"/>
+
+  <!-- Splash screens for iOS -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+
+  <link rel="stylesheet" href="app-style.css"/>
+</head>
+<body>
+
+<!-- ═══ APP HEADER ═══════════════════════════════════════════════════════ -->
+<header id="app-header">
+  <a class="app-logo" href="#" onclick="showScreen('home');return false;">
+    <div class="app-logo-icon">
+      <svg width="20" height="20" viewBox="0 0 28 28" fill="none">
+        <rect x="4" y="14" width="4" height="10" rx="1" fill="white"/>
+        <rect x="12" y="9" width="4" height="15" rx="1" fill="white"/>
+        <rect x="20" y="4" width="4" height="20" rx="1" fill="white"/>
+        <path d="M6 12 L14 7 L22 4" stroke="#C9973A" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="app-logo-text">
+      <div class="firm">Kunwar Accounting</div>
+      <div class="tagline">Dwarka, Delhi NCR</div>
+    </div>
+  </a>
+  <div class="header-actions">
+    <div id="header-user" style="display:none;" onclick="showScreen('account')">
+      <div class="user-avatar" id="header-avatar">?</div>
+    </div>
+    <button class="header-btn" id="header-login-btn" onclick="showScreen('login')" title="Login">👤</button>
+  </div>
+</header>
+
+<!-- ═══ SCREENS ══════════════════════════════════════════════════════════ -->
+<div id="screens">
+
+  <!-- ─── HOME ────────────────────────────────────────────────────────── -->
+  <div class="screen active" id="screen-home">
+    <div class="home-hero">
+      <div class="hero-greeting" id="hero-greeting">Welcome</div>
+      <div class="hero-name" id="hero-name">Kunwar <span>Accounting</span></div>
+      <div class="hero-tagline">GST · ITR · Bookkeeping · Payroll<br>Complete compliance for your business</div>
+      <div class="hero-btns">
+        <button class="hero-btn hero-btn-gold" onclick="openWhatsApp('book')">📅 Free Consultation</button>
+        <button class="hero-btn hero-btn-outline" onclick="showScreen('services')">Our Services</button>
+      </div>
+    </div>
+
+    <div class="stats-strip">
+      <div class="stat-item"><div class="stat-num">100+</div><div class="stat-lbl">Clients</div></div>
+      <div class="stat-item"><div class="stat-num">5+</div><div class="stat-lbl">Years</div></div>
+      <div class="stat-item"><div class="stat-num">99%</div><div class="stat-lbl">On-Time</div></div>
+      <div class="stat-item"><div class="stat-num">0</div><div class="stat-lbl">Penalties</div></div>
+    </div>
+
+    <div class="quick-actions">
+      <div class="qa-card" onclick="showScreen('gst-calc')">
+        <div class="qa-icon">🧮</div>
+        <div class="qa-label">GST Calculator</div>
+        <div class="qa-desc">Add or remove GST instantly</div>
+      </div>
+      <div class="qa-card" onclick="showScreen('calendar')">
+        <div class="qa-icon">📅</div>
+        <div class="qa-label">Tax Calendar</div>
+        <div class="qa-desc">All filing deadlines</div>
+      </div>
+      <div class="qa-card" onclick="showScreen('itr-calc')">
+        <div class="qa-icon">📊</div>
+        <div class="qa-label">ITR Calculator</div>
+        <div class="qa-desc">Old vs New regime</div>
+      </div>
+      <div class="qa-card" onclick="showScreen('contact')">
+        <div class="qa-icon">💬</div>
+        <div class="qa-label">Contact Us</div>
+        <div class="qa-desc">WhatsApp · Call · Email</div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h3>Services</h3>
+      <a href="#" onclick="showScreen('services');return false;">See all →</a>
+    </div>
+    <div class="horizontal-scroll" id="home-services-scroll">
+      <div class="service-chip skeleton" style="min-width:160px;height:70px;"></div>
+      <div class="service-chip skeleton" style="min-width:160px;height:70px;"></div>
+      <div class="service-chip skeleton" style="min-width:160px;height:70px;"></div>
+    </div>
+
+    <div class="section-header">
+      <h3>Upcoming Deadlines</h3>
+      <a href="#" onclick="showScreen('calendar');return false;">Full calendar →</a>
+    </div>
+    <div style="padding: 0 1rem 1rem;" id="home-deadlines">
+      <div class="skeleton skel-line"></div>
+      <div class="skeleton skel-line"></div>
+    </div>
+  </div>
+
+  <!-- ─── SERVICES ─────────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-services">
+    <div class="section-pad">
+      <div class="screen-title">Services</div>
+      <div class="screen-sub">Complete fee schedule · FY 2026-27</div>
+    </div>
+    <div class="cat-pill-row" id="svc-pills"></div>
+    <div style="padding: 0 1rem 1rem;" id="svc-list">
+      <div class="card"><div class="skeleton skel-line"></div><div class="skeleton skel-line"></div><div class="skeleton skel-line short"></div></div>
+    </div>
+    <div style="padding: 0 1rem 1rem;">
+      <button class="btn btn-gold" onclick="openWhatsApp('quote')">📞 Get Custom Quote</button>
+    </div>
+  </div>
+
+  <!-- ─── PACKAGES ─────────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-packages">
+    <div class="section-pad">
+      <div class="screen-title">Packages</div>
+      <div class="screen-sub">Bundled pricing for every type of business</div>
+    </div>
+    <div class="cat-pill-row" id="pkg-pills"></div>
+    <div style="padding: 0 1rem 1rem;" id="pkg-list">
+      <div class="card"><div class="skeleton skel-line"></div><div class="skeleton skel-line short"></div></div>
+    </div>
+  </div>
+
+  <!-- ─── TOOLS ─────────────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-tools">
+    <div class="section-pad">
+      <div class="screen-title">Free Tools</div>
+      <div class="screen-sub">Calculators & resources for your business</div>
+    </div>
+    <div class="tools-grid">
+      <div class="tool-tile" onclick="showScreen('gst-calc')">
+        <div class="t-icon">🧮</div>
+        <div class="t-name">GST Calculator</div>
+        <div class="t-desc">Add or remove GST from any amount</div>
+      </div>
+      <div class="tool-tile" onclick="showScreen('itr-calc')">
+        <div class="t-icon">📊</div>
+        <div class="t-name">ITR Calculator</div>
+        <div class="t-desc">Old vs New regime FY 2026-27</div>
+      </div>
+      <div class="tool-tile" onclick="showScreen('late-fee')">
+        <div class="t-icon">⚠️</div>
+        <div class="t-name">Late Fee Calc</div>
+        <div class="t-desc">GST late fee & interest</div>
+      </div>
+      <div class="tool-tile" onclick="showScreen('calendar')">
+        <div class="t-icon">📅</div>
+        <div class="t-name">Tax Calendar</div>
+        <div class="t-desc">All deadlines FY 2026-27</div>
+      </div>
+      <div class="tool-tile" onclick="showScreen('gst-checker')">
+        <div class="t-icon">🔍</div>
+        <div class="t-name">GST Checker</div>
+        <div class="t-desc">Do I need GST registration?</div>
+      </div>
+      <div class="tool-tile" onclick="window.open('invoice-generator.html','_blank')">
+        <div class="t-icon">🧾</div>
+        <div class="t-name">Invoice Maker</div>
+        <div class="t-desc">Create GST invoices & PDF</div>
+      </div>
+    </div>
+    <div style="padding:1rem;">
+      <div style="background:var(--ice);border-radius:12px;padding:1rem;text-align:center;margin-top:4px;">
+        <p style="font-size:13px;color:var(--navy);font-weight:600;margin-bottom:4px;">Need expert help?</p>
+        <p style="font-size:12px;color:var(--gray);margin-bottom:10px;">Tools give estimates. For exact filing, talk to Sukant.</p>
+        <button class="btn btn-primary btn-sm" onclick="openWhatsApp('tools')">Chat on WhatsApp</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── GST CALCULATOR ─────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-gst-calc">
+    <div class="section-pad">
+      <button onclick="goBack()" style="background:none;border:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer;padding:0;margin-bottom:12px;font-family:'DM Sans',sans-serif;">← Back</button>
+      <div class="screen-title">GST Calculator</div>
+      <div class="screen-sub">Updated 2026 · All GST slabs</div>
+    </div>
+    <div style="padding: 0 1rem;">
+      <div class="calc-section">
+        <h3>Calculation Type</h3>
+        <div class="row2" style="margin-bottom:12px;">
+          <button class="rate-pill active" id="mode-add" onclick="setGSTMode('add',this)" style="grid-column:unset;">Add GST</button>
+          <button class="rate-pill" id="mode-remove" onclick="setGSTMode('remove',this)" style="grid-column:unset;">Remove GST</button>
+        </div>
+        <div class="form-group">
+          <label id="gst-amt-lbl">Amount (Before GST) ₹</label>
+          <input type="number" id="gst-amount" placeholder="Enter amount" oninput="calcGST()"/>
+        </div>
+        <h3 style="margin-bottom:10px;">GST Rate</h3>
+        <div class="rate-pills">
+          <button class="rate-pill" onclick="setGSTRate(0,this)">0%<small>Exempt</small></button>
+          <button class="rate-pill" onclick="setGSTRate(5,this)">5%<small>Food</small></button>
+          <button class="rate-pill" onclick="setGSTRate(12,this)">12%<small>Goods</small></button>
+          <button class="rate-pill active" onclick="setGSTRate(18,this)">18%<small>Services</small></button>
+        </div>
+        <div class="rate-pills" style="grid-template-columns:1fr 1fr;margin-bottom:12px;">
+          <button class="rate-pill" onclick="setGSTRate(28,this)" style="grid-column:unset;">28%<small>Luxury</small></button>
+          <button class="rate-pill" id="gst-custom-btn" onclick="toggleCustomGST(this)" style="grid-column:unset;">Custom %</button>
+        </div>
+        <div class="form-group" id="custom-gst-wrap" style="display:none;">
+          <label>Custom Rate (%)</label>
+          <input type="number" id="gst-custom-rate" placeholder="Enter %" oninput="calcGST()"/>
+        </div>
+        <div class="form-group">
+          <label>Supply Type</label>
+          <select id="gst-supply" onchange="calcGST()">
+            <option value="intra">Intra-State (CGST + SGST)</option>
+            <option value="inter">Inter-State (IGST)</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="gst-result" style="display:none;">
+        <div class="result-hero">
+          <div class="lbl" id="gst-res-label">Total After GST</div>
+          <div class="amount" id="gst-res-total">₹0</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px;" id="gst-res-rate"></div>
+        </div>
+        <div class="calc-section">
+          <div id="gst-res-rows"></div>
+        </div>
+        <button class="btn btn-secondary" onclick="document.getElementById('gst-amount').value='';document.getElementById('gst-result').style.display='none';">↺ Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── ITR CALCULATOR ─────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-itr-calc">
+    <div class="section-pad">
+      <button onclick="goBack()" style="background:none;border:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer;padding:0;margin-bottom:12px;font-family:'DM Sans',sans-serif;">← Back</button>
+      <div class="screen-title">Income Tax Calculator</div>
+      <div class="screen-sub">FY 2026-27 · Old vs New Regime</div>
+    </div>
+    <div style="padding: 0 1rem;">
+      <div class="calc-section">
+        <div class="form-group">
+          <label>Annual Gross Income ₹</label>
+          <input type="number" id="itr-income" placeholder="e.g. 1200000"/>
+        </div>
+        <div class="form-group">
+          <label>Age</label>
+          <select id="itr-age">
+            <option value="below60">Below 60 years</option>
+            <option value="60to80">60–80 years (Senior)</option>
+            <option value="above80">Above 80 (Super Senior)</option>
+          </select>
+        </div>
+        <div style="background:var(--ice);border-radius:10px;padding:1rem;margin-bottom:0;border-left:3px solid var(--navy);">
+          <p style="font-size:12px;font-weight:700;color:var(--navy);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;">Old Regime Deductions</p>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Section 80C ₹ (max ₹1,50,000)</label>
+            <input type="number" id="itr-80c" placeholder="PPF, ELSS, LIC, PF"/>
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>Section 80D ₹ (health insurance)</label>
+            <input type="number" id="itr-80d" placeholder="Health insurance premium"/>
+          </div>
+          <div class="form-group" style="margin-bottom:10px;">
+            <label>HRA Exemption ₹</label>
+            <input type="number" id="itr-hra" placeholder="House rent allowance"/>
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Other Deductions ₹</label>
+            <input type="number" id="itr-other" placeholder="NPS, 80TTA, home loan etc."/>
+          </div>
+        </div>
+        <button class="btn btn-primary" style="margin-top:14px;" onclick="calcITR()">Calculate Tax →</button>
+      </div>
+
+      <div id="itr-result" style="display:none;">
+        <div id="itr-winner" class="result-hero" style="margin-bottom:12px;"></div>
+        <div class="row2" style="margin-bottom:12px;">
+          <div class="calc-section" style="margin-bottom:0;">
+            <div style="font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">Old Regime</div>
+            <div id="itr-old-tax" style="font-size:1.4rem;font-weight:700;color:var(--charcoal);font-family:'Playfair Display',serif;"></div>
+            <div id="itr-old-eff" style="font-size:11px;color:var(--gray);margin-top:3px;"></div>
+          </div>
+          <div class="calc-section" style="margin-bottom:0;background:var(--navy-dark);">
+            <div style="font-size:11px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:6px;">New Regime</div>
+            <div id="itr-new-tax" style="font-size:1.4rem;font-weight:700;color:var(--gold);font-family:'Playfair Display',serif;"></div>
+            <div id="itr-new-eff" style="font-size:11px;color:rgba(255,255,255,0.6);margin-top:3px;"></div>
+          </div>
+        </div>
+        <button class="btn btn-secondary" onclick="document.getElementById('itr-result').style.display='none';">↺ Recalculate</button>
+        <div style="margin-top:10px;">
+          <button class="btn btn-gold" onclick="openWhatsApp('itr')">Get ITR Filed by Expert →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── LATE FEE CALCULATOR ───────────────────────────────────────────── -->
+  <div class="screen" id="screen-late-fee">
+    <div class="section-pad">
+      <button onclick="goBack()" style="background:none;border:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer;padding:0;margin-bottom:12px;font-family:'DM Sans',sans-serif;">← Back</button>
+      <div class="screen-title">GST Late Fee</div>
+      <div class="screen-sub">Calculate penalty for delayed filing</div>
+    </div>
+    <div style="padding:0 1rem;">
+      <div class="calc-section">
+        <div class="form-group">
+          <label>Return Type</label>
+          <select id="lf-type">
+            <option value="gstr3b">GSTR-3B</option>
+            <option value="gstr1_monthly">GSTR-1 (Monthly)</option>
+            <option value="gstr1_qrmp">GSTR-1 (QRMP)</option>
+            <option value="gstr9">GSTR-9 (Annual)</option>
+          </select>
+        </div>
+        <div class="row2">
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Due Date</label>
+            <input type="date" id="lf-due"/>
+          </div>
+          <div class="form-group" style="margin-bottom:0;">
+            <label>Filing Date</label>
+            <input type="date" id="lf-filed"/>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:10px;">
+          <label>Tax Liability ₹ (for interest)</label>
+          <input type="number" id="lf-tax" placeholder="Net GST payable (0 for nil)"/>
+        </div>
+        <div class="form-group">
+          <label>Taxpayer Type</label>
+          <select id="lf-taxpayer">
+            <option value="regular">Regular Taxpayer</option>
+            <option value="nil">Nil Return Filer</option>
+            <option value="small">Small Taxpayer (≤₹5 Cr turnover)</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="calcLateFee()">Calculate Late Fee →</button>
+      </div>
+      <div id="lf-result" style="display:none;">
+        <div class="result-hero" id="lf-res-hero">
+          <div class="lbl">Total Payable</div>
+          <div class="amount" id="lf-res-total">₹0</div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px;" id="lf-res-days"></div>
+        </div>
+        <div class="calc-section" id="lf-res-rows"></div>
+        <div style="background:#FEF3C7;border-radius:10px;padding:12px;margin-bottom:12px;">
+          <p style="font-size:12px;color:#78350F;">⚠️ Estimate only. Verify on GST portal. Avoid penalties — let us file on time for you!</p>
+        </div>
+        <button class="btn btn-gold" onclick="openWhatsApp('gst')">Get GST Filed On Time →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CALENDAR ─────────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-calendar">
+    <div class="section-pad">
+      <div class="screen-title">Tax Calendar</div>
+      <div class="screen-sub">FY 2026-27 · All deadlines</div>
+    </div>
+    <div class="cat-pill-row" id="cal-filters">
+      <button class="cat-pill active" onclick="filterCal('all',this)">All</button>
+      <button class="cat-pill" onclick="filterCal('gst',this)">GST</button>
+      <button class="cat-pill" onclick="filterCal('tds',this)">TDS</button>
+      <button class="cat-pill" onclick="filterCal('itr',this)">ITR</button>
+      <button class="cat-pill" onclick="filterCal('pf',this)">PF/ESI</button>
+      <button class="cat-pill" onclick="filterCal('advance',this)">Advance Tax</button>
+    </div>
+    <div style="padding:0 1rem 1rem;" id="cal-list"></div>
+  </div>
+
+  <!-- ─── GST CHECKER ─────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-gst-checker">
+    <div class="section-pad">
+      <button onclick="goBack()" style="background:none;border:none;color:var(--navy);font-size:13px;font-weight:600;cursor:pointer;padding:0;margin-bottom:12px;font-family:'DM Sans',sans-serif;">← Back</button>
+      <div class="screen-title">GST Checker</div>
+      <div class="screen-sub">Do you need GST registration? 2026</div>
+    </div>
+    <div style="padding:0 1rem 1rem;">
+      <div class="card" style="text-align:center;padding:2rem 1rem;">
+        <div style="font-size:3rem;margin-bottom:1rem;">🔍</div>
+        <p style="font-size:14px;color:var(--charcoal);font-weight:600;margin-bottom:8px;">Full GST Eligibility Checker</p>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:1.5rem;line-height:1.6;">Answer 6 quick questions to find out if your business needs GST registration — with a full explanation.</p>
+        <button class="btn btn-primary" onclick="window.open('gst-checker.html','_blank')">Open Full Checker →</button>
+      </div>
+      <div style="background:var(--ice);border-radius:12px;padding:1.25rem;margin-top:10px;">
+        <p style="font-size:13px;font-weight:600;color:var(--navy);margin-bottom:10px;">GST Thresholds 2026</p>
+        <div class="result-row"><span class="rl">Goods (Products)</span><span class="rv" style="color:var(--navy);">₹40 Lakhs</span></div>
+        <div class="result-row"><span class="rl">Services</span><span class="rv" style="color:var(--navy);">₹20 Lakhs</span></div>
+        <div class="result-row"><span class="rl">Special States</span><span class="rv" style="color:var(--navy);">₹10 Lakhs</span></div>
+        <div class="result-row"><span class="rl">E-Commerce Sellers</span><span class="rv" style="color:var(--red);">Mandatory</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── CONTACT ─────────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-contact">
+    <div class="section-pad">
+      <div class="screen-title">Contact Us</div>
+      <div class="screen-sub">We respond within 2 hours on business days</div>
+    </div>
+    <div style="padding:0 1rem;">
+      <a href="https://wa.me/918076136300?text=Hi!%20I%20want%20to%20book%20a%20free%20consultation." target="_blank" class="contact-option">
+        <div class="co-icon" style="background:#DCFCE7;">💬</div>
+        <div><div class="co-label">WhatsApp</div><div class="co-detail">+91 80761 36300 · Fastest response</div></div>
+      </a>
+      <a href="tel:+918076136300" class="contact-option">
+        <div class="co-icon" style="background:var(--ice);">📞</div>
+        <div><div class="co-label">Call Us</div><div class="co-detail">+91 80761 36300 · Mon–Sat 9AM–7PM</div></div>
+      </a>
+      <a href="mailto:sukant@kunwaraccountingservices.in" class="contact-option">
+        <div class="co-icon" style="background:var(--ice);">✉️</div>
+        <div><div class="co-label">Email</div><div class="co-detail">sukant@kunwaraccountingservices.in</div></div>
+      </a>
+      <div class="contact-option" style="cursor:default;">
+        <div class="co-icon" style="background:var(--ice);">📍</div>
+        <div><div class="co-label">Location</div><div class="co-detail">Dwarka, New Delhi · Online & Offline</div></div>
+      </div>
+
+      <div class="divider"></div>
+      <div class="card-title" style="margin-bottom:12px;">Send us a message</div>
+      <div id="form-err" class="err-box"></div>
+      <div id="form-ok"  class="ok-box">✓ Message sent! We'll get back to you soon.</div>
+      <div class="form-group"><label>Your Name *</label><input type="text" id="cf-name" placeholder="Raj Sharma"/></div>
+      <div class="form-group"><label>Phone *</label><input type="tel" id="cf-phone" placeholder="+91 98XXX XXXXX"/></div>
+      <div class="form-group"><label>Service Needed</label>
+        <select id="cf-svc">
+          <option value="">Select...</option>
+          <option>GST Registration & Filing</option><option>Income Tax Return (ITR)</option>
+          <option>Bookkeeping & Accounts</option><option>Payroll Management</option>
+          <option>TDS Filing</option><option>Business Registration</option>
+          <option>Not sure — need guidance</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Message (optional)</label><textarea id="cf-msg" rows="3" placeholder="Tell us about your business..."></textarea></div>
+      <button class="btn btn-primary" id="cf-btn" onclick="submitContact()">Send Message →</button>
+    </div>
+  </div>
+
+  <!-- ─── LOGIN ─────────────────────────────────────────────────────────── -->
+  <div class="screen" id="screen-login">
+    <div class="auth-screen">
+      <div class="auth-logo">
+        <div class="auth-icon">
+          <svg width="36" height="36" viewBox="0 0 28 28" fill="none">
+            <rect x="4" y="14" width="4" height="10" rx="1" fill="white"/>
+            <rect x="12" y="9" width="4" height="15" rx="1" fill="white"/>
+            <rect x="20" y="4" width="4" height="20" rx="1" fill="white"/>
+            <path d="M6 12 L14 7 L22 4" stroke="#C9973A" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="auth-firm">Kunwar Accounting</div>
+        <div class="auth-tagline">Login to your account</div>
+      </div>
+      <div id="auth-err" class="err-box"></div>
+      <div id="auth-ok"  class="ok-box"></div>
+      <div class="tab-switch">
+        <button class="tab-sw-btn active" id="tab-login" onclick="switchAuthTab('login')">Login</button>
+        <button class="tab-sw-btn" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</button>
+      </div>
+      <div id="login-form">
+        <div class="form-group"><label>Email</label><input type="email" id="li-email" placeholder="raj@business.com"/></div>
+        <div class="form-group"><label>Password</label><input type="password" id="li-pwd" placeholder="••••••••"/></div>
+        <button class="btn btn-primary" id="li-btn" onclick="doLogin()">Login →</button>
+        <p style="text-align:center;margin-top:14px;font-size:13px;color:var(--gray);">Admin? <a href="admin-login.html" style="color:var(--navy);font-weight:600;">Admin Portal →</a></p>
+      </div>
+      <div id="signup-form" style="display:none;">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="su-name" placeholder="Raj Sharma"/></div>
+        <div class="form-group"><label>Phone *</label><input type="tel" id="su-phone" placeholder="+91 98XXX XXXXX"/></div>
+        <div class="form-group"><label>Business Name</label><input type="text" id="su-biz" placeholder="Raj Enterprises"/></div>
+        <div class="form-group"><label>Email *</label><input type="email" id="su-email" placeholder="raj@business.com"/></div>
+        <div class="form-group"><label>Password * (min 6 chars)</label><input type="password" id="su-pwd" placeholder="••••••••"/></div>
+        <button class="btn btn-primary" id="su-btn" onclick="doSignup()">Create Account →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── ACCOUNT / DASHBOARD ───────────────────────────────────────────── -->
+  <div class="screen" id="screen-account">
+    <div style="background:linear-gradient(135deg,var(--navy-dark),var(--navy));padding:1.5rem 1.25rem;">
+      <div style="font-size:13px;color:rgba(255,255,255,0.65);margin-bottom:2px;">Welcome back</div>
+      <div id="acc-name" style="font-family:'Playfair Display',serif;font-size:1.3rem;color:white;margin-bottom:4px;">Client</div>
+      <div id="acc-email" style="font-size:12px;color:rgba(255,255,255,0.6);"></div>
+    </div>
+    <div style="padding:1rem;">
+      <div class="dash-summary" id="acc-summary">
+        <div class="dash-card"><div class="lbl">Package</div><div class="val" style="font-size:1rem;" id="acc-pkg">—</div></div>
+        <div class="dash-card"><div class="lbl">Due Dates</div><div class="val" id="acc-dues">0</div><div class="sub">upcoming</div></div>
+        <div class="dash-card"><div class="lbl">Payments</div><div class="val" id="acc-pays">₹0</div><div class="sub">this year</div></div>
+        <div class="dash-card"><div class="lbl">Status</div><div class="val" style="font-size:1rem;color:#16A34A;">Active ✓</div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📅 Upcoming Deadlines</div>
+        <div id="acc-due-list"><div class="empty-state"><div class="ei">✓</div><p>No upcoming deadlines</p></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">💳 Recent Payments</div>
+        <div id="acc-pay-list"><div class="empty-state"><div class="ei">💳</div><p>No payment records yet</p></div></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚡ Quick Actions</div>
+        <button class="btn btn-gold" style="margin-bottom:10px;" onclick="showScreen('contact')">📞 Contact Sukant</button>
+        <button class="btn btn-primary" style="margin-bottom:10px;" onclick="window.open('payment.html','_blank')">💳 Make a Payment</button>
+        <button class="btn btn-secondary" onclick="doSignOut()">Logout</button>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end #screens -->
+
+<!-- ═══ BOTTOM NAV ════════════════════════════════════════════════════════ -->
+<nav id="bottom-nav">
+  <button class="nav-item active" id="nav-home" onclick="showScreen('home')">
+    <div class="nav-icon">🏠</div>Home
+  </button>
+  <button class="nav-item" id="nav-services" onclick="showScreen('services')">
+    <div class="nav-icon">📋</div>Services
+  </button>
+  <button class="nav-item" id="nav-tools" onclick="showScreen('tools')">
+    <div class="nav-icon">🧮</div>Tools
+  </button>
+  <button class="nav-item" id="nav-contact" onclick="showScreen('contact')">
+    <div class="nav-icon">💬</div>Contact
+  </button>
+  <button class="nav-item" id="nav-account" onclick="handleAccountNav()">
+    <div class="nav-icon">👤</div>Account
+  </button>
+</nav>
+
+<!-- Install Banner -->
+<div id="install-banner">
+  <div class="ib-text">📱 <strong>Add to Home Screen</strong><br>Install app for quick access</div>
+  <button class="ib-btn" id="ib-install">Install</button>
+  <button class="ib-close" onclick="document.getElementById('install-banner').classList.remove('show')">✕</button>
+</div>
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<script src="supabase.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════════════════
+// APP STATE
+// ══════════════════════════════════════════════════════════════════════════
+let currentScreen = 'home';
+let screenHistory = [];
+let gstMode = 'add';
+let gstRate = 18;
+let calFilter = 'all';
+let allDeadlines = [];
+let allServices = [];
+let allPackages = [];
+let deferredPrompt = null;
+
+// ── Service Worker Registration ───────────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js').catch(e => console.log('SW error:', e));
+  });
+}
+
+// ── PWA Install ───────────────────────────────────────────────────────────
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  setTimeout(() => document.getElementById('install-banner').classList.add('show'), 3000);
+});
+
+document.getElementById('ib-install').addEventListener('click', () => {
+  if (deferredPrompt) {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then(() => {
+      deferredPrompt = null;
+      document.getElementById('install-banner').classList.remove('show');
+    });
+  }
+});
+
+// ── Navigation ────────────────────────────────────────────────────────────
+const NAV_SCREENS = ['home','services','tools','contact','account','login'];
+const NAV_MAP = { home:'nav-home', services:'nav-services', tools:'nav-tools', contact:'nav-contact', account:'nav-account', login:'nav-account' };
+
+function showScreen(id) {
+  if (id === currentScreen) return;
+  screenHistory.push(currentScreen);
+  currentScreen = id;
+
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const el = document.getElementById('screen-' + id);
+  if (el) el.classList.add('active');
+
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const nav = NAV_MAP[id];
+  if (nav) document.getElementById(nav)?.classList.add('active');
+
+  // Lazy load
+  if (id === 'services') loadServices();
+  if (id === 'packages') loadPackages();
+  if (id === 'calendar') renderCalendar();
+  if (id === 'account') loadAccount();
+  if (id === 'home') initHome();
+
+  document.getElementById('screens').scrollTo(0, 0);
+}
+
+function goBack() {
+  const prev = screenHistory.pop() || 'home';
+  currentScreen = '';
+  showScreen(prev);
+}
+
+function handleAccountNav() {
+  if (getToken()) showScreen('account');
+  else showScreen('login');
+}
+
+// ── Toast ─────────────────────────────────────────────────────────────────
+function toast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = 'success error'.includes(type) ? type : '';
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 3000);
+}
+
+// ── Format ────────────────────────────────────────────────────────────────
+function fmt(n) { return '₹' + Math.round(n).toLocaleString('en-IN'); }
+function fmtD(d) { return new Date(d).toLocaleDateString('en-IN',{day:'numeric',month:'short'}); }
+
+// ── WhatsApp ──────────────────────────────────────────────────────────────
+const WA_MSGS = {
+  book:  'Hi!%20I%20want%20to%20book%20a%20free%20consultation.',
+  quote: 'Hi!%20I%20want%20a%20custom%20quote%20for%20accounting%20services.',
+  gst:   'Hi!%20I%20need%20help%20with%20GST%20filing.',
+  itr:   'Hi!%20I%20want%20to%20file%20my%20ITR.',
+  tools: 'Hi!%20I%20have%20a%20question%20about%20my%20taxes.'
+};
+function openWhatsApp(key) {
+  window.open('https://wa.me/918076136300?text=' + (WA_MSGS[key] || WA_MSGS.book));
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// HOME SCREEN
+// ══════════════════════════════════════════════════════════════════════════
+async function initHome() {
+  // Greeting
+  const hr = new Date().getHours();
+  const greet = hr < 12 ? 'Good morning' : hr < 17 ? 'Good afternoon' : 'Good evening';
+  const user = getUser();
+  document.getElementById('hero-greeting').textContent = greet + (user ? ', ' + (user.user_metadata?.name?.split(' ')[0] || '') : '') + '! 👋';
+
+  // Header
+  if (getToken() && user) {
+    const initials = (user.user_metadata?.name || user.email || 'U').split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    document.getElementById('header-avatar').textContent = initials;
+    document.getElementById('header-user').style.display = 'block';
+    document.getElementById('header-login-btn').style.display = 'none';
+  }
+
+  // Services scroll
+  if (allServices.length === 0) {
+    try {
+      allServices = await sbFetch('services','GET',null,'?is_active=eq.true&order=sort_order.asc&limit=10') || [];
+    } catch(e) {}
+  }
+  const scroll = document.getElementById('home-services-scroll');
+  if (allServices.length) {
+    scroll.innerHTML = allServices.slice(0,8).map(s =>
+      `<div class="service-chip"><h4>${s.name}</h4><div class="fee">${s.fee_range}</div></div>`
+    ).join('');
+  }
+
+  // Upcoming deadlines (next 30 days)
+  buildDeadlines();
+  const upcoming = allDeadlines.filter(d => {
+    const days = Math.ceil((new Date(d.d) - new Date()) / 86400000);
+    return days >= 0 && days <= 30;
+  }).slice(0, 3);
+
+  const dlEl = document.getElementById('home-deadlines');
+  dlEl.innerHTML = upcoming.length ? upcoming.map(d => {
+    const days = Math.ceil((new Date(d.d) - new Date()) / 86400000);
+    const cls = days <= 3 ? 'badge-red' : days <= 7 ? 'badge-yellow' : 'badge-green';
+    return `<div class="due-item">
+      <div><div class="due-name">${d.t}</div><div class="due-dt">Due: ${fmtD(d.d)}</div></div>
+      <span class="badge ${cls}">${days === 0 ? 'Today' : days + 'd'}</span>
+    </div>`;
+  }).join('') : '<p style="font-size:13px;color:var(--gray);padding:8px 0;">No deadlines in next 30 days ✓</p>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// SERVICES
+// ══════════════════════════════════════════════════════════════════════════
+let activeServiceCat = 'all';
+
+async function loadServices() {
+  if (!allServices.length) {
+    try { allServices = await sbFetch('services','GET',null,'?is_active=eq.true&order=category.asc,sort_order.asc') || []; }
+    catch(e) { document.getElementById('svc-list').innerHTML = '<div class="empty-state"><p>Unable to load services.</p></div>'; return; }
+  }
+  const cats = ['All', ...new Set(allServices.map(s => s.category))];
+  document.getElementById('svc-pills').innerHTML = cats.map((c,i) =>
+    `<button class="cat-pill${i===0?' active':''}" onclick="filterServices('${c}',this)">${c}</button>`
+  ).join('');
+  renderServices('All');
+}
+
+function filterServices(cat, btn) {
+  activeServiceCat = cat;
+  document.querySelectorAll('#svc-pills .cat-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderServices(cat);
+}
+
+function renderServices(cat) {
+  const list = cat === 'All' ? allServices : allServices.filter(s => s.category === cat);
+  const grouped = {};
+  list.forEach(s => { if (!grouped[s.category]) grouped[s.category] = []; grouped[s.category].push(s); });
+
+  document.getElementById('svc-list').innerHTML = Object.entries(grouped).map(([cat, items]) => `
+    <div class="card">
+      <div class="card-title">${cat}</div>
+      ${items.map(s => `<div class="svc-row"><span class="svc-name">${s.name}</span><span class="svc-fee">${s.fee_range}</span></div>`).join('')}
+    </div>`).join('') || '<div class="empty-state"><p>No services found.</p></div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// PACKAGES
+// ══════════════════════════════════════════════════════════════════════════
+async function loadPackages() {
+  if (!allPackages.length) {
+    try { allPackages = await sbFetch('packages','GET',null,'?is_active=eq.true&order=category.asc,sort_order.asc') || []; }
+    catch(e) { document.getElementById('pkg-list').innerHTML = '<div class="empty-state"><p>Unable to load packages.</p></div>'; return; }
+  }
+  const cats = ['All', ...new Set(allPackages.map(p => p.category))];
+  document.getElementById('pkg-pills').innerHTML = cats.map((c,i) =>
+    `<button class="cat-pill${i===0?' active':''}" onclick="filterPackages('${c}',this)">${c}</button>`
+  ).join('');
+  renderPackages('All');
+}
+
+function filterPackages(cat, btn) {
+  document.querySelectorAll('#pkg-pills .cat-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderPackages(cat);
+}
+
+function renderPackages(cat) {
+  const list = cat === 'All' ? allPackages : allPackages.filter(p => p.category === cat);
+  document.getElementById('pkg-list').innerHTML = list.map(p => {
+    const inc = (p.includes || []).map(i => `<div style="font-size:12px;color:var(--charcoal);padding:3px 0;display:flex;gap:6px;"><span style="color:#16A34A;font-weight:700;">✓</span>${i}</div>`).join('');
+    return `<div class="card" style="${p.is_popular ? 'border-color:var(--navy);' : ''}">
+      ${p.is_popular ? '<div style="background:var(--navy);color:white;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;display:inline-block;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.06em;">★ Most Popular</div>' : ''}
+      <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--navy);margin-bottom:4px;">${p.category}</div>
+      <div style="font-size:15px;font-weight:700;color:var(--charcoal);font-family:'Playfair Display',serif;margin-bottom:2px;">${p.name}</div>
+      <div style="font-size:1.2rem;font-weight:700;color:var(--navy);margin-bottom:6px;">${p.price_range} <span style="font-size:12px;font-weight:400;color:var(--gray);">/ ${p.billing_cycle || 'month'}</span></div>
+      <div style="font-size:12px;color:var(--gray);margin-bottom:10px;">${p.description || ''}</div>
+      ${inc}
+      <button class="btn ${p.is_popular ? 'btn-primary' : 'btn-secondary'}" style="margin-top:12px;" onclick="openWhatsApp('quote')">Get Started</button>
+    </div>`;
+  }).join('') || '<div class="empty-state"><p>No packages found.</p></div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// GST CALCULATOR
+// ══════════════════════════════════════════════════════════════════════════
+function setGSTMode(mode, btn) {
+  gstMode = mode;
+  document.getElementById('mode-add').classList.toggle('active', mode === 'add');
+  document.getElementById('mode-remove').classList.toggle('active', mode === 'remove');
+  document.getElementById('gst-amt-lbl').textContent = mode === 'add' ? 'Amount (Before GST) ₹' : 'Amount (Including GST) ₹';
+  calcGST();
+}
+
+function setGSTRate(rate, btn) {
+  gstRate = rate;
+  document.querySelectorAll('.rate-pills .rate-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('custom-gst-wrap').style.display = 'none';
+  calcGST();
+}
+
+function toggleCustomGST(btn) {
+  document.querySelectorAll('.rate-pills .rate-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  gstRate = null;
+  document.getElementById('custom-gst-wrap').style.display = 'block';
+  calcGST();
+}
+
+function calcGST() {
+  const amt = parseFloat(document.getElementById('gst-amount').value);
+  if (!amt || amt <= 0) { document.getElementById('gst-result').style.display = 'none'; return; }
+  let rate = gstRate;
+  if (rate === null) rate = parseFloat(document.getElementById('gst-custom-rate').value) || 0;
+  const supply = document.getElementById('gst-supply').value;
+
+  let base, gstAmt, total;
+  if (gstMode === 'add') { base = amt; gstAmt = (amt * rate) / 100; total = amt + gstAmt; }
+  else { total = amt; base = (amt * 100) / (100 + rate); gstAmt = total - base; }
+
+  const half = gstAmt / 2;
+  let rows = `<div class="result-row"><span class="rl">Base Amount</span><span class="rv">${fmt(base)}</span></div>`;
+  if (rate > 0) {
+    if (supply === 'intra') {
+      rows += `<div class="result-row"><span class="rl">CGST @ ${rate/2}%</span><span class="rv">${fmt(half)}</span></div>`;
+      rows += `<div class="result-row"><span class="rl">SGST @ ${rate/2}%</span><span class="rv">${fmt(half)}</span></div>`;
+    } else {
+      rows += `<div class="result-row"><span class="rl">IGST @ ${rate}%</span><span class="rv">${fmt(gstAmt)}</span></div>`;
+    }
+    rows += `<div class="result-row"><span class="rl" style="font-weight:600;color:var(--charcoal);">Total GST</span><span class="rv">${fmt(gstAmt)}</span></div>`;
+  } else {
+    rows += `<div class="result-row"><span class="rl">GST</span><span class="rv">₹0 (Exempt)</span></div>`;
+  }
+
+  document.getElementById('gst-res-total').textContent = gstMode === 'add' ? fmt(total) : fmt(base);
+  document.getElementById('gst-res-label').textContent = gstMode === 'add' ? 'Total After GST' : 'Amount Excluding GST';
+  document.getElementById('gst-res-rate').textContent = `${rate}% GST · ${supply === 'intra' ? 'CGST+SGST' : 'IGST'}`;
+  document.getElementById('gst-res-rows').innerHTML = rows;
+  document.getElementById('gst-result').style.display = 'block';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// ITR CALCULATOR
+// ══════════════════════════════════════════════════════════════════════════
+function calcITR() {
+  const gross = parseFloat(document.getElementById('itr-income').value);
+  if (!gross || gross <= 0) { toast('Please enter your income', 'error'); return; }
+  const age = document.getElementById('itr-age').value;
+  const d80c = Math.min(parseFloat(document.getElementById('itr-80c').value)||0, 150000);
+  const d80d = parseFloat(document.getElementById('itr-80d').value)||0;
+  const hra  = parseFloat(document.getElementById('itr-hra').value)||0;
+  const other= parseFloat(document.getElementById('itr-other').value)||0;
+
+  // NEW regime (Budget 2025 slabs)
+  const nwSD = 75000;
+  const nwTaxable = Math.max(0, gross - nwSD);
+  let nwTax = 0;
+  if      (nwTaxable <= 400000)  nwTax = 0;
+  else if (nwTaxable <= 800000)  nwTax = (nwTaxable-400000)*0.05;
+  else if (nwTaxable <= 1200000) nwTax = 400000*0.05 + (nwTaxable-800000)*0.10;
+  else if (nwTaxable <= 1600000) nwTax = 400000*0.05 + 400000*0.10 + (nwTaxable-1200000)*0.15;
+  else if (nwTaxable <= 2000000) nwTax = 400000*0.05 + 400000*0.10 + 400000*0.15 + (nwTaxable-1600000)*0.20;
+  else if (nwTaxable <= 2400000) nwTax = 400000*0.05 + 400000*0.10 + 400000*0.15 + 400000*0.20 + (nwTaxable-2000000)*0.25;
+  else nwTax = 400000*0.05+400000*0.10+400000*0.15+400000*0.20+400000*0.25+(nwTaxable-2400000)*0.30;
+  if (nwTaxable <= 1200000) nwTax = Math.max(0, nwTax - 60000);
+  if (nwTaxable > 1200000 && nwTax > (nwTaxable - 1200000)) nwTax = nwTaxable - 1200000;
+  const nwTotal = nwTax * 1.04;
+
+  // OLD regime
+  const oldDed = 50000 + d80c + d80d + hra + other;
+  const oldTaxable = Math.max(0, gross - oldDed);
+  const exempt = age === 'below60' ? 250000 : age === '60to80' ? 300000 : 500000;
+  let oldTax = 0;
+  if (oldTaxable > exempt) {
+    if (oldTaxable <= 500000) oldTax = (oldTaxable-exempt)*0.05;
+    else if (oldTaxable <= 1000000) oldTax = Math.max(0,(500000-exempt))*0.05 + (oldTaxable-500000)*0.20;
+    else oldTax = Math.max(0,(500000-exempt))*0.05 + 500000*0.20 + (oldTaxable-1000000)*0.30;
+  }
+  if (oldTaxable <= 500000) oldTax = 0;
+  const oldTotal = oldTax * 1.04;
+
+  const savings = Math.abs(oldTotal - nwTotal);
+  const better = oldTotal <= nwTotal ? 'old' : 'new';
+  const winner = document.getElementById('itr-winner');
+  winner.innerHTML = savings < 100
+    ? `<div class="lbl">Both regimes are equal</div><div class="amount" style="font-size:1.4rem;">Same Tax</div>`
+    : `<div class="lbl">${better === 'new' ? 'New Regime' : 'Old Regime'} saves you</div><div class="amount">${fmt(savings)}</div><div style="font-size:12px;color:rgba(255,255,255,0.6);margin-top:4px;">Choose the ${better === 'new' ? 'New' : 'Old'} Tax Regime</div>`;
+
+  document.getElementById('itr-old-tax').textContent = fmt(oldTotal);
+  document.getElementById('itr-old-eff').textContent = `Eff. rate: ${(oldTotal/gross*100).toFixed(1)}%`;
+  document.getElementById('itr-new-tax').textContent = fmt(nwTotal);
+  document.getElementById('itr-new-eff').textContent = `Eff. rate: ${(nwTotal/gross*100).toFixed(1)}%`;
+  document.getElementById('itr-result').style.display = 'block';
+  document.getElementById('screens').scrollTo(0, document.getElementById('itr-result').offsetTop - 100);
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// LATE FEE CALCULATOR
+// ══════════════════════════════════════════════════════════════════════════
+function calcLateFee() {
+  const type = document.getElementById('lf-type').value;
+  const dueDate = document.getElementById('lf-due').value;
+  const filedDate = document.getElementById('lf-filed').value;
+  const taxLiability = parseFloat(document.getElementById('lf-tax').value)||0;
+  const taxpayer = document.getElementById('lf-taxpayer').value;
+  if (!dueDate || !filedDate) { toast('Please enter both dates', 'error'); return; }
+
+  const days = Math.max(0, Math.ceil((new Date(filedDate) - new Date(dueDate)) / 86400000));
+  let daily = taxpayer === 'nil' ? 20 : type === 'gstr9' ? 200 : 50;
+  let maxFee = taxpayer === 'small' ? 2000 : 10000;
+  let lateFee = Math.min(daily * days, maxFee);
+  let interest = taxLiability > 0 && days > 0 ? (taxLiability * 18 * days) / (100 * 365) : 0;
+  const total = lateFee + interest;
+
+  const hero = document.getElementById('lf-res-hero');
+  if (days === 0) {
+    hero.style.background = 'linear-gradient(135deg,#15803D,#16A34A)';
+    document.getElementById('lf-res-total').textContent = '₹0';
+    document.getElementById('lf-res-days').textContent = '✓ Filed on time! No late fee.';
+  } else {
+    hero.style.background = 'linear-gradient(135deg,#991B1B,#DC2626)';
+    document.getElementById('lf-res-total').textContent = fmt(total);
+    document.getElementById('lf-res-days').textContent = `${days} days late`;
+  }
+
+  document.getElementById('lf-res-rows').innerHTML = `
+    <div class="result-row"><span class="rl">Days Late</span><span class="rv">${days}</span></div>
+    <div class="result-row"><span class="rl">Late Fee (₹${daily}/day × ${days})</span><span class="rv">${fmt(lateFee)}${taxpayer==='small'?' (capped)':''}</span></div>
+    <div class="result-row"><span class="rl">Interest @18% p.a.</span><span class="rv">${fmt(interest)}</span></div>
+    <div class="result-row"><span class="rl" style="font-weight:700;">Total Payable</span><span class="rv" style="font-weight:700;">${fmt(total)}</span></div>`;
+  document.getElementById('lf-result').style.display = 'block';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// TAX CALENDAR
+// ══════════════════════════════════════════════════════════════════════════
+function buildDeadlines() {
+  if (allDeadlines.length) return;
+  allDeadlines = [
+    {d:'2026-04-07',t:'TDS / TCS Deposit',ty:'tds'},{d:'2026-04-11',t:'GSTR-1 (Monthly)',ty:'gst'},
+    {d:'2026-04-20',t:'GSTR-3B (Monthly)',ty:'gst'},{d:'2026-04-30',t:'PF & ESI Deposit',ty:'pf'},
+    {d:'2026-04-30',t:'TDS Return Q4',ty:'tds'},{d:'2026-05-07',t:'TDS Deposit',ty:'tds'},
+    {d:'2026-05-11',t:'GSTR-1 (Monthly)',ty:'gst'},{d:'2026-05-15',t:'Form 16 Issue',ty:'tds'},
+    {d:'2026-05-20',t:'GSTR-3B (Monthly)',ty:'gst'},{d:'2026-05-31',t:'PF & ESI Deposit',ty:'pf'},
+    {d:'2026-06-07',t:'TDS Deposit',ty:'tds'},{d:'2026-06-11',t:'GSTR-1 (Monthly)',ty:'gst'},
+    {d:'2026-06-15',t:'Advance Tax — 1st Instalment (15%)',ty:'advance'},{d:'2026-06-20',t:'GSTR-3B (Monthly)',ty:'gst'},
+    {d:'2026-06-30',t:'PF & ESI Deposit',ty:'pf'},{d:'2026-07-07',t:'TDS Deposit',ty:'tds'},
+    {d:'2026-07-11',t:'GSTR-1 (Monthly)',ty:'gst'},{d:'2026-07-20',t:'GSTR-3B (Monthly)',ty:'gst'},
+    {d:'2026-07-30',t:'TDS Return Q1',ty:'tds'},{d:'2026-07-31',t:'ITR Filing Deadline (Individuals)',ty:'itr'},
+    {d:'2026-07-31',t:'PF & ESI Deposit',ty:'pf'},{d:'2026-08-07',t:'TDS Deposit',ty:'tds'},
+    {d:'2026-08-11',t:'GSTR-1 (Monthly)',ty:'gst'},{d:'2026-08-20',t:'GSTR-3B (Monthly)',ty:'gst'},
+    {d:'2026-09-07',t:'TDS Deposit',ty:'tds'},{d:'2026-09-11',t:'GSTR-1 (Monthly)',ty:'gst'},
+    {d:'2026-09-15',t:'Advance Tax — 2nd Instalment (45%)',ty:'advance'},{d:'2026-09-20',t:'GSTR-3B (Monthly)',ty:'gst'},
+    {d:'2026-09-30',t:'ITR Filing (Audit Cases)',ty:'itr'},{d:'2026-10-07',t:'TDS Deposit',ty:'tds'},
+    {d:'2026-10-11',t:'GSTR-1 (Monthly)',ty:'gst'},{d:'2026-10-20',t:'GSTR-3B (Monthly)',ty:'gst'},
+    {d:'2026-10-30',t:'TDS Return Q2',ty:'tds'},{d:'2026-10-31',t:'PF & ESI Deposit',ty:'pf'},
+    {d:'2026-11-07',t:'TDS Deposit',ty:'tds'},{d:'2026-11-11',t:'GSTR-1 (Monthly)',ty:'gst'},
+    {d:'2026-11-20',t:'GSTR-3B (Monthly)',ty:'gst'},{d:'2026-11-30',t:'PF & ESI Deposit',ty:'pf'},
+    {d:'2026-12-07',t:'TDS Deposit',ty:'tds'},{d:'2026-12-11',t:'GSTR-1 (Monthly)',ty:'gst'},
+    {d:'2026-12-15',t:'Advance Tax — 3rd Instalment (75%)',ty:'advance'},{d:'2026-12-20',t:'GSTR-3B (Monthly)',ty:'gst'},
+    {d:'2026-12-31',t:'Belated / Revised ITR Deadline',ty:'itr'},{d:'2027-01-07',t:'TDS Deposit',ty:'tds'},
+    {d:'2027-01-11',t:'GSTR-1 (Monthly)',ty:'gst'},{d:'2027-01-20',t:'GSTR-3B (Monthly)',ty:'gst'},
+    {d:'2027-01-30',t:'TDS Return Q3',ty:'tds'},{d:'2027-01-31',t:'PF & ESI Deposit',ty:'pf'},
+    {d:'2027-02-07',t:'TDS Deposit',ty:'tds'},{d:'2027-02-11',t:'GSTR-1 (Monthly)',ty:'gst'},
+    {d:'2027-02-20',t:'GSTR-3B (Monthly)',ty:'gst'},{d:'2027-03-07',t:'TDS Deposit',ty:'tds'},
+    {d:'2027-03-11',t:'GSTR-1 (Monthly)',ty:'gst'},{d:'2027-03-15',t:'Advance Tax — Final Instalment (100%)',ty:'advance'},
+    {d:'2027-03-20',t:'GSTR-3B (Monthly)',ty:'gst'},{d:'2027-03-31',t:'GSTR-9 Annual Return',ty:'gst'},
+    {d:'2027-03-31',t:'Tax Saving Investments Deadline',ty:'itr'},{d:'2027-03-31',t:'PF & ESI Deposit',ty:'pf'},
+  ];
+}
+
+const TAG_CLS = {gst:'dl-tag-gst',tds:'dl-tag-tds',itr:'dl-tag-itr',pf:'dl-tag-pf',advance:'dl-tag-adv'};
+const TAG_LBL = {gst:'GST',tds:'TDS',itr:'ITR',pf:'PF/ESI',advance:'Adv Tax'};
+const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function filterCal(type, btn) {
+  calFilter = type;
+  document.querySelectorAll('#cal-filters .cat-pill').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCalendar();
+}
+
+function renderCalendar() {
+  buildDeadlines();
+  const today = new Date(); today.setHours(0,0,0,0);
+  const list = calFilter === 'all' ? allDeadlines : allDeadlines.filter(d => d.ty === calFilter);
+
+  // Group by month
+  const byMonth = {};
+  list.forEach(d => {
+    const k = d.d.substring(0,7);
+    if (!byMonth[k]) byMonth[k] = [];
+    byMonth[k].push(d);
+  });
+
+  let html = '';
+  for (const [key, items] of Object.entries(byMonth)) {
+    const [yr, mo] = key.split('-');
+    html += `<div style="font-size:13px;font-weight:700;color:var(--navy);padding:10px 0 6px;">${MONTHS[parseInt(mo)-1]} ${yr}</div>`;
+    html += items.map(d => {
+      const dueDate = new Date(d.d); dueDate.setHours(0,0,0,0);
+      const days = Math.ceil((dueDate - today) / 86400000);
+      const cls = days < 0 ? '' : days <= 3 ? 'urgent' : days <= 7 ? 'soon' : 'upcoming';
+      const dayStr = new Date(d.d).getDate();
+      return `<div class="deadline-card ${cls}">
+        <div class="dl-top">
+          <div class="dl-title">${d.t}</div>
+          <div class="dl-date">${dayStr} ${MONTHS[parseInt(d.d.split('-')[1])-1]}</div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span class="dl-tag ${TAG_CLS[d.ty]}">${TAG_LBL[d.ty]}</span>
+          ${days < 0 ? '<span style="font-size:11px;color:var(--gray);">Past</span>' :
+            days === 0 ? '<span class="badge badge-red">Today!</span>' :
+            days <= 7 ? `<span class="badge badge-red">${days}d left</span>` :
+            days <= 30 ? `<span class="badge badge-yellow">${days}d left</span>` :
+            `<span class="badge badge-green">${days}d left</span>`}
+        </div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('cal-list').innerHTML = html || '<div class="empty-state"><p>No deadlines found.</p></div>';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// CONTACT FORM
+// ══════════════════════════════════════════════════════════════════════════
+async function submitContact() {
+  const name  = document.getElementById('cf-name').value.trim();
+  const phone = document.getElementById('cf-phone').value.trim();
+  const svc   = document.getElementById('cf-svc').value;
+  const msg   = document.getElementById('cf-msg').value.trim();
+  const err   = document.getElementById('form-err');
+  const ok    = document.getElementById('form-ok');
+  err.style.display = 'none'; ok.style.display = 'none';
+  if (!name || !phone) { err.textContent = 'Please enter name and phone.'; err.style.display = 'block'; return; }
+  const btn = document.getElementById('cf-btn');
+  btn.disabled = true; btn.textContent = 'Sending...';
+  try {
+    await sbFetch('contact_forms','POST',{name, phone, service_needed:svc, message:msg});
+    ok.style.display = 'block';
+    ['cf-name','cf-phone','cf-msg'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('cf-svc').selectedIndex = 0;
+    toast('Message sent! ✓', 'success');
+  } catch(e) { err.textContent = 'Error. Please WhatsApp us directly!'; err.style.display = 'block'; }
+  btn.disabled = false; btn.textContent = 'Send Message →';
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════════════════════════════════
+function switchAuthTab(tab) {
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
+  document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('signup-form').style.display = tab === 'signup' ? 'block' : 'none';
+  document.getElementById('auth-err').style.display = 'none';
+  document.getElementById('auth-ok').style.display  = 'none';
+}
+
+async function doLogin() {
+  const email = document.getElementById('li-email').value.trim();
+  const pwd   = document.getElementById('li-pwd').value;
+  const err   = document.getElementById('auth-err');
+  if (!email || !pwd) { err.textContent = 'Please enter email and password.'; err.style.display = 'block'; return; }
+  const btn = document.getElementById('li-btn');
+  btn.disabled = true; btn.textContent = 'Logging in...';
+  err.style.display = 'none';
+  try {
+    await signIn(email, pwd);
+    if (isAdmin()) { window.location.href = 'admin.html'; return; }
+    showScreen('account');
+    initHome();
+  } catch(e) { err.textContent = 'Invalid email or password.'; err.style.display = 'block'; }
+  btn.disabled = false; btn.textContent = 'Login →';
+}
+
+async function doSignup() {
+  const name  = document.getElementById('su-name').value.trim();
+  const phone = document.getElementById('su-phone').value.trim();
+  const biz   = document.getElementById('su-biz').value.trim();
+  const email = document.getElementById('su-email').value.trim();
+  const pwd   = document.getElementById('su-pwd').value;
+  const err   = document.getElementById('auth-err');
+  const ok    = document.getElementById('auth-ok');
+  if (!name || !email || !pwd) { err.textContent = 'Please fill all required fields.'; err.style.display = 'block'; return; }
+  if (pwd.length < 6) { err.textContent = 'Password must be at least 6 characters.'; err.style.display = 'block'; return; }
+  const btn = document.getElementById('su-btn');
+  btn.disabled = true; btn.textContent = 'Creating account...';
+  err.style.display = 'none';
+  try {
+    await signUp(email, pwd, name, phone, biz);
+    ok.textContent = '✓ Account created! Please verify your email then login.';
+    ok.style.display = 'block';
+    switchAuthTab('login');
+  } catch(e) { err.textContent = e.message || 'Something went wrong.'; err.style.display = 'block'; }
+  btn.disabled = false; btn.textContent = 'Create Account →';
+}
+
+function doSignOut() {
+  if (!confirm('Logout from your account?')) return;
+  localStorage.removeItem('kas_token');
+  localStorage.removeItem('kas_user');
+  showScreen('home');
+  document.getElementById('header-user').style.display = 'none';
+  document.getElementById('header-login-btn').style.display = 'flex';
+  toast('Logged out successfully');
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// CLIENT DASHBOARD
+// ══════════════════════════════════════════════════════════════════════════
+async function loadAccount() {
+  if (!getToken()) { showScreen('login'); return; }
+  const user = getUser();
+  if (!user) return;
+
+  const name = user.user_metadata?.name || user.email?.split('@')[0] || 'Client';
+  document.getElementById('acc-name').textContent = name;
+  document.getElementById('acc-email').textContent = user.email;
+
+  try {
+    const clients = await sbFetch('clients','GET',null,`?email=eq.${encodeURIComponent(user.email)}&select=*`);
+    const client = clients?.[0];
+
+    if (client) {
+      document.getElementById('acc-pkg').textContent = client.package_id ? 'Assigned' : 'None';
+
+      const dues = await sbFetch('due_dates','GET',null,`?client_id=eq.${client.id}&status=eq.pending&order=due_date.asc`);
+      document.getElementById('acc-dues').textContent = dues?.length || 0;
+      document.getElementById('acc-due-list').innerHTML = dues?.length
+        ? dues.map(d => {
+            const days = Math.ceil((new Date(d.due_date) - new Date()) / 86400000);
+            const cls = days < 0 ? 'badge-red' : days <= 7 ? 'badge-red' : 'badge-yellow';
+            return `<div class="due-item"><div><div class="due-name">${d.service_name}</div><div class="due-dt">${new Date(d.due_date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</div></div><span class="badge ${cls}">${days < 0 ? 'Overdue' : days + 'd'}</span></div>`;
+          }).join('')
+        : '<div class="empty-state" style="padding:1rem 0;"><p>No upcoming deadlines ✓</p></div>';
+
+      const pays = await sbFetch('payments','GET',null,`?client_id=eq.${client.id}&order=created_at.desc&limit=5`);
+      const total = (pays||[]).filter(p=>p.status==='completed').reduce((s,p)=>s+Number(p.amount),0);
+      document.getElementById('acc-pays').textContent = fmt(total);
+      document.getElementById('acc-pay-list').innerHTML = pays?.length
+        ? pays.map(p => `<div class="pay-item"><div><div class="pay-desc">${p.service_description||'Payment'}</div><div class="pay-dt">${p.payment_date?new Date(p.payment_date).toLocaleDateString('en-IN'):'—'} · ${p.payment_method||'UPI'}</div></div><div><div class="pay-amt">${fmt(p.amount)}</div><span class="badge ${p.status==='completed'?'badge-green':'badge-yellow'}" style="font-size:10px;">${p.status}</span></div></div>`).join('')
+        : '<div class="empty-state" style="padding:1rem 0;"><p>No payment records yet</p></div>';
+    } else {
+      document.getElementById('acc-due-list').innerHTML = '<div class="empty-state" style="padding:1rem 0;"><p>Account being set up. Contact us on WhatsApp!</p></div>';
+    }
+  } catch(e) { console.error(e); }
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════════════════════
+buildDeadlines();
+initHome();
+
+// Handle hash navigation (shortcuts)
+const hash = window.location.hash.replace('#','');
+if (['gst-calc','calendar','contact','services','tools'].includes(hash)) showScreen(hash);
+</script>
+</body>
+</html>
