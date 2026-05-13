@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GST Calculator India 2026 | Calculate GST Online Free | Kunwar Accounting Delhi</title>
+  <meta name="description" content="Free online GST calculator for India 2026. Calculate GST amount, inclusive and exclusive price instantly. Supports 5%, 12%, 18%, 28% GST rates. No login required."/>
+  <meta name="keywords" content="GST calculator India 2026, calculate GST online, GST inclusive exclusive calculator, 18% GST calculator, CGST SGST calculator Delhi"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/gst-calculator.html"/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:800px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.4rem; color:var(--charcoal); margin-bottom:1.5rem; }
+    .mode-toggle { display:flex; background:var(--light); border-radius:10px; padding:4px; margin-bottom:1.5rem; }
+    .mode-btn { flex:1; padding:9px; border:none; background:none; border-radius:8px; font-size:14px; font-weight:500; cursor:pointer; color:var(--gray); font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+    .mode-btn.active { background:white; color:var(--navy); box-shadow:0 1px 4px rgba(0,0,0,0.08); }
+    .field-group { margin-bottom:1.25rem; }
+    .field-group label { display:block; font-size:12px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+    .field-group input, .field-group select { width:100%; padding:12px 16px; border:1.5px solid var(--border); border-radius:10px; font-size:16px; font-family:'DM Sans',sans-serif; color:var(--charcoal); outline:none; transition:border-color 0.2s; background:white; }
+    .field-group input:focus, .field-group select:focus { border-color:var(--navy); }
+    .rate-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:1.5rem; }
+    .rate-btn { padding:12px 8px; border:1.5px solid var(--border); border-radius:10px; background:white; font-size:15px; font-weight:600; cursor:pointer; transition:all 0.2s; font-family:'DM Sans',sans-serif; color:var(--charcoal); text-align:center; }
+    .rate-btn:hover { border-color:var(--navy); color:var(--navy); }
+    .rate-btn.active { background:var(--navy); color:white; border-color:var(--navy); }
+    .rate-btn span { display:block; font-size:10px; font-weight:400; margin-top:2px; color:inherit; opacity:0.7; }
+    .calc-btn { width:100%; background:var(--navy); color:white; padding:14px; border-radius:10px; font-size:15px; font-weight:600; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; margin-top:0.5rem; }
+    .calc-btn:hover { background:var(--navy-dark); }
+    .result-card { background:linear-gradient(135deg,var(--navy-dark),var(--navy)); border-radius:16px; padding:2rem; color:white; display:none; }
+    .result-card.show { display:block; animation:fadeUp 0.3s ease; }
+    .result-row { display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px solid rgba(255,255,255,0.15); font-size:14px; }
+    .result-row:last-child { border-bottom:none; }
+    .result-row .lbl { color:rgba(255,255,255,0.75); }
+    .result-row .val { font-weight:600; color:white; }
+    .result-total { display:flex; justify-content:space-between; align-items:center; padding:14px 0 0; margin-top:4px; }
+    .result-total .lbl { font-size:16px; font-weight:600; color:white; }
+    .result-total .val { font-size:24px; font-weight:700; color:var(--gold); font-family:'Playfair Display',serif; }
+    .reset-btn { width:100%; background:rgba(255,255,255,0.1); color:white; padding:10px; border-radius:8px; border:1px solid rgba(255,255,255,0.3); font-size:13px; font-weight:500; cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:1rem; transition:all 0.2s; }
+    .reset-btn:hover { background:rgba(255,255,255,0.2); }
+    .info-boxes { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:1rem; margin-top:1.5rem; }
+    .info-box2 { background:white; border:1px solid var(--border); border-radius:12px; padding:1.25rem; }
+    .info-box2 h4 { font-size:13px; font-weight:600; color:var(--charcoal); margin-bottom:8px; }
+    .info-box2 p { font-size:12px; color:var(--gray); line-height:1.6; }
+    .slab-table { width:100%; border-collapse:collapse; margin-top:1rem; font-size:13px; }
+    .slab-table th { text-align:left; padding:8px 12px; background:var(--light); color:var(--gray); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; }
+    .slab-table td { padding:10px 12px; border-bottom:1px solid var(--border); color:var(--charcoal); }
+    .slab-table tr:last-child td { border-bottom:none; }
+    .slab-table .rate-cell { font-weight:700; color:var(--navy); }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge" style="position:relative;display:inline-block;margin-bottom:1rem;">🧮 Updated for 2026 · Free · Instant</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">GST Calculator India</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:480px;margin:0 auto;">Calculate GST instantly — add or remove tax from any amount. Supports all GST slabs.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="calc-card">
+      <h2>Calculate GST</h2>
+
+      <!-- MODE -->
+      <div>
+        <div class="field-group" style="margin-bottom:0.75rem;"><label>Calculation Type</label></div>
+        <div class="mode-toggle">
+          <button class="mode-btn active" onclick="setMode('add',this)" id="mode-add">Add GST (Exclusive)</button>
+          <button class="mode-btn" onclick="setMode('remove',this)" id="mode-remove">Remove GST (Inclusive)</button>
+        </div>
+        <p id="mode-hint" style="font-size:12px;color:var(--gray);margin-bottom:1.25rem;">Enter the price <strong>before GST</strong> — we'll calculate the GST amount to add.</p>
+      </div>
+
+      <!-- AMOUNT -->
+      <div class="field-group">
+        <label id="amt-label">Amount (Before GST) ₹</label>
+        <input type="number" id="amount" placeholder="Enter amount e.g. 10000" min="0" oninput="autoCalc()"/>
+      </div>
+
+      <!-- GST RATE -->
+      <div class="field-group" style="margin-bottom:0.75rem;"><label>GST Rate</label></div>
+      <div class="rate-grid">
+        <button class="rate-btn" onclick="setRate(0,this)">0%<span>Exempt</span></button>
+        <button class="rate-btn" onclick="setRate(5,this)">5%<span>Food, transport</span></button>
+        <button class="rate-btn" onclick="setRate(12,this)">12%<span>Processed food</span></button>
+        <button class="rate-btn active" onclick="setRate(18,this)">18%<span>Most services</span></button>
+        <button class="rate-btn" onclick="setRate(28,this)">28%<span>Luxury goods</span></button>
+        <button class="rate-btn" onclick="setRate('custom',this)" id="custom-btn" style="grid-column:span 3;">Custom Rate</button>
+      </div>
+      <div id="custom-rate-wrap" class="field-group" style="display:none;">
+        <label>Custom GST Rate (%)</label>
+        <input type="number" id="custom-rate" placeholder="Enter rate e.g. 3" min="0" max="100" oninput="autoCalc()"/>
+      </div>
+
+      <!-- SUPPLY TYPE -->
+      <div class="field-group">
+        <label>Supply Type</label>
+        <select id="supply-type" onchange="autoCalc()">
+          <option value="intra">Intra-State (CGST + SGST)</option>
+          <option value="inter">Inter-State (IGST)</option>
+        </select>
+      </div>
+
+      <button class="calc-btn" onclick="calculate()">Calculate GST →</button>
+    </div>
+
+    <!-- RESULT -->
+    <div class="result-card" id="result">
+      <div style="margin-bottom:1rem;">
+        <div style="font-size:12px;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.08em;" id="res-mode-label">GST Added</div>
+        <div style="font-size:14px;color:rgba(255,255,255,0.8);" id="res-desc"></div>
+      </div>
+      <div id="res-rows"></div>
+      <div class="result-total">
+        <div class="lbl" id="res-total-label">Total Amount</div>
+        <div class="val" id="res-total">₹0</div>
+      </div>
+      <button class="reset-btn" onclick="reset()">↺ Calculate Again</button>
+    </div>
+
+    <!-- INFO SECTION -->
+    <div style="margin-top:2rem;">
+      <div class="section-label">GST Rate Reference</div>
+      <h2 class="section-title" style="font-size:1.3rem;">Common GST rates in India (2026)</h2>
+      <div style="overflow-x:auto;margin-top:1rem;">
+        <table class="slab-table">
+          <thead><tr><th>GST Rate</th><th>Common Items / Services</th><th>CGST</th><th>SGST</th><th>IGST</th></tr></thead>
+          <tbody>
+            <tr><td class="rate-cell">0%</td><td>Fresh food, vegetables, milk, eggs, books, healthcare</td><td>0%</td><td>0%</td><td>0%</td></tr>
+            <tr><td class="rate-cell">5%</td><td>Packaged food, transport, household necessities</td><td>2.5%</td><td>2.5%</td><td>5%</td></tr>
+            <tr><td class="rate-cell">12%</td><td>Processed food, computers, medicines, business class tickets</td><td>6%</td><td>6%</td><td>12%</td></tr>
+            <tr><td class="rate-cell">18%</td><td>Most services (accounting, IT, consulting), most goods</td><td>9%</td><td>9%</td><td>18%</td></tr>
+            <tr><td class="rate-cell">28%</td><td>Luxury goods, cars, tobacco, aerated drinks, casinos</td><td>14%</td><td>14%</td><td>28%</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="info-boxes">
+      <div class="info-box2">
+        <h4>What is CGST + SGST?</h4>
+        <p>For sales within the same state, GST is split equally between Central GST (CGST) and State GST (SGST). Both appear on your invoice.</p>
+      </div>
+      <div class="info-box2">
+        <h4>What is IGST?</h4>
+        <p>For inter-state sales (selling to another state), Integrated GST (IGST) applies. It equals the full GST rate and goes to the central government.</p>
+      </div>
+      <div class="info-box2">
+        <h4>GST on services (2026)</h4>
+        <p>Most professional services (accounting, IT, consulting, legal) attract 18% GST in 2026. Always collect GST from business clients.</p>
+      </div>
+    </div>
+
+    <div class="cta-banner" style="margin-top:2rem;">
+      <h2>Need help with GST filing?</h2>
+      <p>We handle GSTR-1, GSTR-3B and annual returns for small businesses across Delhi NCR.</p>
+      <a href="contact.html" class="btn-primary">Get GST Help →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('tools');
+
+let currentMode = 'add';
+let currentRate = 18;
+
+function setMode(mode, btn) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const hint = document.getElementById('mode-hint');
+  const lbl = document.getElementById('amt-label');
+  if (mode === 'add') {
+    hint.innerHTML = 'Enter the price <strong>before GST</strong> — we\'ll calculate the GST amount to add.';
+    lbl.textContent = 'Amount (Before GST) ₹';
+  } else {
+    hint.innerHTML = 'Enter the price <strong>including GST</strong> — we\'ll extract the GST amount.';
+    lbl.textContent = 'Amount (Including GST) ₹';
+  }
+  autoCalc();
+}
+
+function setRate(rate, btn) {
+  document.querySelectorAll('.rate-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  if (rate === 'custom') {
+    document.getElementById('custom-rate-wrap').style.display = 'block';
+    currentRate = null;
+  } else {
+    document.getElementById('custom-rate-wrap').style.display = 'none';
+    currentRate = rate;
+  }
+  autoCalc();
+}
+
+function autoCalc() {
+  const amt = parseFloat(document.getElementById('amount').value);
+  if (amt > 0) calculate();
+}
+
+function calculate() {
+  const amtStr = document.getElementById('amount').value;
+  const amt = parseFloat(amtStr);
+  if (!amtStr || isNaN(amt) || amt < 0) {
+    document.getElementById('amount').style.borderColor = '#DC2626';
+    return;
+  }
+  document.getElementById('amount').style.borderColor = '';
+
+  let rate = currentRate;
+  if (rate === null) {
+    rate = parseFloat(document.getElementById('custom-rate').value) || 0;
+  }
+
+  const supply = document.getElementById('supply-type').value;
+  const fmt = n => '₹' + Number(n.toFixed(2)).toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+
+  let baseAmt, gstAmt, totalAmt;
+
+  if (currentMode === 'add') {
+    baseAmt = amt;
+    gstAmt = (amt * rate) / 100;
+    totalAmt = amt + gstAmt;
+  } else {
+    totalAmt = amt;
+    baseAmt = (amt * 100) / (100 + rate);
+    gstAmt = totalAmt - baseAmt;
+  }
+
+  const halfGst = gstAmt / 2;
+
+  let rows = '';
+  if (currentMode === 'add') {
+    rows += `<div class="result-row"><span class="lbl">Base Amount (Before GST)</span><span class="val">${fmt(baseAmt)}</span></div>`;
+  } else {
+    rows += `<div class="result-row"><span class="lbl">Amount Before GST (Base)</span><span class="val">${fmt(baseAmt)}</span></div>`;
+  }
+
+  if (rate > 0) {
+    if (supply === 'intra') {
+      rows += `<div class="result-row"><span class="lbl">CGST @ ${rate/2}%</span><span class="val">${fmt(halfGst)}</span></div>`;
+      rows += `<div class="result-row"><span class="lbl">SGST @ ${rate/2}%</span><span class="val">${fmt(halfGst)}</span></div>`;
+    } else {
+      rows += `<div class="result-row"><span class="lbl">IGST @ ${rate}%</span><span class="val">${fmt(gstAmt)}</span></div>`;
+    }
+    rows += `<div class="result-row"><span class="lbl">Total GST @ ${rate}%</span><span class="val">${fmt(gstAmt)}</span></div>`;
+  } else {
+    rows += `<div class="result-row"><span class="lbl">GST (Exempt)</span><span class="val">₹0.00</span></div>`;
+  }
+
+  const res = document.getElementById('result');
+  document.getElementById('res-rows').innerHTML = rows;
+  document.getElementById('res-mode-label').textContent = currentMode === 'add' ? 'GST Added ✓' : 'GST Removed ✓';
+  document.getElementById('res-desc').textContent = `${rate}% GST · ${supply === 'intra' ? 'Intra-State (CGST+SGST)' : 'Inter-State (IGST)'}`;
+  document.getElementById('res-total-label').textContent = currentMode === 'add' ? 'Total Amount (After GST)' : 'Amount Excluding GST';
+  document.getElementById('res-total').textContent = currentMode === 'add' ? fmt(totalAmt) : fmt(baseAmt);
+  res.classList.add('show');
+  res.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function reset() {
+  document.getElementById('amount').value = '';
+  document.getElementById('result').classList.remove('show');
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Dashboard | Kunwar Accounting Services</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<div style="padding-top:64px;min-height:100vh;background:var(--light);">
+  <div class="dash-header">
+    <div style="max-width:1000px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
+      <div><h1>Welcome back, <span id="uname">Client</span>!</h1><p id="ubiz" style="opacity:0.75;font-size:14px;">Your accounting dashboard</p></div>
+      <button class="logout-btn" onclick="signOut()">Logout</button>
+    </div>
+  </div>
+  <div class="dash-content">
+    <div class="dash-cards">
+      <div class="dash-card"><div class="lbl">Current Package</div><div class="val" id="pkg-val">—</div><div class="sub">Active plan</div></div>
+      <div class="dash-card"><div class="lbl">Upcoming Deadlines</div><div class="val" id="due-val">—</div><div class="sub">Next 30 days</div></div>
+      <div class="dash-card"><div class="lbl">Total Payments</div><div class="val" id="pay-val">—</div><div class="sub">This year</div></div>
+      <div class="dash-card"><div class="lbl">Account Status</div><div class="val" style="color:#16A34A;font-size:1rem;">Active ✓</div><div class="sub">All good</div></div>
+    </div>
+
+    <div class="panel">
+      <h3>📅 Upcoming Filing Deadlines</h3>
+      <div id="dues-list"><div class="empty">Loading...</div></div>
+    </div>
+
+    <div class="panel">
+      <h3>📦 Your Package</h3>
+      <div id="pkg-detail"><div class="empty">Loading...</div></div>
+    </div>
+
+    <div class="panel">
+      <h3>💳 Recent Payments</h3>
+      <div id="pay-list"><div class="empty">Loading...</div></div>
+    </div>
+
+    <div class="panel">
+      <h3>⚡ Quick Actions</h3>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <a href="payment.html" class="btn-primary" style="font-size:13px;padding:10px 20px;">Make a Payment</a>
+        <a href="compliance-calendar.html" style="display:inline-flex;align-items:center;padding:10px 20px;border:1.5px solid var(--navy);border-radius:8px;font-size:13px;font-weight:600;color:var(--navy);text-decoration:none;">📅 Tax Calendar</a>
+        <a href="gst-checker.html" style="display:inline-flex;align-items:center;padding:10px 20px;border:1.5px solid var(--navy);border-radius:8px;font-size:13px;font-weight:600;color:var(--navy);text-decoration:none;">🔍 GST Checker</a>
+        <a href="https://wa.me/918076136300?text=Hi%20Sukant%2C%20I%20have%20a%20query." target="_blank" class="whatsapp-btn" style="margin-top:0;font-size:13px;padding:10px 16px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          WhatsApp Support
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+if(!requireAuth()) throw '';
+injectNav('dashboard');
+const user=getUser();
+const name=user?.user_metadata?.name||user?.email?.split('@')[0]||'Client';
+const biz=user?.user_metadata?.business_name||'';
+document.getElementById('uname').textContent=name;
+if(biz)document.getElementById('ubiz').textContent=biz;
+
+async function load(){
+  try{
+    const clients=await sbFetch('clients','GET',null,`?email=eq.${user.email}&select=*,packages(*)`);
+    const client=clients?.[0];
+    if(client){
+      if(client.packages){
+        document.getElementById('pkg-val').textContent=client.packages.name;
+        document.getElementById('pkg-detail').innerHTML=`
+          <div style="background:var(--ice);border-radius:12px;padding:1.5rem;border-left:4px solid var(--navy);">
+            <div style="font-size:17px;font-weight:700;color:var(--navy);font-family:'Playfair Display',serif;margin-bottom:4px;">${client.packages.name}</div>
+            <div style="font-size:13px;color:var(--gray);">₹${Number(client.packages.price).toLocaleString('en-IN')}/month</div>
+          </div>`;
+      } else {
+        document.getElementById('pkg-detail').innerHTML='<div class="empty">No package assigned yet. Contact us to get started!</div>';
+      }
+      const dues=await sbFetch('due_dates','GET',null,`?client_id=eq.${client.id}&order=due_date.asc`);
+      const upcoming=dues?.filter(d=>d.status!=='completed')||[];
+      document.getElementById('due-val').textContent=upcoming.length;
+      if(dues?.length){
+        document.getElementById('dues-list').innerHTML=dues.map(d=>{
+          const days=Math.ceil((new Date(d.due_date)-new Date())/86400000);
+          let cls='pill-gray',txt='Completed';
+          if(d.status!=='completed'){cls=days<0?'pill-red':days<=7?'pill-red':days<=15?'pill-yellow':'pill-green';txt=days<0?'Overdue!':`${days} days left`;}
+          return `<div class="due-row"><div><div class="due-svc">${d.service_name}</div><div class="due-dt">Due: ${new Date(d.due_date).toLocaleDateString('en-IN',{day:'numeric',month:'long',year:'numeric'})}</div></div><span class="pill ${cls}">${txt}</span></div>`;
+        }).join('');
+      } else {
+        document.getElementById('dues-list').innerHTML='<div class="empty">No upcoming deadlines. You\'re all good! ✓</div>';
+      }
+      const pays=await sbFetch('payments','GET',null,`?client_id=eq.${client.id}&order=created_at.desc&limit=5`);
+      const total=(pays||[]).filter(p=>p.status==='completed').reduce((s,p)=>s+Number(p.amount),0);
+      document.getElementById('pay-val').textContent=`₹${total.toLocaleString('en-IN')}`;
+      if(pays?.length){
+        document.getElementById('pay-list').innerHTML=pays.map(p=>`
+          <div class="due-row"><div><div class="due-svc">${p.service_description||'Payment'}</div><div class="due-dt">${new Date(p.created_at).toLocaleDateString('en-IN')} · ${p.payment_method||'UPI'}</div></div>
+          <div style="text-align:right;"><div style="font-size:14px;font-weight:600;color:var(--navy);">₹${Number(p.amount).toLocaleString('en-IN')}</div><span class="pill ${p.status==='completed'?'pill-green':'pill-yellow'}">${p.status}</span></div></div>`).join('');
+      } else {
+        document.getElementById('pay-list').innerHTML='<div class="empty">No payment records yet.</div>';
+      }
+    } else {
+      ['pkg-detail','dues-list','pay-list'].forEach(id=>document.getElementById(id).innerHTML='<div class="empty">Your account is being set up. Please contact us on WhatsApp!</div>');
+      ['due-val','pay-val'].forEach(id=>document.getElementById(id).textContent='0');
+    }
+  }catch(e){console.error(e);}
+}
+load();
+</script>
+</body>
+</html>
