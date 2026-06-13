@@ -28,7 +28,7 @@ googleProvider.addScope('profile');
 
 // ── Supabase config (kept in one place) ──────────────────────
 const SUPABASE_URL  = 'https://lkvmlgpuktbxohtuvwmb.supabase.co';
-const SUPABASE_KEY  = 'PASTE_YOUR_ANON_KEY_HERE'; // same key as supabase.js
+const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I'; // same key as supabase.js
 
 async function sbFetch(table, method='GET', body=null, qs='') {
   const token = localStorage.getItem('kas_sb_token') || SUPABASE_KEY;
