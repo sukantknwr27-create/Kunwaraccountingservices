@@ -52,7 +52,7 @@ async function syncToSupabase(user) {
   if (!user) return;
   try {
     const key = window.SUPABASE_ANON_KEY;
-    if (!key || key === 'PASTE_YOUR_ANON_KEY_HERE') return; // skip if not configured
+    if (!key || key === 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I') return; // skip if not configured
     const url = 'https://lkvmlgpuktbxohtuvwmb.supabase.co/rest/v1/users';
     const payload = {
       firebase_uid: user.uid,
