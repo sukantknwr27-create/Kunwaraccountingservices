@@ -382,8 +382,8 @@ window.uploadDocument = async function() {
     const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/client-documents/${filePath}`, {
       method: 'POST',
       headers: {
-        'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I',
+        'apikey': 'PASTE_YOUR_ANON_KEY_HERE',
+        'Authorization': 'Bearer PASTE_YOUR_ANON_KEY_HERE',
         'Content-Type': selectedFile.type,
         'x-upsert': 'true'
       },
@@ -451,7 +451,7 @@ window.deleteDoc = async function(id, path) {
     // Also delete from storage
     await fetch(`https://lkvmlgpuktbxohtuvwmb.supabase.co/storage/v1/object/client-documents/${path}`, {
       method:'DELETE',
-      headers:{ 'apikey':'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I', 'Authorization':'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I' }
+      headers:{ 'apikey':'PASTE_YOUR_ANON_KEY_HERE', 'Authorization':'Bearer PASTE_YOUR_ANON_KEY_HERE' }
     });
     await loadDocuments();
   } catch(e) { console.error(e); }

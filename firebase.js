@@ -1,13 +1,22 @@
 // ============================================================
-// Kunwar Accounting Services — Firebase Configuration
+// Kunwar Accounting Services — Firebase Auth
+// Pure Firebase only — no Supabase dependency here
 // ============================================================
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, RecaptchaVerifier,
-         signInWithPopup, signInWithPhoneNumber,
-         createUserWithEmailAndPassword, signInWithEmailAndPassword,
-         signOut, onAuthStateChanged, updateProfile }
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  RecaptchaVerifier,
+  signInWithPopup,
+  signInWithPhoneNumber,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
+  updateProfile,
+  sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey:            "AIzaSyDZYQYkyqUYqhmzu2vOtIdX2SrHDROiM0Y",
@@ -26,61 +35,69 @@ const googleProvider = new GoogleAuthProvider();
 googleProvider.addScope('email');
 googleProvider.addScope('profile');
 
-// ── Supabase config (kept in one place) ──────────────────────
-const SUPABASE_URL  = 'https://lkvmlgpuktbxohtuvwmb.supabase.co';
-const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I'; // same key as supabase.js
-
-async function sbFetch(table, method='GET', body=null, qs='') {
-  const token = localStorage.getItem('kas_sb_token') || SUPABASE_KEY;
-  const h = {
-    'apikey': SUPABASE_KEY,
-    'Authorization': 'Bearer ' + token,
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
-  };
-  if (method==='POST'||method==='PATCH') h['Prefer']='return=representation';
-  const opts = { method, headers: h };
-  if (body && method!=='GET' && method!=='DELETE') opts.body = JSON.stringify(body);
-  const res = await fetch(SUPABASE_URL+'/rest/v1/'+table+qs, opts);
-  if (method==='DELETE') return null;
-  const text = await res.text();
-  if (!res.ok) throw new Error('DB error '+res.status+': '+text);
-  return text ? JSON.parse(text) : [];
+// ── Save user to localStorage after login ─────────────────────
+function saveUserLocally(user) {
+  if (!user) return;
+  localStorage.setItem('kas_user_data', JSON.stringify({
+    uid:   user.uid,
+    email: user.email || '',
+    name:  user.displayName || user.email?.split('@')[0] || 'Client',
+    phone: user.phoneNumber || '',
+    photo: user.photoURL || ''
+  }));
 }
 
-// ── Save user to Supabase after any login ─────────────────────
-async function syncUserToSupabase(firebaseUser) {
-  if (!firebaseUser) return;
+// ── Save user to Supabase (best effort — won't block login) ──
+async function syncToSupabase(user) {
+  if (!user) return;
   try {
-    const existing = await sbFetch('users','GET',null,
-      `?firebase_uid=eq.${firebaseUser.uid}&select=id`);
+    const key = window.SUPABASE_ANON_KEY;
+    if (!key || key === 'PASTE_YOUR_ANON_KEY_HERE') return; // skip if not configured
+    const url = 'https://lkvmlgpuktbxohtuvwmb.supabase.co/rest/v1/users';
     const payload = {
-      firebase_uid:  firebaseUser.uid,
-      email:         firebaseUser.email || '',
-      name:          firebaseUser.displayName || '',
-      phone:         firebaseUser.phoneNumber || '',
-      photo_url:     firebaseUser.photoURL || '',
-      last_login:    new Date().toISOString()
+      firebase_uid: user.uid,
+      email: user.email || '',
+      name: user.displayName || '',
+      phone: user.phoneNumber || '',
+      photo_url: user.photoURL || '',
+      last_login: new Date().toISOString()
     };
-    if (existing && existing.length > 0) {
-      await sbFetch('users','PATCH',payload,`?firebase_uid=eq.${firebaseUser.uid}`);
-    } else {
-      await sbFetch('users','POST',{...payload, role:'client', created_at: new Date().toISOString()});
-    }
-    localStorage.setItem('kas_user_data', JSON.stringify({
-      uid:   firebaseUser.uid,
-      email: firebaseUser.email,
-      name:  firebaseUser.displayName || firebaseUser.email?.split('@')[0] || 'Client',
-      phone: firebaseUser.phoneNumber || '',
-      photo: firebaseUser.photoURL || ''
-    }));
-  } catch(e) { console.warn('User sync error:', e); }
+    // Try upsert
+    await fetch(url + `?firebase_uid=eq.${user.uid}`, {
+      method: 'PATCH',
+      headers: {
+        'apikey': key, 'Authorization': 'Bearer ' + key,
+        'Content-Type': 'application/json', 'Prefer': 'return=representation'
+      },
+      body: JSON.stringify(payload)
+    }).then(async r => {
+      if (r.status === 404 || (await r.json()).length === 0) {
+        // User doesn't exist, create
+        await fetch(url, {
+          method: 'POST',
+          headers: {
+            'apikey': key, 'Authorization': 'Bearer ' + key,
+            'Content-Type': 'application/json', 'Prefer': 'return=representation'
+          },
+          body: JSON.stringify({ ...payload, role: 'client', created_at: new Date().toISOString() })
+        });
+      }
+    });
+  } catch(e) {
+    // Silent fail — don't block login if Supabase sync fails
+    console.warn('Supabase sync (non-critical):', e.message);
+  }
 }
 
-// ── Auth State Observer ────────────────────────────────────────
+// ── Auth state observer ───────────────────────────────────────
 function onUserChanged(callback) {
-  return onAuthStateChanged(auth, async (user) => {
-    if (user) await syncUserToSupabase(user);
+  return onAuthStateChanged(auth, async user => {
+    if (user) {
+      saveUserLocally(user);
+      syncToSupabase(user); // async, non-blocking
+    } else {
+      localStorage.removeItem('kas_user_data');
+    }
     callback(user);
   });
 }
@@ -88,7 +105,8 @@ function onUserChanged(callback) {
 // ── Google Sign-In ────────────────────────────────────────────
 async function signInWithGoogle() {
   const result = await signInWithPopup(auth, googleProvider);
-  await syncUserToSupabase(result.user);
+  saveUserLocally(result.user);
+  syncToSupabase(result.user);
   return result.user;
 }
 
@@ -96,23 +114,28 @@ async function signInWithGoogle() {
 async function signUpEmail(email, password, name, phone) {
   const cred = await createUserWithEmailAndPassword(auth, email, password);
   await updateProfile(cred.user, { displayName: name });
-  // Also save phone to Supabase since Firebase email auth doesn't store phone
-  await syncUserToSupabase({...cred.user, displayName: name, phoneNumber: phone});
+  // Reload to get updated profile
+  await cred.user.reload();
+  saveUserLocally({ ...cred.user, displayName: name, phoneNumber: phone });
+  syncToSupabase({ ...cred.user, displayName: name, phoneNumber: phone });
   return cred.user;
 }
 
 async function signInEmail(email, password) {
   const cred = await signInWithEmailAndPassword(auth, email, password);
-  await syncUserToSupabase(cred.user);
+  saveUserLocally(cred.user);
+  syncToSupabase(cred.user);
   return cred.user;
 }
 
 // ── Phone OTP ─────────────────────────────────────────────────
 function setupRecaptcha(containerId) {
-  if (window.recaptchaVerifier) {
-    window.recaptchaVerifier.clear();
-    window.recaptchaVerifier = null;
-  }
+  try {
+    if (window.recaptchaVerifier) {
+      window.recaptchaVerifier.clear();
+      window.recaptchaVerifier = null;
+    }
+  } catch(e) {}
   window.recaptchaVerifier = new RecaptchaVerifier(auth, containerId, {
     size: 'invisible',
     callback: () => {}
@@ -121,7 +144,6 @@ function setupRecaptcha(containerId) {
 }
 
 async function sendOTP(phoneNumber) {
-  // phoneNumber must be in format +91XXXXXXXXXX
   const recaptcha = setupRecaptcha('recaptcha-container');
   const confirmation = await signInWithPhoneNumber(auth, phoneNumber, recaptcha);
   window.confirmationResult = confirmation;
@@ -129,32 +151,46 @@ async function sendOTP(phoneNumber) {
 }
 
 async function verifyOTP(otp) {
-  if (!window.confirmationResult) throw new Error('No OTP sent yet');
+  if (!window.confirmationResult) throw new Error('No OTP sent. Please send OTP first.');
   const cred = await window.confirmationResult.confirm(otp);
-  await syncUserToSupabase(cred.user);
+  saveUserLocally(cred.user);
+  syncToSupabase(cred.user);
   return cred.user;
+}
+
+// ── Password Reset ────────────────────────────────────────────
+async function resetPassword(email) {
+  await sendPasswordResetEmail(auth, email);
 }
 
 // ── Sign Out ──────────────────────────────────────────────────
 async function kasSignOut() {
   await signOut(auth);
   localStorage.removeItem('kas_user_data');
-  localStorage.removeItem('kas_sb_token');
   localStorage.removeItem('kas_tool_access');
+  localStorage.removeItem('kas_sb_token');
 }
 
-// ── Get current user data ─────────────────────────────────────
+// ── Helpers ───────────────────────────────────────────────────
 function getCurrentUser() {
-  const raw = localStorage.getItem('kas_user_data');
-  return raw ? JSON.parse(raw) : null;
+  try { return JSON.parse(localStorage.getItem('kas_user_data') || 'null'); }
+  catch(e) { return null; }
 }
 
-function isLoggedIn() { return !!auth.currentUser; }
+function isFirebaseAdmin(user) {
+  return user && user.email === 'sukant@kunwaraccountingservices.in';
+}
 
 export {
-  auth, googleProvider, app,
-  signInWithGoogle, signUpEmail, signInEmail,
-  sendOTP, verifyOTP, kasSignOut,
-  onUserChanged, getCurrentUser, isLoggedIn,
-  syncUserToSupabase, sbFetch
+  auth, app,
+  onUserChanged,
+  signInWithGoogle,
+  signUpEmail,
+  signInEmail,
+  sendOTP, verifyOTP,
+  resetPassword,
+  kasSignOut,
+  getCurrentUser,
+  isFirebaseAdmin,
+  updateProfile
 };

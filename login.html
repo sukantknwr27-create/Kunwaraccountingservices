@@ -13,45 +13,48 @@
     .auth-card { background: white; border-radius: 20px; border: 1px solid var(--border); padding: 2.25rem; width: 100%; max-width: 440px; box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
     .auth-logo { text-align: center; margin-bottom: 1.75rem; }
     .auth-logo-icon { width: 56px; height: 56px; background: var(--navy); border-radius: 14px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; }
-    .auth-logo h2 { font-family: 'Playfair Display',serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 3px; }
+    .auth-logo h2 { font-family:'Playfair Display',serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 3px; }
     .auth-logo p { font-size: 13px; color: var(--gray); }
-    .tab-bar { display: flex; background: var(--light); border-radius: 10px; padding: 3px; margin-bottom: 1.5rem; border: 1px solid var(--border); }
-    .tab-btn { flex: 1; padding: 9px 6px; border: none; background: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--gray); font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-    .tab-btn.active { background: white; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.08); font-weight: 600; }
-    .form-panel { display: none; }
-    .form-panel.active { display: block; animation: fadeUp 0.3s ease; }
-    .err-msg { background: #FEE2E2; color: #DC2626; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; display: none; }
-    .ok-msg  { background: #DCFCE7; color: #16A34A; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; display: none; }
-    .auth-btn { width: 100%; background: var(--navy); color: white; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 4px; }
+    .method-tabs { display: flex; background: var(--light); border-radius: 10px; padding: 3px; margin-bottom: 1.5rem; border: 1px solid var(--border); }
+    .method-tab { flex: 1; padding: 10px 6px; border: none; background: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--gray); font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .method-tab.active { background: var(--navy); color: white; font-weight: 600; }
+    .method-panel { display: none; }
+    .method-panel.active { display: block; animation: fadeUp 0.2s ease; }
+    .sub-tabs { display: flex; background: var(--light); border-radius: 8px; padding: 3px; margin-bottom: 1.25rem; border: 1px solid var(--border); }
+    .sub-tab { flex: 1; padding: 8px; border: none; background: none; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--gray); font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .sub-tab.active { background: white; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.08); font-weight: 600; }
+    .err-box { background: #FEE2E2; color: #DC2626; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; display: none; border-left: 3px solid #DC2626; }
+    .ok-box  { background: #DCFCE7; color: #16A34A; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; display: none; border-left: 3px solid #16A34A; }
+    .auth-btn { width: 100%; background: var(--navy); color: white; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 6px; }
     .auth-btn:hover { background: var(--navy-dark); }
-    .auth-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    .google-btn { width: 100%; background: white; color: #374151; padding: 12px; border-radius: 8px; font-size: 14px; font-weight: 600; border: 1.5px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 1rem; }
+    .auth-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .google-btn { width: 100%; background: white; color: #374151; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 600; border: 1.5px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .google-btn:hover { background: var(--light); border-color: #9CA3AF; }
-    .or-divider { display: flex; align-items: center; gap: 12px; margin: 1rem 0; }
-    .or-divider::before, .or-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .or-divider span { font-size: 12px; color: var(--gray); white-space: nowrap; }
-    .otp-row { display: flex; gap: 8px; }
-    .otp-row input { flex: 1; }
-    .otp-row button { white-space: nowrap; background: var(--navy); color: white; border: none; padding: 11px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; flex-shrink: 0; }
-    .otp-row button:disabled { opacity: 0.5; cursor: not-allowed; }
-    .otp-digits { display: flex; gap: 8px; margin-top: 1rem; }
-    .otp-digits input { flex: 1; text-align: center; font-size: 1.2rem; font-weight: 700; padding: 12px 4px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; color: var(--charcoal); outline: none; }
-    .otp-digits input:focus { border-color: var(--navy); }
-    .otp-sent-msg { background: var(--ice); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--navy); margin-top: 1rem; display: none; border-left: 3px solid var(--navy); }
-    .back-link { text-align: center; margin-top: 1.25rem; font-size: 13px; color: var(--gray); }
-    .back-link a { color: var(--navy); font-weight: 600; text-decoration: none; }
-    .terms-note { font-size: 11px; color: var(--gray); text-align: center; margin-top: 1rem; line-height: 1.6; }
-    .countdown { font-size: 12px; color: var(--gray); text-align: center; margin-top: 8px; display: none; }
-    #recaptcha-container { margin-top: 8px; }
-    .user-type-badge { display: inline-flex; align-items: center; gap: 6px; background: #FEF3C7; color: #92400E; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 1rem; }
-    .admin-note { text-align: center; margin-top: 1rem; font-size: 13px; color: var(--gray); }
+    .google-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .otp-input-row { display: flex; gap: 8px; }
+    .otp-input-row input { flex: 1; }
+    .send-otp-btn { background: var(--navy); color: white; border: none; padding: 11px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
+    .send-otp-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .otp-digits { display: flex; gap: 8px; margin-top: 10px; }
+    .otp-digit { flex: 1; text-align: center; font-size: 1.3rem; font-weight: 700; padding: 12px 4px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; color: var(--charcoal); outline: none; width: 100%; }
+    .otp-digit:focus { border-color: var(--navy); }
+    .otp-sent-info { background: var(--ice); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--navy); margin-bottom: 10px; border-left: 3px solid var(--navy); display: none; }
+    .forgot-link { text-align: center; margin-top: 10px; font-size: 13px; }
+    .forgot-link a { color: var(--navy); font-weight: 600; text-decoration: none; cursor: pointer; }
+    .admin-note { text-align: center; margin-top: 1.25rem; font-size: 13px; color: var(--gray); padding-top: 1.25rem; border-top: 1px solid var(--border); }
     .admin-note a { color: var(--navy); font-weight: 600; text-decoration: none; }
+    .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: middle; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .terms-note { font-size: 11px; color: var(--gray); text-align: center; margin-top: 1rem; line-height: 1.6; }
+    .countdown { font-size: 12px; color: var(--gray); text-align: center; margin-top: 6px; }
   </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
+
 <div class="auth-wrap">
   <div class="auth-card">
+
     <div class="auth-logo">
       <div class="auth-logo-icon">
         <svg width="30" height="30" viewBox="0 0 28 28" fill="none">
@@ -65,46 +68,72 @@
       <p>Kunwar Accounting Services</p>
     </div>
 
-    <!-- TABS -->
-    <div class="tab-bar">
-      <button class="tab-btn active" onclick="switchTab('email',this)">📧 Email</button>
-      <button class="tab-btn" onclick="switchTab('google',this)">🔵 Google</button>
-      <button class="tab-btn" onclick="switchTab('phone',this)">📱 Mobile OTP</button>
+    <!-- Global messages -->
+    <div class="err-box" id="g-err"></div>
+    <div class="ok-box"  id="g-ok"></div>
+
+    <!-- Method Tabs -->
+    <div class="method-tabs">
+      <button class="method-tab active" id="tab-email"  onclick="showMethod('email')">📧 Email</button>
+      <button class="method-tab"        id="tab-google" onclick="showMethod('google')">🔵 Google</button>
+      <button class="method-tab"        id="tab-phone"  onclick="showMethod('phone')">📱 OTP</button>
     </div>
 
-    <div id="global-err" class="err-msg"></div>
-    <div id="global-ok"  class="ok-msg"></div>
-
-    <!-- EMAIL PANEL -->
-    <div class="form-panel active" id="panel-email">
-      <div class="tab-bar" style="margin-bottom:1.25rem;">
-        <button class="tab-btn active" id="sub-login" onclick="switchSubTab('login',this)">Login</button>
-        <button class="tab-btn" id="sub-signup" onclick="switchSubTab('signup',this)">Sign Up</button>
+    <!-- ══ EMAIL PANEL ══════════════════════════════════════ -->
+    <div class="method-panel active" id="panel-email">
+      <div class="sub-tabs">
+        <button class="sub-tab active" id="st-login"  onclick="showSubTab('login')">Login</button>
+        <button class="sub-tab"        id="st-signup" onclick="showSubTab('signup')">Sign Up</button>
       </div>
 
-      <!-- Login form -->
-      <div id="email-login-form">
-        <div class="form-group"><label>Email address</label><input type="email" id="li-email" placeholder="raj@business.com"/></div>
-        <div class="form-group"><label>Password</label><input type="password" id="li-pwd" placeholder="••••••••"/></div>
+      <!-- Login -->
+      <div id="form-login">
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" id="li-email" placeholder="raj@business.com" autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="li-pwd" placeholder="••••••••" autocomplete="current-password"
+                 onkeydown="if(event.key==='Enter')doEmailLogin()"/>
+        </div>
         <button class="auth-btn" id="li-btn" onclick="doEmailLogin()">Login to My Account →</button>
-        <div class="back-link" style="margin-top:10px;"><a href="#" onclick="showForgotPwd();return false;">Forgot password?</a></div>
+        <div class="forgot-link"><a onclick="doForgotPassword()">Forgot password?</a></div>
       </div>
 
-      <!-- Signup form -->
-      <div id="email-signup-form" style="display:none;">
-        <div class="form-group"><label>Full Name *</label><input type="text" id="su-name" placeholder="Raj Sharma"/></div>
-        <div class="form-group"><label>Phone Number *</label><input type="tel" id="su-phone" placeholder="+91 98XXX XXXXX"/></div>
-        <div class="form-group"><label>Business Name</label><input type="text" id="su-biz" placeholder="Raj Enterprises (optional)"/></div>
-        <div class="form-group"><label>Email Address *</label><input type="email" id="su-email" placeholder="raj@business.com"/></div>
-        <div class="form-group"><label>Password * (min 6 characters)</label><input type="password" id="su-pwd" placeholder="••••••••"/></div>
+      <!-- Signup -->
+      <div id="form-signup" style="display:none;">
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" id="su-name" placeholder="Raj Sharma" autocomplete="name"/>
+        </div>
+        <div class="form-group">
+          <label>Phone Number *</label>
+          <input type="tel" id="su-phone" placeholder="+91 98765 43210" autocomplete="tel"/>
+        </div>
+        <div class="form-group">
+          <label>Business Name (optional)</label>
+          <input type="text" id="su-biz" placeholder="Raj Enterprises"/>
+        </div>
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" id="su-email" placeholder="raj@business.com" autocomplete="email"/>
+        </div>
+        <div class="form-group">
+          <label>Password * (min 6 characters)</label>
+          <input type="password" id="su-pwd" placeholder="••••••••" autocomplete="new-password"
+                 onkeydown="if(event.key==='Enter')doEmailSignup()"/>
+        </div>
         <button class="auth-btn" id="su-btn" onclick="doEmailSignup()">Create My Account →</button>
       </div>
     </div>
 
-    <!-- GOOGLE PANEL -->
-    <div class="form-panel" id="panel-google">
-      <p style="text-align:center;font-size:14px;color:var(--gray);margin-bottom:1.5rem;line-height:1.7;">Sign in instantly with your Google account. No password needed.</p>
-      <button class="google-btn" onclick="doGoogleLogin()">
+    <!-- ══ GOOGLE PANEL ═════════════════════════════════════ -->
+    <div class="method-panel" id="panel-google">
+      <p style="text-align:center;font-size:14px;color:var(--gray);margin-bottom:1.5rem;line-height:1.7;">
+        Sign in instantly with your Google account.<br>No password needed.
+      </p>
+      <button class="google-btn" id="google-btn" onclick="doGoogleLogin()">
         <svg width="20" height="20" viewBox="0 0 48 48">
           <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
           <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
@@ -113,237 +142,321 @@
         </svg>
         Continue with Google
       </button>
-      <div class="terms-note">By signing in, you agree to our terms. Your Google account info is kept private.</div>
+      <div class="terms-note">By signing in you agree to our terms. Your Google info stays private.</div>
     </div>
 
-    <!-- PHONE OTP PANEL -->
-    <div class="form-panel" id="panel-phone">
-      <div id="otp-step-1">
+    <!-- ══ PHONE OTP PANEL ══════════════════════════════════ -->
+    <div class="method-panel" id="panel-phone">
+      <!-- Step 1: Enter number -->
+      <div id="phone-step1">
         <div class="form-group">
           <label>Indian Mobile Number</label>
-          <div class="otp-row">
-            <input type="tel" id="phone-num" placeholder="+91 98765 43210" maxlength="14"/>
-            <button id="send-otp-btn" onclick="doSendOTP()">Send OTP</button>
+          <div class="otp-input-row">
+            <input type="tel" id="ph-number" placeholder="+91 98765 43210"
+                   onkeydown="if(event.key==='Enter')doSendOTP()"/>
+            <button class="send-otp-btn" id="send-otp-btn" onclick="doSendOTP()">Send OTP</button>
           </div>
         </div>
         <div id="recaptcha-container"></div>
         <div class="countdown" id="otp-countdown"></div>
       </div>
-      <div id="otp-step-2" style="display:none;">
-        <div class="otp-sent-msg" id="otp-sent-msg" style="display:block;">
-          📱 OTP sent! Check your messages.
+
+      <!-- Step 2: Enter OTP -->
+      <div id="phone-step2" style="display:none;">
+        <div class="otp-sent-info" id="otp-sent-info" style="display:block;">
+          📱 OTP sent! Enter the 6-digit code below.
         </div>
-        <div class="form-group" style="margin-top:1rem;">
-          <label>Enter 6-digit OTP</label>
+        <div class="form-group">
+          <label>Enter 6-Digit OTP</label>
           <div class="otp-digits">
-            <input type="number" maxlength="1" class="otp-digit" oninput="otpInput(this)"/>
-            <input type="number" maxlength="1" class="otp-digit" oninput="otpInput(this)"/>
-            <input type="number" maxlength="1" class="otp-digit" oninput="otpInput(this)"/>
-            <input type="number" maxlength="1" class="otp-digit" oninput="otpInput(this)"/>
-            <input type="number" maxlength="1" class="otp-digit" oninput="otpInput(this)"/>
-            <input type="number" maxlength="1" class="otp-digit" oninput="otpInput(this)"/>
+            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
+            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
+            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
+            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
+            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
+            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
           </div>
         </div>
-        <!-- Name for new phone users -->
         <div id="phone-name-wrap" style="display:none;">
-          <div class="form-group"><label>Your Name *</label><input type="text" id="phone-name" placeholder="Raj Sharma"/></div>
-          <div class="form-group"><label>Email (optional)</label><input type="email" id="phone-email" placeholder="raj@business.com"/></div>
+          <div class="form-group">
+            <label>Your Name (first time login)</label>
+            <input type="text" id="ph-name" placeholder="Raj Sharma"/>
+          </div>
         </div>
         <button class="auth-btn" id="verify-btn" onclick="doVerifyOTP()">Verify & Login →</button>
-        <div class="back-link"><a href="#" onclick="resetOTP();return false;">← Change number</a></div>
+        <div class="forgot-link"><a onclick="resetPhoneStep()">← Change number</a></div>
       </div>
     </div>
 
-    <div class="admin-note">Admin? <a href="admin-login.html">Admin Portal →</a></div>
+    <div class="admin-note">
+      Admin? <a href="admin-login.html">Admin Portal →</a>
+    </div>
   </div>
 </div>
 
+<!-- Load supabase first (sets window.SUPABASE_ANON_KEY) -->
 <script src="supabase.js"></script>
 <script src="nav.js"></script>
-<script type="module">
-import { signInWithGoogle, signUpEmail, signInEmail,
-         sendOTP, verifyOTP, kasSignOut, onUserChanged, getCurrentUser }
-  from './firebase.js';
 
+<!-- Firebase Auth Logic -->
+<script type="module">
+import {
+  onUserChanged, signInWithGoogle, signUpEmail, signInEmail,
+  sendOTP, verifyOTP, resetPassword, kasSignOut, isFirebaseAdmin,
+  updateProfile, auth
+} from './firebase.js';
+
+// ── Inject nav ────────────────────────────────────────────────
 injectNav('login');
 
-// Redirect if already logged in
+// ── Redirect if already logged in ─────────────────────────────
 onUserChanged(user => {
-  if (user) window.location.href = 'dashboard.html';
+  if (user) {
+    window.location.href = isFirebaseAdmin(user) ? 'admin.html' : 'dashboard.html';
+  }
 });
 
+// ── Helpers ───────────────────────────────────────────────────
 function showErr(msg) {
-  const e = document.getElementById('global-err');
-  e.textContent = msg; e.style.display = 'block';
-  document.getElementById('global-ok').style.display = 'none';
+  const e = document.getElementById('g-err');
+  e.innerHTML = '❌ ' + msg; e.style.display = 'block';
+  document.getElementById('g-ok').style.display = 'none';
 }
 function showOk(msg) {
-  const e = document.getElementById('global-ok');
-  e.textContent = msg; e.style.display = 'block';
-  document.getElementById('global-err').style.display = 'none';
+  const e = document.getElementById('g-ok');
+  e.innerHTML = '✓ ' + msg; e.style.display = 'block';
+  document.getElementById('g-err').style.display = 'none';
 }
 function clearMsgs() {
-  document.getElementById('global-err').style.display = 'none';
-  document.getElementById('global-ok').style.display = 'none';
+  document.getElementById('g-err').style.display = 'none';
+  document.getElementById('g-ok').style.display  = 'none';
+}
+function setLoading(btnId, loading, text) {
+  const btn = document.getElementById(btnId);
+  if (!btn) return;
+  btn.disabled = loading;
+  btn.innerHTML = loading ? `<span class="loading-spinner"></span>${text}` : text;
 }
 
-// Make functions global
-window.switchTab = function(tab, btn) {
+// ── Tab switching ─────────────────────────────────────────────
+window.showMethod = function(method) {
   clearMsgs();
-  document.querySelectorAll('.tab-bar .tab-btn').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
-  document.querySelectorAll('.form-panel').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + tab).classList.add('active');
+  ['email','google','phone'].forEach(m => {
+    document.getElementById('tab-' + m).classList.toggle('active', m === method);
+    document.getElementById('panel-' + m).classList.toggle('active', m === method);
+  });
 };
 
-window.switchSubTab = function(sub, btn) {
+window.showSubTab = function(sub) {
   clearMsgs();
-  document.getElementById('sub-login').classList.toggle('active', sub === 'login');
-  document.getElementById('sub-signup').classList.toggle('active', sub === 'signup');
-  document.getElementById('email-login-form').style.display = sub === 'login' ? 'block' : 'none';
-  document.getElementById('email-signup-form').style.display = sub === 'signup' ? 'block' : 'none';
+  document.getElementById('st-login').classList.toggle('active', sub === 'login');
+  document.getElementById('st-signup').classList.toggle('active', sub === 'signup');
+  document.getElementById('form-login').style.display  = sub === 'login'  ? 'block' : 'none';
+  document.getElementById('form-signup').style.display = sub === 'signup' ? 'block' : 'none';
 };
 
+// ── Email Login ───────────────────────────────────────────────
 window.doEmailLogin = async function() {
-  const email = document.getElementById('li-email').value.trim();
-  const pwd = document.getElementById('li-pwd').value;
-  if (!email || !pwd) { showErr('Please enter email and password.'); return; }
-  const btn = document.getElementById('li-btn');
-  btn.disabled = true; btn.textContent = 'Logging in...';
   clearMsgs();
+  const email = document.getElementById('li-email').value.trim();
+  const pwd   = document.getElementById('li-pwd').value;
+  if (!email) { showErr('Please enter your email address.'); return; }
+  if (!pwd)   { showErr('Please enter your password.'); return; }
+
+  setLoading('li-btn', true, 'Logging in...');
   try {
-    await signInEmail(email, pwd);
-    window.location.href = 'dashboard.html';
+    const user = await signInEmail(email, pwd);
+    showOk('Login successful! Redirecting...');
+    setTimeout(() => {
+      window.location.href = isFirebaseAdmin(user) ? 'admin.html' : 'dashboard.html';
+    }, 800);
   } catch(e) {
-    showErr(e.code === 'auth/invalid-credential' ? 'Invalid email or password.' : e.message);
+    const msg = e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password'
+      ? 'Incorrect email or password. Please try again.'
+      : e.code === 'auth/user-not-found'
+      ? 'No account found with this email. Please sign up first.'
+      : e.code === 'auth/too-many-requests'
+      ? 'Too many attempts. Please wait a few minutes and try again.'
+      : 'Login failed: ' + (e.message || 'Unknown error');
+    showErr(msg);
+    setLoading('li-btn', false, 'Login to My Account →');
   }
-  btn.disabled = false; btn.textContent = 'Login to My Account →';
 };
 
+// ── Email Signup ──────────────────────────────────────────────
 window.doEmailSignup = async function() {
+  clearMsgs();
   const name  = document.getElementById('su-name').value.trim();
   const phone = document.getElementById('su-phone').value.trim();
   const email = document.getElementById('su-email').value.trim();
   const pwd   = document.getElementById('su-pwd').value;
-  if (!name || !phone || !email || !pwd) { showErr('Please fill all required fields.'); return; }
-  if (pwd.length < 6) { showErr('Password must be at least 6 characters.'); return; }
-  const btn = document.getElementById('su-btn');
-  btn.disabled = true; btn.textContent = 'Creating account...';
-  clearMsgs();
+
+  if (!name)  { showErr('Please enter your full name.'); return; }
+  if (!phone) { showErr('Please enter your phone number.'); return; }
+  if (!email) { showErr('Please enter your email address.'); return; }
+  if (!pwd || pwd.length < 6) { showErr('Password must be at least 6 characters.'); return; }
+
+  setLoading('su-btn', true, 'Creating account...');
   try {
     await signUpEmail(email, pwd, name, phone);
-    showOk('✓ Account created! Welcome to Kunwar Accounting Services.');
-    setTimeout(() => window.location.href = 'dashboard.html', 1500);
+    showOk('Account created successfully! Welcome to Kunwar Accounting Services.');
+    setTimeout(() => window.location.href = 'dashboard.html', 1200);
   } catch(e) {
-    showErr(e.code === 'auth/email-already-in-use' ? 'This email is already registered. Please login.' : e.message);
+    const msg = e.code === 'auth/email-already-in-use'
+      ? 'This email is already registered. Please login instead.'
+      : e.code === 'auth/invalid-email'
+      ? 'Please enter a valid email address.'
+      : e.code === 'auth/weak-password'
+      ? 'Password is too weak. Use at least 6 characters.'
+      : 'Signup failed: ' + (e.message || 'Unknown error');
+    showErr(msg);
+    setLoading('su-btn', false, 'Create My Account →');
   }
-  btn.disabled = false; btn.textContent = 'Create My Account →';
 };
 
+// ── Google Login ──────────────────────────────────────────────
 window.doGoogleLogin = async function() {
   clearMsgs();
+  setLoading('google-btn', true, 'Opening Google...');
   try {
-    await signInWithGoogle();
-    window.location.href = 'dashboard.html';
+    const user = await signInWithGoogle();
+    showOk('Google login successful! Redirecting...');
+    setTimeout(() => {
+      window.location.href = isFirebaseAdmin(user) ? 'admin.html' : 'dashboard.html';
+    }, 800);
   } catch(e) {
-    if (e.code !== 'auth/popup-closed-by-user') showErr('Google sign-in failed. Please try again.');
+    if (e.code === 'auth/popup-closed-by-user') {
+      clearMsgs(); // User just closed the popup — not an error
+    } else if (e.code === 'auth/unauthorized-domain') {
+      showErr('Google login not enabled for this domain. Please add your domain in Firebase Console → Authentication → Authorized Domains.');
+    } else {
+      showErr('Google sign-in failed: ' + (e.message || 'Please try again.'));
+    }
+    setLoading('google-btn', false, `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`);
   }
 };
 
-let otpSent = false;
-let countdown;
+// ── Phone OTP ─────────────────────────────────────────────────
+let countdownTimer = null;
 
 window.doSendOTP = async function() {
-  let phone = document.getElementById('phone-num').value.trim();
+  clearMsgs();
+  let phone = document.getElementById('ph-number').value.trim();
   if (!phone) { showErr('Please enter your mobile number.'); return; }
-  // Auto format
-  if (!phone.startsWith('+')) phone = '+91' + phone.replace(/\D/g,'');
-  if (phone.replace(/\D/g,'').length < 12) { showErr('Please enter a valid 10-digit mobile number.'); return; }
+
+  // Auto-format Indian number
+  const digits = phone.replace(/\D/g, '');
+  if (digits.length === 10) phone = '+91' + digits;
+  else if (digits.length === 12 && digits.startsWith('91')) phone = '+' + digits;
+  else if (!phone.startsWith('+91')) phone = '+91' + digits.slice(-10);
+
+  if (phone.replace(/\D/g,'').length < 12) {
+    showErr('Please enter a valid 10-digit Indian mobile number.');
+    return;
+  }
 
   const btn = document.getElementById('send-otp-btn');
   btn.disabled = true; btn.textContent = 'Sending...';
-  clearMsgs();
+
   try {
     await sendOTP(phone);
-    otpSent = true;
-    document.getElementById('otp-step-1').style.display = 'none';
-    document.getElementById('otp-step-2').style.display = 'block';
+    document.getElementById('phone-step1').style.display = 'none';
+    document.getElementById('phone-step2').style.display = 'block';
     document.querySelector('.otp-digit').focus();
-    // 30s countdown
+    showOk('OTP sent to ' + phone);
+
+    // Countdown
     let secs = 30;
     const cd = document.getElementById('otp-countdown');
-    cd.style.display = 'block';
-    countdown = setInterval(() => {
+    cd.textContent = `Resend in ${secs}s`;
+    countdownTimer = setInterval(() => {
       secs--;
-      cd.textContent = `Resend OTP in ${secs}s`;
-      if (secs <= 0) { clearInterval(countdown); cd.textContent = ''; }
+      cd.textContent = secs > 0 ? `Resend in ${secs}s` : '';
+      if (secs <= 0) { clearInterval(countdownTimer); btn.disabled = false; btn.textContent = 'Resend OTP'; }
     }, 1000);
   } catch(e) {
-    showErr('Failed to send OTP. Check number and try again.');
+    showErr('Could not send OTP. Check your number and try again. Error: ' + (e.message || e.code || 'Unknown'));
     btn.disabled = false; btn.textContent = 'Send OTP';
   }
 };
 
-window.otpInput = function(el) {
-  const val = el.value.slice(-1);
-  el.value = val;
-  if (val && el.nextElementSibling) el.nextElementSibling.focus();
+window.otpDigitInput = function(el) {
+  // Only keep last digit
+  if (el.value.length > 1) el.value = el.value.slice(-1);
+  // Auto-move to next
+  if (el.value && el.nextElementSibling) el.nextElementSibling.focus();
 };
 
 window.doVerifyOTP = async function() {
-  const digits = [...document.querySelectorAll('.otp-digit')].map(i => i.value).join('');
-  if (digits.length < 6) { showErr('Please enter the complete 6-digit OTP.'); return; }
-  const btn = document.getElementById('verify-btn');
-  btn.disabled = true; btn.textContent = 'Verifying...';
   clearMsgs();
+  const digits = [...document.querySelectorAll('.otp-digit')].map(i => i.value).join('');
+  if (digits.length < 6 || digits.includes('')) {
+    showErr('Please enter all 6 digits of the OTP.');
+    return;
+  }
+
+  setLoading('verify-btn', true, 'Verifying...');
   try {
     const user = await verifyOTP(digits);
-    // If new user with no display name, show name fields
+
+    // First time phone login — ask for name
     if (!user.displayName) {
       document.getElementById('phone-name-wrap').style.display = 'block';
       showOk('OTP verified! Please enter your name to continue.');
-      btn.textContent = 'Complete Setup →';
-      btn.disabled = false;
-      btn.onclick = completePhoneSetup;
+      setLoading('verify-btn', false, 'Complete Setup →');
+      document.getElementById('verify-btn').onclick = completePhoneSetup;
       return;
     }
-    window.location.href = 'dashboard.html';
+
+    showOk('Login successful! Redirecting...');
+    setTimeout(() => window.location.href = 'dashboard.html', 800);
   } catch(e) {
-    showErr('Invalid OTP. Please try again.');
-    btn.disabled = false; btn.textContent = 'Verify & Login →';
+    const msg = e.code === 'auth/invalid-verification-code'
+      ? 'Incorrect OTP. Please check and try again.'
+      : e.code === 'auth/code-expired'
+      ? 'OTP has expired. Please request a new one.'
+      : 'Verification failed: ' + (e.message || 'Unknown error');
+    showErr(msg);
+    setLoading('verify-btn', false, 'Verify & Login →');
   }
 };
 
 async function completePhoneSetup() {
-  const name = document.getElementById('phone-name').value.trim();
+  const name = document.getElementById('ph-name').value.trim();
   if (!name) { showErr('Please enter your name.'); return; }
-  // Update profile
-  const { auth } = await import('./firebase.js');
-  const { updateProfile } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-  await updateProfile(auth.currentUser, { displayName: name });
-  window.location.href = 'dashboard.html';
+  setLoading('verify-btn', true, 'Saving...');
+  try {
+    await updateProfile(auth.currentUser, { displayName: name });
+    showOk('Setup complete! Redirecting...');
+    setTimeout(() => window.location.href = 'dashboard.html', 800);
+  } catch(e) {
+    showErr('Could not save name: ' + e.message);
+    setLoading('verify-btn', false, 'Complete Setup →');
+  }
 }
 
-window.resetOTP = function() {
-  otpSent = false;
-  clearInterval(countdown);
-  document.getElementById('otp-step-1').style.display = 'block';
-  document.getElementById('otp-step-2').style.display = 'none';
+window.resetPhoneStep = function() {
+  clearMsgs();
+  clearInterval(countdownTimer);
+  document.getElementById('phone-step1').style.display = 'block';
+  document.getElementById('phone-step2').style.display = 'none';
+  document.querySelectorAll('.otp-digit').forEach(i => i.value = '');
   document.getElementById('send-otp-btn').disabled = false;
   document.getElementById('send-otp-btn').textContent = 'Send OTP';
-  document.querySelectorAll('.otp-digit').forEach(i => i.value = '');
-  clearMsgs();
+  document.getElementById('otp-countdown').textContent = '';
 };
 
-window.showForgotPwd = async function() {
+// ── Forgot Password ───────────────────────────────────────────
+window.doForgotPassword = async function() {
+  clearMsgs();
   const email = document.getElementById('li-email').value.trim();
-  if (!email) { showErr('Enter your email address first, then click Forgot Password.'); return; }
-  const { sendPasswordResetEmail } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
-  const { auth } = await import('./firebase.js');
+  if (!email) { showErr('Please enter your email address first, then click Forgot Password.'); return; }
   try {
-    await sendPasswordResetEmail(auth, email);
-    showOk('✓ Password reset email sent! Check your inbox.');
-  } catch(e) { showErr('Could not send reset email. Check your email address.'); }
+    await resetPassword(email);
+    showOk('Password reset email sent! Check your inbox (and spam folder).');
+  } catch(e) {
+    showErr('Could not send reset email. Please check your email address.');
+  }
 };
 </script>
 </body>
