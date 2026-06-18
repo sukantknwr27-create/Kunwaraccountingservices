@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Free Tax & Accounting Tools 2026 | Kunwar Accounting Services Delhi</title>
+  <meta name="description" content="Free online tax tools — GST calculator, ITR calculator, EMI calculator, salary TDS calculator, P&L calculator, HRA calculator, depreciation calculator. Delhi 2026."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    /* Access Gate */
+    .gate-overlay { position: fixed; inset: 0; background: rgba(4,44,83,0.92); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 1.5rem; backdrop-filter: blur(4px); }
+    .gate-card { background: white; border-radius: 20px; padding: 2.25rem; width: 100%; max-width: 420px; text-align: center; animation: fadeUp 0.4s ease; }
+    .gate-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .gate-card h2 { font-family: 'Playfair Display',serif; font-size: 1.4rem; color: var(--charcoal); margin-bottom: 6px; }
+    .gate-card p { font-size: 13px; color: var(--gray); line-height: 1.7; margin-bottom: 1.5rem; }
+    .gate-form .form-group { text-align: left; margin-bottom: 12px; }
+    .gate-err { background: #FEE2E2; color: #DC2626; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 12px; display: none; }
+    .gate-btn { width: 100%; background: var(--navy); color: white; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans',sans-serif; transition: all 0.2s; }
+    .gate-btn:hover { background: var(--navy-dark); }
+    .gate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .gate-divider { display: flex; align-items: center; gap: 10px; margin: 1rem 0; }
+    .gate-divider::before,.gate-divider::after { content:''; flex:1; height:1px; background:var(--border); }
+    .gate-divider span { font-size:12px; color:var(--gray); }
+    .gate-login-btn { width:100%; background:white; color:var(--navy); border:1.5px solid var(--navy); padding:11px; border-radius:8px; font-size:14px; font-weight:600; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .gate-note { font-size:11px; color:var(--gray); margin-top:1rem; line-height:1.6; }
+
+    /* Tools grid */
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px,1fr)); gap: 1.25rem; margin-top: 2rem; }
+    .tool-card { background: white; border: 1px solid var(--border); border-radius: 14px; padding: 1.75rem; text-decoration: none; display: block; color: inherit; transition: all 0.25s; cursor: pointer; }
+    .tool-card:hover { border-color: var(--navy); box-shadow: 0 8px 24px rgba(12,68,124,0.1); transform: translateY(-2px); }
+    .tool-icon { font-size: 2.25rem; margin-bottom: 10px; }
+    .tool-badge { display: inline-block; background: var(--ice); color: var(--navy); font-size: 10px; font-weight: 700; padding: 2px 8px; border-radius: 20px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 8px; }
+    .tool-card h3 { font-size: 15px; font-weight: 600; color: var(--charcoal); margin-bottom: 6px; }
+    .tool-card p { font-size: 13px; color: var(--gray); line-height: 1.6; margin-bottom: 10px; }
+    .tool-link { font-size: 13px; color: var(--navy); font-weight: 600; }
+
+    /* User welcome bar */
+    .user-bar { background: var(--ice); border-radius: 10px; padding: 10px 16px; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; border: 1px solid var(--border); }
+    .user-bar-info { font-size: 13px; color: var(--charcoal); }
+    .user-bar-info strong { color: var(--navy); }
+    .user-bar-logout { font-size: 12px; color: var(--gray); cursor: pointer; text-decoration: underline; background: none; border: none; font-family: 'DM Sans',sans-serif; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+
+<!-- ACCESS GATE -->
+<div class="gate-overlay" id="gate-overlay">
+  <div class="gate-card">
+    <div class="gate-icon">🔓</div>
+    <h2>Access Free Tax Tools</h2>
+    <p>Enter your details once to unlock all 6 free tools — GST calculator, ITR calculator, salary calculator and more.</p>
+    <div class="gate-err" id="gate-err"></div>
+    <div class="gate-form">
+      <div class="form-group"><label>Full Name *</label><input type="text" id="g-name" placeholder="Raj Sharma" autocomplete="name"/></div>
+      <div class="form-group"><label>Email Address *</label><input type="email" id="g-email" placeholder="raj@business.com" autocomplete="email"/></div>
+      <div class="form-group"><label>Mobile Number *</label><input type="tel" id="g-phone" placeholder="+91 98765 43210" autocomplete="tel"/></div>
+      <button class="gate-btn" id="gate-btn" onclick="unlockTools()">Unlock Free Tools →</button>
+    </div>
+    <div class="gate-divider"><span>Already have an account?</span></div>
+    <button class="gate-login-btn" onclick="window.location.href='login.html'">Login to My Account</button>
+    <div class="gate-note">🔒 Your details are kept private. We may occasionally send you tax deadline reminders.</div>
+  </div>
+</div>
+
+<main>
+  <div class="page-hero">
+    <h1>Free Tax & Accounting Tools</h1>
+    <p>Calculators and resources for small businesses in India — free, instant, updated for 2026</p>
+  </div>
+
+  <div class="section">
+    <!-- User welcome bar (shown when logged in) -->
+    <div class="user-bar" id="user-bar" style="display:none;">
+      <div class="user-bar-info">👋 Welcome, <strong id="ub-name">User</strong>! All tools are unlocked for you.</div>
+      <button class="user-bar-logout" onclick="logoutUser()">Logout</button>
+    </div>
+
+    <div class="tools-grid">
+      <div class="tool-card" onclick="openTool('gst-calculator.html')">
+        <div class="tool-icon">🧮</div>
+        <span class="tool-badge">Updated 2026</span>
+        <h3>GST Calculator</h3>
+        <p>Add or remove GST from any amount. Supports all slabs — 0%, 5%, 12%, 18%, 28%. CGST+SGST or IGST.</p>
+        <span class="tool-link">Open Calculator →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('itr-calculator.html')">
+        <div class="tool-icon">📊</div>
+        <span class="tool-badge">FY 2026-27</span>
+        <h3>Income Tax Calculator</h3>
+        <p>Compare Old vs New regime. Budget 2025 slabs. Income up to ₹12L tax-free under new regime.</p>
+        <span class="tool-link">Calculate Tax →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('emi-calculator.html')">
+        <div class="tool-icon">💰</div>
+        <span class="tool-badge">New Tool</span>
+        <h3>EMI / Loan Calculator</h3>
+        <p>Calculate monthly EMI for any loan. Full amortisation schedule with interest breakup.</p>
+        <span class="tool-link">Calculate EMI →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('pl-calculator.html')">
+        <div class="tool-icon">📈</div>
+        <span class="tool-badge">New Tool</span>
+        <h3>Business P&L Calculator</h3>
+        <p>Calculate your monthly profit and loss. Revenue, expenses, gross profit, net profit.</p>
+        <span class="tool-link">Calculate P&L →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('salary-calculator.html')">
+        <div class="tool-icon">👨‍💼</div>
+        <span class="tool-badge">New Tool</span>
+        <h3>Salary & TDS Calculator</h3>
+        <p>Calculate net take-home salary after TDS, PF, ESI deductions. For employers and employees.</p>
+        <span class="tool-link">Calculate Salary →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('depreciation-calculator.html')">
+        <div class="tool-icon">📉</div>
+        <span class="tool-badge">New Tool</span>
+        <h3>Depreciation Calculator</h3>
+        <p>Calculate WDV and SLM depreciation for assets as per Income Tax and Companies Act.</p>
+        <span class="tool-link">Calculate Depreciation →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('hra-calculator.html')">
+        <div class="tool-icon">🏠</div>
+        <span class="tool-badge">New Tool</span>
+        <h3>HRA Exemption Calculator</h3>
+        <p>Calculate exact HRA tax exemption under old regime. Compare metro and non-metro cities.</p>
+        <span class="tool-link">Calculate HRA →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('gst-checker.html')">
+        <div class="tool-icon">🔍</div>
+        <span class="tool-badge">Updated 2026</span>
+        <h3>GST Eligibility Checker</h3>
+        <p>6-question checker to find if your business needs GST registration. Instant result.</p>
+        <span class="tool-link">Check Eligibility →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('late-fee-calculator.html')">
+        <div class="tool-icon">⚠️</div>
+        <span class="tool-badge">Free Tool</span>
+        <h3>GST Late Fee Calculator</h3>
+        <p>Calculate late fee and interest for delayed GSTR-1, GSTR-3B and GSTR-9 filing.</p>
+        <span class="tool-link">Calculate Late Fee →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('compliance-calendar.html')">
+        <div class="tool-icon">📅</div>
+        <span class="tool-badge">FY 2026-27</span>
+        <h3>Tax Compliance Calendar</h3>
+        <p>All GST, TDS, ITR, PF & ESI deadlines for FY 2026-27. Filter by type.</p>
+        <span class="tool-link">View Calendar →</span>
+      </div>
+      <div class="tool-card" onclick="openTool('invoice-generator.html')">
+        <div class="tool-icon">🧾</div>
+        <span class="tool-badge">Free Tool</span>
+        <h3>GST Invoice Generator</h3>
+        <p>Create professional GST invoices with CGST/SGST/IGST. Print or save as PDF.</p>
+        <span class="tool-link">Create Invoice →</span>
+      </div>
+    </div>
+
+    <div class="cta-banner" style="margin-top:3rem;">
+      <h2>Need expert help beyond tools?</h2>
+      <p>Tools give estimates — for accurate filing and compliance, talk to Sukant directly.</p>
+      <a href="contact.html" class="btn-primary">Book Free Consultation →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script>
+<script src="nav.js"></script>
+<script type="module">
+import { onUserChanged, kasSignOut, getCurrentUser } from './firebase.js';
+
+injectNav('tools');
+
+const TOOL_KEY = 'kas_tool_access';
+
+function checkAccess() {
+  // Check if logged in via Firebase
+  onUserChanged(user => {
+    if (user) {
+      // Logged in — full access, show welcome bar
+      document.getElementById('gate-overlay').style.display = 'none';
+      const name = user.displayName || user.email?.split('@')[0] || 'User';
+      document.getElementById('ub-name').textContent = name.split(' ')[0];
+      document.getElementById('user-bar').style.display = 'flex';
+      return;
+    }
+    // Check if tool lead already submitted
+    const stored = localStorage.getItem(TOOL_KEY);
+    if (stored) {
+      document.getElementById('gate-overlay').style.display = 'none';
+    }
+    // else gate stays visible
+  });
+}
+
+window.unlockTools = async function() {
+  const name  = document.getElementById('g-name').value.trim();
+  const email = document.getElementById('g-email').value.trim();
+  const phone = document.getElementById('g-phone').value.trim();
+  const err   = document.getElementById('gate-err');
+
+  if (!name || !email || !phone) {
+    err.textContent = 'Please fill in all 3 fields.';
+    err.style.display = 'block'; return;
+  }
+  if (!/\S+@\S+\.\S+/.test(email)) {
+    err.textContent = 'Please enter a valid email address.';
+    err.style.display = 'block'; return;
+  }
+  if (phone.replace(/\D/g,'').length < 10) {
+    err.textContent = 'Please enter a valid 10-digit mobile number.';
+    err.style.display = 'block'; return;
+  }
+
+  const btn = document.getElementById('gate-btn');
+  btn.disabled = true; btn.textContent = 'Unlocking...';
+  err.style.display = 'none';
+
+  try {
+    // Save as lead to Supabase
+    await sbFetch('tool_leads','POST',{
+      name, email,
+      phone: phone.replace(/\D/g,'').slice(-10),
+      tool_used: 'tools-page',
+      created_at: new Date().toISOString()
+    });
+  } catch(e) { console.warn('Lead save error:', e); }
+
+  // Store access locally
+  localStorage.setItem(TOOL_KEY, JSON.stringify({ name, email, phone, ts: Date.now() }));
+  document.getElementById('gate-overlay').style.display = 'none';
+};
+
+window.openTool = function(url) { window.location.href = url; };
+
+window.logoutUser = async function() {
+  await kasSignOut();
+  localStorage.removeItem(TOOL_KEY);
+  window.location.reload();
+};
+
+checkAccess();
+</script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Login | Kunwar Accounting Services</title>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body{background:#0f172a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;}
+    .admin-card{background:#1e293b;border:1px solid #334155;border-radius:20px;padding:2.5rem;width:100%;max-width:400px;}
+    .a-logo{text-align:center;margin-bottom:2rem;}
+    .a-logo .icon{width:56px;height:56px;background:#0C447C;border-radius:14px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
+    .a-logo h1{font-size:18px;font-weight:600;color:white;font-family:'Playfair Display',serif;margin-bottom:4px;}
+    .a-logo p{font-size:12px;color:#64748b;}
+    .a-badge{display:inline-block;background:#C9973A;color:#042C53;font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:1.5rem;}
+    .a-group{margin-bottom:1rem;}
+    .a-group label{display:block;font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:5px;}
+    .a-group input{width:100%;background:#0f172a;border:1px solid #334155;color:white;padding:11px 14px;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;}
+    .a-group input:focus{border-color:#378ADD;}
+    .a-btn{width:100%;background:#0C447C;color:white;padding:13px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:0.5rem;}
+    .a-btn:hover{background:#185FA5;}
+    .a-btn:disabled{opacity:0.6;cursor:not-allowed;}
+    .a-err{background:rgba(220,38,38,0.1);color:#f87171;border:1px solid rgba(220,38,38,0.2);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:1rem;display:none;}
+    .a-ok{background:rgba(22,163,74,0.1);color:#4ade80;border:1px solid rgba(22,163,74,0.2);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:1rem;display:none;}
+    .a-note{background:rgba(12,68,124,0.15);border:1px solid rgba(12,68,124,0.3);border-radius:8px;padding:10px 14px;font-size:12px;color:#64748b;margin-top:1.5rem;text-align:center;}
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:1000;align-items:center;justify-content:center;padding:1rem;}
+    .modal-bg.open{display:flex;}
+    .modal{background:#1e293b;border:1px solid #334155;border-radius:16px;padding:2rem;width:100%;max-width:360px;}
+    .modal h3{color:white;font-size:16px;font-weight:600;margin-bottom:1rem;}
+    .modal-btn{width:100%;background:#0C447C;color:white;padding:11px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;margin-bottom:8px;}
+    .modal-close{width:100%;background:none;border:1px solid #334155;color:#64748b;padding:9px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;}
+  </style>
+</head>
+<body>
+<div class="admin-card">
+  <div class="a-logo">
+    <div class="icon">
+      <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><rect x="4" y="14" width="4" height="10" rx="1" fill="white"/><rect x="12" y="9" width="4" height="15" rx="1" fill="white"/><rect x="20" y="4" width="4" height="20" rx="1" fill="white"/><path d="M6 12 L14 7 L22 4" stroke="#85B7EB" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </div>
+    <h1>Kunwar Accounting</h1>
+    <p>Admin Control Panel</p>
+    <div><span class="a-badge">🔐 Admin Access Only</span></div>
+  </div>
+
+  <div id="a-err" class="a-err"></div>
+  <div id="a-ok" class="a-ok"></div>
+
+  <div class="a-group"><label>Admin Email</label><input type="email" id="a-email" placeholder="sukant@kunwaraccountingservices.in" autocomplete="email"/></div>
+  <div class="a-group"><label>Password</label><input type="password" id="a-pwd" placeholder="••••••••" autocomplete="current-password"/></div>
+  <button class="a-btn" id="a-btn" onclick="doAdminLogin()">Login to Admin Panel</button>
+
+  <div style="text-align:center;margin-top:1rem;">
+    <button onclick="document.getElementById('reset-modal').classList.add('open')" style="background:none;border:none;color:#475569;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Forgot password?</button>
+  </div>
+
+  <div class="a-note">🔒 Restricted to authorized administrators only.</div>
+
+  <div style="text-align:center;margin-top:1.5rem;display:flex;gap:1rem;justify-content:center;">
+    <a href="index.html" style="font-size:13px;color:#475569;text-decoration:none;">← Website</a>
+    <a href="login.html" style="font-size:13px;color:#475569;text-decoration:none;">Customer Login</a>
+  </div>
+</div>
+
+<div class="modal-bg" id="reset-modal">
+  <div class="modal">
+    <h3>🔑 Reset Password</h3>
+    <p style="font-size:13px;color:#64748b;margin-bottom:1rem;">Enter your admin email to receive a password reset link.</p>
+    <div id="m-err" class="a-err"></div>
+    <div id="m-ok" class="a-ok"></div>
+    <div class="a-group"><label>Admin Email</label><input type="email" id="r-email" value="sukant@kunwaraccountingservices.in"/></div>
+    <button class="modal-btn" onclick="doReset()">Send Reset Link</button>
+    <button class="modal-close" onclick="document.getElementById('reset-modal').classList.remove('open')">Cancel</button>
+  </div>
+</div>
+
+<script src="supabase.js"></script>
+<script>
+// If already logged in as admin go straight to panel
+if(getToken()&&isAdmin()) window.location.href='admin.html';
+else if(getToken()){localStorage.removeItem('kas_token');localStorage.removeItem('kas_user');}
+
+function showErr(m){const e=document.getElementById('a-err');e.textContent=m;e.style.display='block';}
+function showOk(m){const e=document.getElementById('a-ok');e.textContent=m;e.style.display='block';}
+
+async function doAdminLogin(){
+  const email=document.getElementById('a-email').value.trim();
+  const pwd=document.getElementById('a-pwd').value;
+  if(!email||!pwd){showErr('Please enter your email and password.');return;}
+  if(email!=='sukant@kunwaraccountingservices.in'){showErr('Access denied. Admin accounts only.');return;}
+  const btn=document.getElementById('a-btn');
+  btn.disabled=true;btn.textContent='Logging in...';
+  try{await signIn(email,pwd);window.location.href='admin.html';}
+  catch(e){showErr('Invalid email or password.');}
+  btn.disabled=false;btn.textContent='Login to Admin Panel';
+}
+
+async function doReset(){
+  const email=document.getElementById('r-email').value.trim();
+  const ok=await sendPasswordReset(email);
+  const me=document.getElementById('m-err'),mo=document.getElementById('m-ok');
+  if(ok){mo.textContent='✓ Reset link sent! Check your email.';mo.style.display='block';me.style.display='none';}
+  else{me.textContent='Error sending reset email.';me.style.display='block';}
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doAdminLogin();});
+</script>
+</body>
+</html>
