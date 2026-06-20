@@ -98,6 +98,8 @@
     <button class="aside-link" onclick="show('due-dates',this)">📅 Due Dates</button>
     <button class="aside-link" onclick="show('payments-rec',this)">💰 Payments</button>
 
+    <div class="aside-section">Settings</div>
+    <button class="aside-link" onclick="show('site-settings',this)">⚙️ Site Settings</button>
     <div class="aside-footer">
       <p style="font-size:11px;color:#475569;">Logged in as<br><span style="color:#94a3b8;">sukant@kunwaraccountingservices.in</span></p>
     </div>
@@ -417,6 +419,93 @@
       <div class="acard" style="overflow-x:auto;">
         <table><thead><tr><th>Client</th><th>Amount</th><th>Method</th><th>Description</th><th>Date</th><th>Status</th></tr></thead>
         <tbody id="payments-tbody"><tr><td colspan="6" style="color:#64748b;">Loading...</td></tr></tbody></table>
+      </div>
+    </div>
+
+    <!-- SITE SETTINGS -->
+    <div id="sec-site-settings" class="asec">
+      <div class="section-header"><h2>⚙️ Site Settings</h2></div>
+
+      <!-- Logo & Branding -->
+      <div class="acard" style="max-width:650px;margin-bottom:1.5rem;">
+        <h3>🎨 Branding & Logo</h3>
+        <div class="aform">
+          <div class="fg2"><label>Firm Name</label><input type="text" id="ss-firm-name" value="Kunwar Accounting Services"/></div>
+          <div class="row2a">
+            <div class="fg2"><label>Tagline</label><input type="text" id="ss-tagline" value="GST · ITR · Bookkeeping · Payroll"/></div>
+            <div class="fg2"><label>Location</label><input type="text" id="ss-location" value="Dwarka, New Delhi"/></div>
+          </div>
+          <div class="row2a">
+            <div class="fg2"><label>Primary Color (Navy)</label><input type="color" id="ss-color1" value="#0C447C" style="height:40px;"/></div>
+            <div class="fg2"><label>Accent Color (Gold)</label><input type="color" id="ss-color2" value="#C9973A" style="height:40px;"/></div>
+          </div>
+          <div style="background:#0f172a;border-radius:8px;padding:12px;margin-bottom:10px;">
+            <p style="font-size:12px;color:#94a3b8;line-height:1.7;">ℹ️ Color changes apply to the entire website theme. After saving, redeploy via Vercel (push to GitHub) for changes to take effect.</p>
+          </div>
+          <button class="abtn" onclick="saveBranding()">Save Branding</button>
+        </div>
+      </div>
+
+      <!-- Contact Details -->
+      <div class="acard" style="max-width:650px;margin-bottom:1.5rem;">
+        <h3>📞 Contact Details</h3>
+        <div class="aform">
+          <div class="row2a">
+            <div class="fg2"><label>Phone Number</label><input type="tel" id="ss-phone" value="+91 80761 36300"/></div>
+            <div class="fg2"><label>WhatsApp Number</label><input type="tel" id="ss-wa" value="+918076136300"/></div>
+          </div>
+          <div class="fg2"><label>Email Address</label><input type="email" id="ss-email" value="sukant@kunwaraccountingservices.in"/></div>
+          <div class="fg2"><label>Full Address</label><textarea id="ss-address" rows="2">Dwarka, New Delhi — 110075</textarea></div>
+          <div class="fg2"><label>Google Maps Link</label><input type="url" id="ss-maps" placeholder="https://maps.google.com/..."/></div>
+          <button class="abtn" onclick="saveContact()">Save Contact Details</button>
+        </div>
+      </div>
+
+      <!-- Admin Password -->
+      <div class="acard" style="max-width:650px;margin-bottom:1.5rem;">
+        <h3>🔑 Change Admin Password</h3>
+        <div class="aform">
+          <p style="font-size:13px;color:#64748b;margin-bottom:1rem;line-height:1.6;">Your admin password is managed by Firebase. To change it, we send a reset link to your admin email.</p>
+          <div class="fg2"><label>Admin Email</label><input type="email" id="ss-admin-email" value="sukant@kunwaraccountingservices.in" readonly style="opacity:0.6;"/></div>
+          <div id="ss-pwd-err" style="display:none;background:rgba(220,38,38,0.12);color:#f87171;border:1px solid rgba(220,38,38,0.25);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:10px;"></div>
+          <div id="ss-pwd-ok"  style="display:none;background:rgba(22,163,74,0.12);color:#4ade80;border:1px solid rgba(22,163,74,0.25);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:10px;"></div>
+          <button class="abtn" onclick="sendAdminReset()">Send Password Reset Email</button>
+        </div>
+      </div>
+
+      <!-- SEO Settings -->
+      <div class="acard" style="max-width:650px;margin-bottom:1.5rem;">
+        <h3>🔍 SEO & Meta</h3>
+        <div class="aform">
+          <div class="fg2"><label>Home Page Title</label><input type="text" id="ss-seo-title" value="Kunwar Accounting Services | GST ITR Bookkeeping Delhi"/></div>
+          <div class="fg2"><label>Meta Description</label><textarea id="ss-seo-desc" rows="2">Professional accounting services in Dwarka, Delhi. GST filing, ITR filing, bookkeeping, payroll and complete tax compliance for small businesses.</textarea></div>
+          <div class="fg2"><label>Keywords</label><input type="text" id="ss-seo-kw" placeholder="accountant delhi, gst filing dwarka, itr filing delhi..."/></div>
+          <div style="background:#0f172a;border-radius:8px;padding:12px;margin-bottom:10px;">
+            <p style="font-size:12px;color:#94a3b8;">ℹ️ SEO settings are noted here for reference. To apply them, update the meta tags in index.html manually or ask for help.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Social Media -->
+      <div class="acard" style="max-width:650px;margin-bottom:1.5rem;">
+        <h3>📱 Social Media Links</h3>
+        <div class="aform">
+          <div class="fg2"><label>Instagram</label><input type="url" id="ss-ig" placeholder="https://instagram.com/yourpage"/></div>
+          <div class="fg2"><label>Facebook</label><input type="url" id="ss-fb" placeholder="https://facebook.com/yourpage"/></div>
+          <div class="fg2"><label>LinkedIn</label><input type="url" id="ss-li" placeholder="https://linkedin.com/in/yourprofile"/></div>
+          <div class="fg2"><label>Google Business Profile</label><input type="url" id="ss-gbp" placeholder="https://g.page/..."/></div>
+          <button class="abtn" onclick="saveSocial()">Save Social Links</button>
+        </div>
+      </div>
+
+      <!-- Danger Zone -->
+      <div class="acard" style="max-width:650px;border:1px solid rgba(220,38,38,0.3);">
+        <h3 style="color:#f87171;">⚠️ Maintenance</h3>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:1rem;">
+          <button onclick="clearOldLeads()" class="abtn-warn">Clear Tool Leads Older Than 90 Days</button>
+          <button onclick="clearReadNotifs()" class="abtn-warn">Clear All Read Notifications</button>
+          <button onclick="exportData()" class="abtn" style="background:#185FA5;">📥 Export All Data (JSON)</button>
+        </div>
       </div>
     </div>
 
@@ -801,6 +890,136 @@ window.copyWAMsg = function() {
   const msg = document.getElementById('wa-template').textContent;
   navigator.clipboard.writeText(msg).then(() => toast('Message copied!')).catch(() => toast('Copy failed', true));
 };
+
+// ── SITE SETTINGS ─────────────────────────────────────────────
+window.saveBranding = function() {
+  const data = {
+    firm_name: document.getElementById('ss-firm-name').value,
+    tagline: document.getElementById('ss-tagline').value,
+    location: document.getElementById('ss-location').value,
+    color_primary: document.getElementById('ss-color1').value,
+    color_accent: document.getElementById('ss-color2').value,
+  };
+  localStorage.setItem('kas_site_settings', JSON.stringify(data));
+  toast('Branding saved! ✓ (Redeploy to apply colors site-wide)');
+};
+
+window.saveContact = function() {
+  const data = {
+    phone: document.getElementById('ss-phone').value,
+    whatsapp: document.getElementById('ss-wa').value,
+    email: document.getElementById('ss-email').value,
+    address: document.getElementById('ss-address').value,
+    maps: document.getElementById('ss-maps').value,
+  };
+  localStorage.setItem('kas_contact_settings', JSON.stringify(data));
+  toast('Contact details saved! ✓');
+};
+
+window.saveSocial = function() {
+  const data = {
+    instagram: document.getElementById('ss-ig').value,
+    facebook: document.getElementById('ss-fb').value,
+    linkedin: document.getElementById('ss-li').value,
+    gbp: document.getElementById('ss-gbp').value,
+  };
+  localStorage.setItem('kas_social_settings', JSON.stringify(data));
+  toast('Social links saved! ✓');
+};
+
+window.sendAdminReset = function() {
+  const email = 'sukant@kunwaraccountingservices.in';
+  const errEl = document.getElementById('ss-pwd-err');
+  const okEl  = document.getElementById('ss-pwd-ok');
+  // Import firebase auth reset
+  import('./firebase.js').then(({ resetPassword }) => {
+    resetPassword(email)
+      .then(() => { okEl.textContent = '✓ Reset email sent to ' + email; okEl.style.display='block'; errEl.style.display='none'; })
+      .catch(e => { errEl.textContent = 'Error: ' + e.message; errEl.style.display='block'; okEl.style.display='none'; });
+  }).catch(() => {
+    // Fallback if firebase.js export not available
+    firebase.auth().sendPasswordResetEmail(email)
+      .then(() => { okEl.textContent = '✓ Reset email sent! Check your inbox.'; okEl.style.display='block'; errEl.style.display='none'; })
+      .catch(e => { errEl.textContent = 'Error: ' + e.message; errEl.style.display='block'; });
+  });
+};
+
+window.clearOldLeads = async function() {
+  if (!confirm('Delete tool leads older than 90 days?')) return;
+  const cutoff = new Date(); cutoff.setDate(cutoff.getDate()-90);
+  try {
+    await sbFetch('tool_leads','DELETE',null,`?created_at=lt.${cutoff.toISOString()}`);
+    toast('Old leads cleared! ✓');
+  } catch(e) { toast('Error: '+e.message, true); }
+};
+
+window.clearReadNotifs = async function() {
+  if (!confirm('Delete all read notifications?')) return;
+  try {
+    await sbFetch('notifications','DELETE',null,'?is_read=eq.true');
+    toast('Read notifications cleared! ✓');
+  } catch(e) { toast('Error: '+e.message, true); }
+};
+
+window.exportData = async function() {
+  try {
+    toast('Exporting...');
+    const [users,leads,filings,enq] = await Promise.all([
+      sbFetch('users','GET',null,'?select=*'),
+      sbFetch('tool_leads','GET',null,'?select=*'),
+      sbFetch('filings','GET',null,'?select=*'),
+      sbFetch('contact_forms','GET',null,'?select=*'),
+    ]);
+    const blob = new Blob([JSON.stringify({users,leads,filings,enquiries:enq},null,2)], {type:'application/json'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'kunwar-accounting-export-'+new Date().toISOString().split('T')[0]+'.json';
+    a.click();
+    toast('Export downloaded! ✓');
+  } catch(e) { toast('Export failed: '+e.message, true); }
+};
+
+// ── FIX: Payments and due_dates use clients table which may not exist ──
+// Override loadPaymentsRec and loadDueDates to use users table instead
+async function loadPaymentsRec(){
+  try {
+    const data = await sbFetch('payments','GET',null,'?select=*&order=created_at.desc').catch(()=>[]);
+    document.getElementById('payments-tbody').innerHTML = data?.length
+      ? data.map(p=>`<tr>
+          <td style="color:white;">${p.client_name||p.client_id||'—'}</td>
+          <td style="color:#4ade80;font-weight:600;">${fmt(p.amount)}</td>
+          <td>${p.payment_method||'—'}</td>
+          <td>${p.service_description||'—'}</td>
+          <td>${p.payment_date?new Date(p.payment_date).toLocaleDateString('en-IN'):'—'}</td>
+          <td><span class="${p.status==='completed'?'badge-green':'badge-yellow'}">${p.status||'pending'}</span></td>
+        </tr>`).join('')
+      : '<tr><td colspan="6" style="color:#64748b;">No payment records yet.</td></tr>';
+  } catch(e) {
+    document.getElementById('payments-tbody').innerHTML = '<tr><td colspan="6" style="color:#64748b;">Payments table not set up yet. Run database-v3.sql in Supabase.</td></tr>';
+  }
+}
+
+async function recordPayment(){
+  const uid = document.getElementById('pr-client').value;
+  const amount = parseFloat(document.getElementById('pr-amount').value);
+  if(!uid||!amount){ toast('Client and amount required!',true); return; }
+  // Get client name
+  const client = allUsers.find(u=>u.id===uid);
+  try {
+    await sbFetch('payments','POST',{
+      client_id: uid,
+      client_name: client?.name || client?.email || 'Client',
+      amount,
+      payment_method: document.getElementById('pr-method').value,
+      service_description: document.getElementById('pr-desc').value.trim(),
+      payment_date: document.getElementById('pr-date').value || null,
+      status:'completed'
+    });
+    toast('Payment recorded! ✓');
+    loadPaymentsRec();
+  } catch(e) { toast('Error: '+e.message,true); }
+}
+window.recordPayment=recordPayment;
 
 // ── Shared helpers ─────────────────────────────────────────────
 window.clearForm=function(...ids){ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});};

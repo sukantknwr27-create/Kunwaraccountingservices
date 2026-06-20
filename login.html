@@ -215,7 +215,17 @@ function doSendOTP(){
       cdInt=setInterval(function(){s--;cd.textContent=s>0?'Resend in '+s+'s':'';if(s<=0){clearInterval(cdInt);btn.disabled=false;btn.textContent='Resend';}},1000);
     })
     .catch(function(e){
-      showErr('Could not send OTP. Please check your number. ('+e.code+')');
+      var m = 'Could not send OTP. ';
+      if(e.code==='auth/operation-not-allowed'){
+        m = '⚠️ Phone OTP requires Firebase Blaze plan. Please upgrade at console.firebase.google.com → Upgrade. OR use Email login instead.';
+      } else if(e.code==='auth/invalid-phone-number'){
+        m = 'Invalid phone number. Please enter a valid 10-digit Indian number.';
+      } else if(e.code==='auth/quota-exceeded'){
+        m = 'OTP quota exceeded for today. Please try Email login or try again tomorrow.';
+      } else {
+        m = 'Could not send OTP: ' + (e.code||e.message||'Unknown error') + '. Please use Email login instead.';
+      }
+      showErr(m);
       btn.disabled=false;btn.textContent='Send OTP';
     });
 }

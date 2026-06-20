@@ -4,7 +4,7 @@
 // ============================================================
 
 const SUPABASE_URL = 'https://lkvmlgpuktbxohtuvwmb.supabase.co';
-const SUPABASE_KEY = 'PASTE_YOUR_ANON_KEY_HERE';
+const SUPABASE_KEY = window.SUPABASE_ANON_KEY || '';
 
 async function sbFetch(table, method='GET', body=null, qs='') {
   const h = {
