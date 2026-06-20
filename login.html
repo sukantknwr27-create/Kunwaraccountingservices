@@ -3,60 +3,317 @@
 <head>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-  <link rel="shortcut icon" href="favicon.svg"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Login | Kunwar Accounting Services</title>
   <link rel="stylesheet" href="style.css"/>
   <style>
-    body { background: var(--light); }
-    .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem 1rem; padding-top: 80px; }
-    .auth-card { background: white; border-radius: 20px; border: 1px solid var(--border); padding: 2.25rem; width: 100%; max-width: 440px; box-shadow: 0 8px 32px rgba(0,0,0,0.06); }
-    .auth-logo { text-align: center; margin-bottom: 1.75rem; }
-    .auth-logo-icon { width: 56px; height: 56px; background: var(--navy); border-radius: 14px; margin: 0 auto 10px; display: flex; align-items: center; justify-content: center; }
-    .auth-logo h2 { font-family:'Playfair Display',serif; font-size: 1.4rem; color: var(--navy); margin-bottom: 3px; }
-    .auth-logo p { font-size: 13px; color: var(--gray); }
-    .method-tabs { display: flex; background: var(--light); border-radius: 10px; padding: 3px; margin-bottom: 1.5rem; border: 1px solid var(--border); }
-    .method-tab { flex: 1; padding: 10px 6px; border: none; background: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--gray); font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-    .method-tab.active { background: var(--navy); color: white; font-weight: 600; }
-    .method-panel { display: none; }
-    .method-panel.active { display: block; animation: fadeUp 0.2s ease; }
-    .sub-tabs { display: flex; background: var(--light); border-radius: 8px; padding: 3px; margin-bottom: 1.25rem; border: 1px solid var(--border); }
-    .sub-tab { flex: 1; padding: 8px; border: none; background: none; border-radius: 6px; font-size: 13px; font-weight: 500; cursor: pointer; color: var(--gray); font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
-    .sub-tab.active { background: white; color: var(--navy); box-shadow: 0 1px 4px rgba(0,0,0,0.08); font-weight: 600; }
-    .err-box { background: #FEE2E2; color: #DC2626; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; display: none; border-left: 3px solid #DC2626; }
-    .ok-box  { background: #DCFCE7; color: #16A34A; border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; display: none; border-left: 3px solid #16A34A; }
-    .auth-btn { width: 100%; background: var(--navy); color: white; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 600; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 6px; }
-    .auth-btn:hover { background: var(--navy-dark); }
-    .auth-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-    .google-btn { width: 100%; background: white; color: #374151; padding: 13px; border-radius: 8px; font-size: 14px; font-weight: 600; border: 1.5px solid var(--border); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 10px; }
-    .google-btn:hover { background: var(--light); border-color: #9CA3AF; }
-    .google-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-    .otp-input-row { display: flex; gap: 8px; }
-    .otp-input-row input { flex: 1; }
-    .send-otp-btn { background: var(--navy); color: white; border: none; padding: 11px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; white-space: nowrap; flex-shrink: 0; transition: all 0.2s; }
-    .send-otp-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-    .otp-digits { display: flex; gap: 8px; margin-top: 10px; }
-    .otp-digit { flex: 1; text-align: center; font-size: 1.3rem; font-weight: 700; padding: 12px 4px; border: 1.5px solid var(--border); border-radius: 8px; font-family: 'DM Sans', sans-serif; color: var(--charcoal); outline: none; width: 100%; }
-    .otp-digit:focus { border-color: var(--navy); }
-    .otp-sent-info { background: var(--ice); border-radius: 8px; padding: 10px 14px; font-size: 13px; color: var(--navy); margin-bottom: 10px; border-left: 3px solid var(--navy); display: none; }
-    .forgot-link { text-align: center; margin-top: 10px; font-size: 13px; }
-    .forgot-link a { color: var(--navy); font-weight: 600; text-decoration: none; cursor: pointer; }
-    .admin-note { text-align: center; margin-top: 1.25rem; font-size: 13px; color: var(--gray); padding-top: 1.25rem; border-top: 1px solid var(--border); }
-    .admin-note a { color: var(--navy); font-weight: 600; text-decoration: none; }
-    .loading-spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: middle; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .terms-note { font-size: 11px; color: var(--gray); text-align: center; margin-top: 1rem; line-height: 1.6; }
-    .countdown { font-size: 12px; color: var(--gray); text-align: center; margin-top: 6px; }
+    body{background:var(--light);}
+    .auth-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem 1rem;padding-top:90px;}
+    .auth-card{background:white;border-radius:20px;border:1px solid var(--border);padding:2.25rem;width:100%;max-width:430px;box-shadow:0 8px 32px rgba(0,0,0,0.06);}
+    .auth-logo{text-align:center;margin-bottom:1.75rem;}
+    .auth-icon{width:56px;height:56px;background:var(--navy);border-radius:14px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;}
+    .auth-logo h2{font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--navy);margin-bottom:3px;}
+    .auth-logo p{font-size:13px;color:var(--gray);}
+    .tabs{display:flex;background:var(--light);border-radius:10px;padding:3px;margin-bottom:1.5rem;border:1px solid var(--border);}
+    .tab{flex:1;padding:10px 6px;border:none;background:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;color:var(--gray);font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+    .tab.on{background:var(--navy);color:white;font-weight:600;}
+    .panel{display:none;}
+    .panel.on{display:block;}
+    .subtabs{display:flex;background:var(--light);border-radius:8px;padding:3px;margin-bottom:1.25rem;border:1px solid var(--border);}
+    .stab{flex:1;padding:8px;border:none;background:none;border-radius:6px;font-size:13px;cursor:pointer;color:var(--gray);font-family:'DM Sans',sans-serif;transition:all 0.2s;}
+    .stab.on{background:white;color:var(--navy);font-weight:600;box-shadow:0 1px 4px rgba(0,0,0,0.08);}
+    .msg{border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:1rem;display:none;}
+    .msg.err{background:#FEE2E2;color:#DC2626;border-left:3px solid #DC2626;}
+    .msg.ok{background:#DCFCE7;color:#16A34A;border-left:3px solid #16A34A;}
+    .abtn{width:100%;background:var(--navy);color:white;padding:13px;border-radius:8px;font-size:14px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all 0.2s;margin-top:6px;}
+    .abtn:hover{background:var(--navy-dark);}
+    .abtn:disabled{opacity:0.55;cursor:not-allowed;}
+    .gbtn{width:100%;background:white;color:#374151;padding:13px;border-radius:8px;font-size:14px;font-weight:600;border:1.5px solid var(--border);cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;justify-content:center;gap:10px;}
+    .gbtn:hover{background:var(--light);}
+    .otprow{display:flex;gap:8px;}
+    .otprow input{flex:1;}
+    .sbtn{background:var(--navy);color:white;border:none;padding:11px 16px;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0;}
+    .sbtn:disabled{opacity:0.5;cursor:not-allowed;}
+    .digits{display:flex;gap:8px;margin-top:10px;}
+    .dig{flex:1;text-align:center;font-size:1.3rem;font-weight:700;padding:12px 4px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;color:var(--charcoal);outline:none;}
+    .dig:focus{border-color:var(--navy);}
+    .flink{text-align:center;margin-top:10px;font-size:13px;}
+    .flink a{color:var(--navy);font-weight:600;cursor:pointer;text-decoration:none;}
+    .anote{text-align:center;margin-top:1.25rem;font-size:13px;color:var(--gray);padding-top:1.25rem;border-top:1px solid var(--border);}
+    .anote a{color:var(--navy);font-weight:600;text-decoration:none;}
+    .sp{width:15px;height:15px;border:2px solid rgba(255,255,255,0.35);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;display:inline-block;vertical-align:middle;margin-right:6px;}
+    @keyframes spin{to{transform:rotate(360deg);}}
+    .cd{font-size:12px;color:var(--gray);text-align:center;margin-top:6px;}
   </style>
 </head>
 <body>
 <div id="nav-placeholder"></div>
 
+<!--
+  IMPORTANT: Firebase scripts are loaded SYNCHRONOUSLY before anything else.
+  This guarantees firebase object is available when our code runs.
+-->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<script>
+// ── Initialise Firebase immediately ──────────────────────────
+const FB_CONFIG = {
+  apiKey:            "AIzaSyDZYQYkyqUYqhmzu2vOtIdX2SrHDROiM0Y",
+  authDomain:        "kunwar-accounting.firebaseapp.com",
+  projectId:         "kunwar-accounting",
+  storageBucket:     "kunwar-accounting.firebasestorage.app",
+  messagingSenderId: "775485451446",
+  appId:             "1:775485451446:web:6aa2c71f32302680670a17"
+};
+firebase.initializeApp(FB_CONFIG);
+const auth = firebase.auth();
+auth.languageCode = 'en';
+
+// ── Helpers ───────────────────────────────────────────────────
+const ADMIN_EMAIL = 'sukant@kunwaraccountingservices.in';
+
+function isAdmin(u){ return u && u.email === ADMIN_EMAIL; }
+function saveUser(u){
+  if(!u){ localStorage.removeItem('kas_user_data'); return; }
+  localStorage.setItem('kas_user_data', JSON.stringify({
+    uid:u.uid, email:u.email||'', name:u.displayName||u.email||'Client',
+    phone:u.phoneNumber||'', photo:u.photoURL||''
+  }));
+}
+
+// ── Redirect if already logged in ─────────────────────────────
+auth.onAuthStateChanged(function(user){
+  if(user){ saveUser(user); window.location.href = isAdmin(user)?'admin.html':'dashboard.html'; }
+});
+
+// ── Message helpers ────────────────────────────────────────────
+function showErr(m){ var e=document.getElementById('msg'); e.className='msg err'; e.innerHTML='❌ '+m; e.style.display='block'; }
+function showOk(m){  var e=document.getElementById('msg'); e.className='msg ok';  e.innerHTML='✓ '+m;  e.style.display='block'; }
+function clearMsg(){ document.getElementById('msg').style.display='none'; }
+function busy(id,on,txt){ var b=document.getElementById(id); b.disabled=on; b.innerHTML=on?'<span class="sp"></span>'+txt:txt; }
+
+// ── Tab switching ─────────────────────────────────────────────
+function showTab(t,el){
+  clearMsg();
+  document.querySelectorAll('.tab').forEach(function(b){b.classList.remove('on');});
+  el.classList.add('on');
+  document.querySelectorAll('.panel').forEach(function(p){p.classList.remove('on');});
+  document.getElementById('p-'+t).classList.add('on');
+}
+function showSub(s){
+  clearMsg();
+  document.getElementById('st-li').classList.toggle('on',s==='li');
+  document.getElementById('st-su').classList.toggle('on',s==='su');
+  document.getElementById('f-li').style.display=s==='li'?'block':'none';
+  document.getElementById('f-su').style.display=s==='su'?'block':'none';
+}
+
+// ── Email Login ───────────────────────────────────────────────
+function doLogin(){
+  clearMsg();
+  var email=document.getElementById('li-email').value.trim();
+  var pwd=document.getElementById('li-pwd').value;
+  if(!email){showErr('Please enter your email address.');return;}
+  if(!pwd){showErr('Please enter your password.');return;}
+  busy('li-btn',true,'Logging in...');
+  auth.signInWithEmailAndPassword(email,pwd)
+    .then(function(c){
+      saveUser(c.user);
+      showOk('Login successful! Redirecting...');
+      setTimeout(function(){ window.location.href=isAdmin(c.user)?'admin.html':'dashboard.html'; },800);
+    })
+    .catch(function(e){
+      var m='Login failed. Please check your email and password.';
+      if(e.code==='auth/invalid-credential'||e.code==='auth/wrong-password')m='Incorrect email or password. Please try again.';
+      else if(e.code==='auth/user-not-found')m='No account found with this email. Please sign up.';
+      else if(e.code==='auth/too-many-requests')m='Too many failed attempts. Please wait a few minutes.';
+      else if(e.code==='auth/network-request-failed')m='Network error. Please check your internet connection.';
+      showErr(m);
+      busy('li-btn',false,'Login to My Account →');
+    });
+}
+
+// ── Email Signup ──────────────────────────────────────────────
+function doSignup(){
+  clearMsg();
+  var name=document.getElementById('su-name').value.trim();
+  var phone=document.getElementById('su-phone').value.trim();
+  var email=document.getElementById('su-email').value.trim();
+  var pwd=document.getElementById('su-pwd').value;
+  if(!name){showErr('Please enter your full name.');return;}
+  if(!phone){showErr('Please enter your phone number.');return;}
+  if(!email){showErr('Please enter your email address.');return;}
+  if(!pwd||pwd.length<6){showErr('Password must be at least 6 characters.');return;}
+  busy('su-btn',true,'Creating account...');
+  auth.createUserWithEmailAndPassword(email,pwd)
+    .then(function(c){
+      return c.user.updateProfile({displayName:name}).then(function(){
+        saveUser({uid:c.user.uid,email:email,displayName:name,phoneNumber:phone,photoURL:''});
+        syncSupabase({uid:c.user.uid,email:email,displayName:name,phoneNumber:phone});
+        showOk('Account created! Welcome to Kunwar Accounting Services.');
+        setTimeout(function(){window.location.href='dashboard.html';},1200);
+      });
+    })
+    .catch(function(e){
+      var m='Signup failed. Please try again.';
+      if(e.code==='auth/email-already-in-use')m='This email is already registered. Please login.';
+      else if(e.code==='auth/invalid-email')m='Please enter a valid email address.';
+      else if(e.code==='auth/weak-password')m='Password must be at least 6 characters.';
+      showErr(m);
+      busy('su-btn',false,'Create My Account →');
+    });
+}
+
+// ── Google Login ──────────────────────────────────────────────
+function doGoogle(){
+  clearMsg();
+  document.getElementById('g-btn').disabled=true;
+  document.getElementById('g-btn').textContent='Opening Google...';
+  var provider=new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider)
+    .then(function(r){
+      saveUser(r.user);
+      syncSupabase(r.user);
+      showOk('Google login successful! Redirecting...');
+      setTimeout(function(){window.location.href=isAdmin(r.user)?'admin.html':'dashboard.html';},800);
+    })
+    .catch(function(e){
+      if(e.code!=='auth/popup-closed-by-user'){
+        if(e.code==='auth/unauthorized-domain')showErr('Add kunwaraccountingservices.in to Firebase Authorized Domains.');
+        else showErr('Google sign-in failed. Please try again. ('+e.code+')');
+      } else clearMsg();
+      document.getElementById('g-btn').disabled=false;
+      document.getElementById('g-btn').textContent='Continue with Google';
+    });
+}
+
+// ── OTP ───────────────────────────────────────────────────────
+var cdInt=null;
+function doSendOTP(){
+  clearMsg();
+  var ph=document.getElementById('ph-num').value.trim();
+  if(!ph){showErr('Please enter your mobile number.');return;}
+  var d=ph.replace(/\D/g,'');
+  if(d.length===10)ph='+91'+d;
+  else if(d.length===12&&d.startsWith('91'))ph='+'+d;
+  else if(!ph.startsWith('+'))ph='+91'+d.slice(-10);
+  if(ph.replace(/\D/g,'').length<12){showErr('Please enter a valid 10-digit mobile number.');return;}
+  var btn=document.getElementById('send-btn');
+  btn.disabled=true;btn.textContent='Sending...';
+  if(window._rcv){try{window._rcv.clear();}catch(e){}}
+  window._rcv=new firebase.auth.RecaptchaVerifier('recaptcha-container',{size:'invisible',callback:function(){}});
+  auth.signInWithPhoneNumber(ph,window._rcv)
+    .then(function(cr){
+      window._cr=cr;
+      document.getElementById('otp-s1').style.display='none';
+      document.getElementById('otp-s2').style.display='block';
+      document.querySelector('.dig').focus();
+      showOk('OTP sent! Check your SMS.');
+      var s=30;
+      var cd=document.getElementById('otp-cd');
+      cdInt=setInterval(function(){s--;cd.textContent=s>0?'Resend in '+s+'s':'';if(s<=0){clearInterval(cdInt);btn.disabled=false;btn.textContent='Resend';}},1000);
+    })
+    .catch(function(e){
+      showErr('Could not send OTP. Please check your number. ('+e.code+')');
+      btn.disabled=false;btn.textContent='Send OTP';
+    });
+}
+
+function digNext(el){
+  if(el.value.length>1)el.value=el.value.slice(-1);
+  if(el.value&&el.nextElementSibling)el.nextElementSibling.focus();
+}
+
+function doVerify(){
+  clearMsg();
+  var otp=Array.from(document.querySelectorAll('.dig')).map(function(i){return i.value;}).join('');
+  if(otp.length<6){showErr('Please enter all 6 digits.');return;}
+  if(!window._cr){showErr('Please send OTP first.');return;}
+  busy('vbtn',true,'Verifying...');
+  window._cr.confirm(otp)
+    .then(function(r){
+      saveUser(r.user);
+      syncSupabase(r.user);
+      if(!r.user.displayName){
+        document.getElementById('name-wrap').style.display='block';
+        showOk('OTP verified! Please enter your name.');
+        var btn=document.getElementById('vbtn');
+        btn.disabled=false;btn.textContent='Complete Setup →';
+        btn.onclick=doPhoneSetup;
+        return;
+      }
+      showOk('Login successful! Redirecting...');
+      setTimeout(function(){window.location.href='dashboard.html';},800);
+    })
+    .catch(function(e){
+      var m=e.code==='auth/invalid-verification-code'?'Incorrect OTP. Please try again.':e.code==='auth/code-expired'?'OTP expired. Request a new one.':'Verification failed. ('+e.code+')';
+      showErr(m);
+      busy('vbtn',false,'Verify & Login →');
+    });
+}
+
+function doPhoneSetup(){
+  var name=document.getElementById('ph-name').value.trim();
+  if(!name){showErr('Please enter your name.');return;}
+  busy('vbtn',true,'Saving...');
+  auth.currentUser.updateProfile({displayName:name})
+    .then(function(){
+      showOk('Setup complete! Redirecting...');
+      setTimeout(function(){window.location.href='dashboard.html';},800);
+    })
+    .catch(function(){busy('vbtn',false,'Complete Setup →');});
+}
+
+function resetOTP(){
+  clearMsg();clearInterval(cdInt);
+  document.getElementById('otp-s1').style.display='block';
+  document.getElementById('otp-s2').style.display='none';
+  document.querySelectorAll('.dig').forEach(function(i){i.value='';});
+  document.getElementById('send-btn').disabled=false;
+  document.getElementById('send-btn').textContent='Send OTP';
+  document.getElementById('otp-cd').textContent='';
+}
+
+function doForgot(){
+  clearMsg();
+  var email=document.getElementById('li-email').value.trim();
+  if(!email){showErr('Enter your email address first, then click Forgot Password.');return;}
+  auth.sendPasswordResetEmail(email)
+    .then(function(){showOk('Reset email sent! Check your inbox.');})
+    .catch(function(){showErr('Could not send reset email. Please check the address.');});
+}
+
+// ── Supabase sync (non-blocking) ──────────────────────────────
+function syncSupabase(u){
+  try{
+    var key=window.SUPABASE_ANON_KEY||'';
+    if(!key||key.includes('PASTE'))return;
+    var url='https://lkvmlgpuktbxohtuvwmb.supabase.co/rest/v1/users';
+    var h={'apikey':key,'Authorization':'Bearer '+key,'Content-Type':'application/json','Prefer':'return=representation'};
+    var body=JSON.stringify({firebase_uid:u.uid,email:u.email||'',name:u.displayName||'',phone:u.phoneNumber||'',photo_url:u.photoURL||'',last_login:new Date().toISOString()});
+    fetch(url+'?firebase_uid=eq.'+u.uid,{method:'PATCH',headers:h,body:body})
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(!d||!d.length)fetch(url,{method:'POST',headers:h,body:JSON.stringify(JSON.parse(body).constructor===Object?{...JSON.parse(body),role:'client',created_at:new Date().toISOString()}:{})});
+      }).catch(function(){});
+  }catch(e){}
+}
+
+// Enter key support
+document.addEventListener('keydown',function(e){
+  if(e.key!=='Enter')return;
+  var liActive=document.getElementById('f-li')&&document.getElementById('f-li').style.display!=='none';
+  var emailPanel=document.getElementById('p-email')&&document.getElementById('p-email').classList.contains('on');
+  if(emailPanel&&liActive)doLogin();
+  else if(emailPanel&&!liActive)doSignup();
+});
+</script>
+
 <div class="auth-wrap">
   <div class="auth-card">
-
     <div class="auth-logo">
-      <div class="auth-logo-icon">
+      <div class="auth-icon">
         <svg width="30" height="30" viewBox="0 0 28 28" fill="none">
           <rect x="4" y="14" width="4" height="10" rx="1" fill="white"/>
           <rect x="12" y="9" width="4" height="15" rx="1" fill="white"/>
@@ -68,396 +325,86 @@
       <p>Kunwar Accounting Services</p>
     </div>
 
-    <!-- Global messages -->
-    <div class="err-box" id="g-err"></div>
-    <div class="ok-box"  id="g-ok"></div>
+    <div class="msg" id="msg"></div>
 
-    <!-- Method Tabs -->
-    <div class="method-tabs">
-      <button class="method-tab active" id="tab-email"  onclick="showMethod('email')">📧 Email</button>
-      <button class="method-tab"        id="tab-google" onclick="showMethod('google')">🔵 Google</button>
-      <button class="method-tab"        id="tab-phone"  onclick="showMethod('phone')">📱 OTP</button>
+    <div class="tabs">
+      <button class="tab on"  onclick="showTab('email',this)">📧 Email</button>
+      <button class="tab"     onclick="showTab('google',this)">🔵 Google</button>
+      <button class="tab"     onclick="showTab('phone',this)">📱 OTP</button>
     </div>
 
-    <!-- ══ EMAIL PANEL ══════════════════════════════════════ -->
-    <div class="method-panel active" id="panel-email">
-      <div class="sub-tabs">
-        <button class="sub-tab active" id="st-login"  onclick="showSubTab('login')">Login</button>
-        <button class="sub-tab"        id="st-signup" onclick="showSubTab('signup')">Sign Up</button>
+    <!-- EMAIL -->
+    <div class="panel on" id="p-email">
+      <div class="subtabs">
+        <button class="stab on" id="st-li" onclick="showSub('li')">Login</button>
+        <button class="stab"    id="st-su" onclick="showSub('su')">Sign Up</button>
       </div>
-
-      <!-- Login -->
-      <div id="form-login">
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="li-email" placeholder="raj@business.com" autocomplete="email"/>
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="li-pwd" placeholder="••••••••" autocomplete="current-password"
-                 onkeydown="if(event.key==='Enter')doEmailLogin()"/>
-        </div>
-        <button class="auth-btn" id="li-btn" onclick="doEmailLogin()">Login to My Account →</button>
-        <div class="forgot-link"><a onclick="doForgotPassword()">Forgot password?</a></div>
+      <div id="f-li">
+        <div class="form-group"><label>Email Address</label><input type="email" id="li-email" placeholder="raj@business.com" autocomplete="email"/></div>
+        <div class="form-group"><label>Password</label><input type="password" id="li-pwd" placeholder="••••••••" autocomplete="current-password"/></div>
+        <button class="abtn" id="li-btn" onclick="doLogin()">Login to My Account →</button>
+        <div class="flink"><a onclick="doForgot()">Forgot password?</a></div>
       </div>
-
-      <!-- Signup -->
-      <div id="form-signup" style="display:none;">
-        <div class="form-group">
-          <label>Full Name *</label>
-          <input type="text" id="su-name" placeholder="Raj Sharma" autocomplete="name"/>
-        </div>
-        <div class="form-group">
-          <label>Phone Number *</label>
-          <input type="tel" id="su-phone" placeholder="+91 98765 43210" autocomplete="tel"/>
-        </div>
-        <div class="form-group">
-          <label>Business Name (optional)</label>
-          <input type="text" id="su-biz" placeholder="Raj Enterprises"/>
-        </div>
-        <div class="form-group">
-          <label>Email Address *</label>
-          <input type="email" id="su-email" placeholder="raj@business.com" autocomplete="email"/>
-        </div>
-        <div class="form-group">
-          <label>Password * (min 6 characters)</label>
-          <input type="password" id="su-pwd" placeholder="••••••••" autocomplete="new-password"
-                 onkeydown="if(event.key==='Enter')doEmailSignup()"/>
-        </div>
-        <button class="auth-btn" id="su-btn" onclick="doEmailSignup()">Create My Account →</button>
+      <div id="f-su" style="display:none;">
+        <div class="form-group"><label>Full Name *</label><input type="text" id="su-name" placeholder="Raj Sharma"/></div>
+        <div class="form-group"><label>Phone Number *</label><input type="tel" id="su-phone" placeholder="+91 98765 43210"/></div>
+        <div class="form-group"><label>Business Name (optional)</label><input type="text" id="su-biz" placeholder="Raj Enterprises"/></div>
+        <div class="form-group"><label>Email Address *</label><input type="email" id="su-email" placeholder="raj@business.com"/></div>
+        <div class="form-group"><label>Password * (min 6 chars)</label><input type="password" id="su-pwd" placeholder="••••••••"/></div>
+        <button class="abtn" id="su-btn" onclick="doSignup()">Create My Account →</button>
       </div>
     </div>
 
-    <!-- ══ GOOGLE PANEL ═════════════════════════════════════ -->
-    <div class="method-panel" id="panel-google">
-      <p style="text-align:center;font-size:14px;color:var(--gray);margin-bottom:1.5rem;line-height:1.7;">
-        Sign in instantly with your Google account.<br>No password needed.
-      </p>
-      <button class="google-btn" id="google-btn" onclick="doGoogleLogin()">
-        <svg width="20" height="20" viewBox="0 0 48 48">
-          <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
-          <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
-          <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
-          <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
-        </svg>
+    <!-- GOOGLE -->
+    <div class="panel" id="p-google">
+      <p style="text-align:center;font-size:14px;color:var(--gray);margin-bottom:1.5rem;line-height:1.7;">Sign in instantly with your Google account. No password needed.</p>
+      <button class="gbtn" id="g-btn" onclick="doGoogle()">
+        <svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
         Continue with Google
       </button>
-      <div class="terms-note">By signing in you agree to our terms. Your Google info stays private.</div>
+      <p style="font-size:11px;color:var(--gray);text-align:center;margin-top:1rem;line-height:1.6;">By signing in you agree to our terms. Your Google info stays private.</p>
     </div>
 
-    <!-- ══ PHONE OTP PANEL ══════════════════════════════════ -->
-    <div class="method-panel" id="panel-phone">
-      <!-- Step 1: Enter number -->
-      <div id="phone-step1">
+    <!-- OTP -->
+    <div class="panel" id="p-phone">
+      <div id="otp-s1">
         <div class="form-group">
           <label>Indian Mobile Number</label>
-          <div class="otp-input-row">
-            <input type="tel" id="ph-number" placeholder="+91 98765 43210"
-                   onkeydown="if(event.key==='Enter')doSendOTP()"/>
-            <button class="send-otp-btn" id="send-otp-btn" onclick="doSendOTP()">Send OTP</button>
+          <div class="otprow">
+            <input type="tel" id="ph-num" placeholder="+91 98765 43210"/>
+            <button class="sbtn" id="send-btn" onclick="doSendOTP()">Send OTP</button>
           </div>
         </div>
         <div id="recaptcha-container"></div>
-        <div class="countdown" id="otp-countdown"></div>
+        <div class="cd" id="otp-cd"></div>
       </div>
-
-      <!-- Step 2: Enter OTP -->
-      <div id="phone-step2" style="display:none;">
-        <div class="otp-sent-info" id="otp-sent-info" style="display:block;">
-          📱 OTP sent! Enter the 6-digit code below.
-        </div>
+      <div id="otp-s2" style="display:none;">
+        <div style="background:var(--ice);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--navy);margin-bottom:12px;border-left:3px solid var(--navy);">📱 OTP sent! Enter the 6-digit code below.</div>
         <div class="form-group">
           <label>Enter 6-Digit OTP</label>
-          <div class="otp-digits">
-            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
-            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
-            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
-            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
-            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
-            <input class="otp-digit" type="number" min="0" max="9" oninput="otpDigitInput(this)"/>
+          <div class="digits">
+            <input class="dig" type="number" oninput="digNext(this)"/>
+            <input class="dig" type="number" oninput="digNext(this)"/>
+            <input class="dig" type="number" oninput="digNext(this)"/>
+            <input class="dig" type="number" oninput="digNext(this)"/>
+            <input class="dig" type="number" oninput="digNext(this)"/>
+            <input class="dig" type="number" oninput="digNext(this)"/>
           </div>
         </div>
-        <div id="phone-name-wrap" style="display:none;">
-          <div class="form-group">
-            <label>Your Name (first time login)</label>
-            <input type="text" id="ph-name" placeholder="Raj Sharma"/>
-          </div>
+        <div id="name-wrap" style="display:none;">
+          <div class="form-group"><label>Your Name</label><input type="text" id="ph-name" placeholder="Raj Sharma"/></div>
         </div>
-        <button class="auth-btn" id="verify-btn" onclick="doVerifyOTP()">Verify & Login →</button>
-        <div class="forgot-link"><a onclick="resetPhoneStep()">← Change number</a></div>
+        <button class="abtn" id="vbtn" onclick="doVerify()">Verify & Login →</button>
+        <div class="flink"><a onclick="resetOTP()">← Change number</a></div>
       </div>
     </div>
 
-    <div class="admin-note">
-      Admin? <a href="admin-login.html">Admin Portal →</a>
-    </div>
+    <div class="anote">Admin? <a href="admin-login.html">Admin Portal →</a></div>
   </div>
 </div>
 
-<!-- Load supabase first (sets window.SUPABASE_ANON_KEY) -->
 <script src="supabase.js"></script>
 <script src="nav.js"></script>
-
-<!-- Firebase Auth Logic -->
-<script type="module">
-import {
-  onUserChanged, signInWithGoogle, signUpEmail, signInEmail,
-  sendOTP, verifyOTP, resetPassword, kasSignOut, isFirebaseAdmin,
-  updateProfile, auth
-} from './firebase.js';
-
-// ── Inject nav ────────────────────────────────────────────────
-injectNav('login');
-
-// ── Redirect if already logged in ─────────────────────────────
-onUserChanged(user => {
-  if (user) {
-    window.location.href = isFirebaseAdmin(user) ? 'admin.html' : 'dashboard.html';
-  }
-});
-
-// ── Helpers ───────────────────────────────────────────────────
-function showErr(msg) {
-  const e = document.getElementById('g-err');
-  e.innerHTML = '❌ ' + msg; e.style.display = 'block';
-  document.getElementById('g-ok').style.display = 'none';
-}
-function showOk(msg) {
-  const e = document.getElementById('g-ok');
-  e.innerHTML = '✓ ' + msg; e.style.display = 'block';
-  document.getElementById('g-err').style.display = 'none';
-}
-function clearMsgs() {
-  document.getElementById('g-err').style.display = 'none';
-  document.getElementById('g-ok').style.display  = 'none';
-}
-function setLoading(btnId, loading, text) {
-  const btn = document.getElementById(btnId);
-  if (!btn) return;
-  btn.disabled = loading;
-  btn.innerHTML = loading ? `<span class="loading-spinner"></span>${text}` : text;
-}
-
-// ── Tab switching ─────────────────────────────────────────────
-window.showMethod = function(method) {
-  clearMsgs();
-  ['email','google','phone'].forEach(m => {
-    document.getElementById('tab-' + m).classList.toggle('active', m === method);
-    document.getElementById('panel-' + m).classList.toggle('active', m === method);
-  });
-};
-
-window.showSubTab = function(sub) {
-  clearMsgs();
-  document.getElementById('st-login').classList.toggle('active', sub === 'login');
-  document.getElementById('st-signup').classList.toggle('active', sub === 'signup');
-  document.getElementById('form-login').style.display  = sub === 'login'  ? 'block' : 'none';
-  document.getElementById('form-signup').style.display = sub === 'signup' ? 'block' : 'none';
-};
-
-// ── Email Login ───────────────────────────────────────────────
-window.doEmailLogin = async function() {
-  clearMsgs();
-  const email = document.getElementById('li-email').value.trim();
-  const pwd   = document.getElementById('li-pwd').value;
-  if (!email) { showErr('Please enter your email address.'); return; }
-  if (!pwd)   { showErr('Please enter your password.'); return; }
-
-  setLoading('li-btn', true, 'Logging in...');
-  try {
-    const user = await signInEmail(email, pwd);
-    showOk('Login successful! Redirecting...');
-    setTimeout(() => {
-      window.location.href = isFirebaseAdmin(user) ? 'admin.html' : 'dashboard.html';
-    }, 800);
-  } catch(e) {
-    const msg = e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password'
-      ? 'Incorrect email or password. Please try again.'
-      : e.code === 'auth/user-not-found'
-      ? 'No account found with this email. Please sign up first.'
-      : e.code === 'auth/too-many-requests'
-      ? 'Too many attempts. Please wait a few minutes and try again.'
-      : 'Login failed: ' + (e.message || 'Unknown error');
-    showErr(msg);
-    setLoading('li-btn', false, 'Login to My Account →');
-  }
-};
-
-// ── Email Signup ──────────────────────────────────────────────
-window.doEmailSignup = async function() {
-  clearMsgs();
-  const name  = document.getElementById('su-name').value.trim();
-  const phone = document.getElementById('su-phone').value.trim();
-  const email = document.getElementById('su-email').value.trim();
-  const pwd   = document.getElementById('su-pwd').value;
-
-  if (!name)  { showErr('Please enter your full name.'); return; }
-  if (!phone) { showErr('Please enter your phone number.'); return; }
-  if (!email) { showErr('Please enter your email address.'); return; }
-  if (!pwd || pwd.length < 6) { showErr('Password must be at least 6 characters.'); return; }
-
-  setLoading('su-btn', true, 'Creating account...');
-  try {
-    await signUpEmail(email, pwd, name, phone);
-    showOk('Account created successfully! Welcome to Kunwar Accounting Services.');
-    setTimeout(() => window.location.href = 'dashboard.html', 1200);
-  } catch(e) {
-    const msg = e.code === 'auth/email-already-in-use'
-      ? 'This email is already registered. Please login instead.'
-      : e.code === 'auth/invalid-email'
-      ? 'Please enter a valid email address.'
-      : e.code === 'auth/weak-password'
-      ? 'Password is too weak. Use at least 6 characters.'
-      : 'Signup failed: ' + (e.message || 'Unknown error');
-    showErr(msg);
-    setLoading('su-btn', false, 'Create My Account →');
-  }
-};
-
-// ── Google Login ──────────────────────────────────────────────
-window.doGoogleLogin = async function() {
-  clearMsgs();
-  setLoading('google-btn', true, 'Opening Google...');
-  try {
-    const user = await signInWithGoogle();
-    showOk('Google login successful! Redirecting...');
-    setTimeout(() => {
-      window.location.href = isFirebaseAdmin(user) ? 'admin.html' : 'dashboard.html';
-    }, 800);
-  } catch(e) {
-    if (e.code === 'auth/popup-closed-by-user') {
-      clearMsgs(); // User just closed the popup — not an error
-    } else if (e.code === 'auth/unauthorized-domain') {
-      showErr('Google login not enabled for this domain. Please add your domain in Firebase Console → Authentication → Authorized Domains.');
-    } else {
-      showErr('Google sign-in failed: ' + (e.message || 'Please try again.'));
-    }
-    setLoading('google-btn', false, `<svg width="20" height="20" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg> Continue with Google`);
-  }
-};
-
-// ── Phone OTP ─────────────────────────────────────────────────
-let countdownTimer = null;
-
-window.doSendOTP = async function() {
-  clearMsgs();
-  let phone = document.getElementById('ph-number').value.trim();
-  if (!phone) { showErr('Please enter your mobile number.'); return; }
-
-  // Auto-format Indian number
-  const digits = phone.replace(/\D/g, '');
-  if (digits.length === 10) phone = '+91' + digits;
-  else if (digits.length === 12 && digits.startsWith('91')) phone = '+' + digits;
-  else if (!phone.startsWith('+91')) phone = '+91' + digits.slice(-10);
-
-  if (phone.replace(/\D/g,'').length < 12) {
-    showErr('Please enter a valid 10-digit Indian mobile number.');
-    return;
-  }
-
-  const btn = document.getElementById('send-otp-btn');
-  btn.disabled = true; btn.textContent = 'Sending...';
-
-  try {
-    await sendOTP(phone);
-    document.getElementById('phone-step1').style.display = 'none';
-    document.getElementById('phone-step2').style.display = 'block';
-    document.querySelector('.otp-digit').focus();
-    showOk('OTP sent to ' + phone);
-
-    // Countdown
-    let secs = 30;
-    const cd = document.getElementById('otp-countdown');
-    cd.textContent = `Resend in ${secs}s`;
-    countdownTimer = setInterval(() => {
-      secs--;
-      cd.textContent = secs > 0 ? `Resend in ${secs}s` : '';
-      if (secs <= 0) { clearInterval(countdownTimer); btn.disabled = false; btn.textContent = 'Resend OTP'; }
-    }, 1000);
-  } catch(e) {
-    showErr('Could not send OTP. Check your number and try again. Error: ' + (e.message || e.code || 'Unknown'));
-    btn.disabled = false; btn.textContent = 'Send OTP';
-  }
-};
-
-window.otpDigitInput = function(el) {
-  // Only keep last digit
-  if (el.value.length > 1) el.value = el.value.slice(-1);
-  // Auto-move to next
-  if (el.value && el.nextElementSibling) el.nextElementSibling.focus();
-};
-
-window.doVerifyOTP = async function() {
-  clearMsgs();
-  const digits = [...document.querySelectorAll('.otp-digit')].map(i => i.value).join('');
-  if (digits.length < 6 || digits.includes('')) {
-    showErr('Please enter all 6 digits of the OTP.');
-    return;
-  }
-
-  setLoading('verify-btn', true, 'Verifying...');
-  try {
-    const user = await verifyOTP(digits);
-
-    // First time phone login — ask for name
-    if (!user.displayName) {
-      document.getElementById('phone-name-wrap').style.display = 'block';
-      showOk('OTP verified! Please enter your name to continue.');
-      setLoading('verify-btn', false, 'Complete Setup →');
-      document.getElementById('verify-btn').onclick = completePhoneSetup;
-      return;
-    }
-
-    showOk('Login successful! Redirecting...');
-    setTimeout(() => window.location.href = 'dashboard.html', 800);
-  } catch(e) {
-    const msg = e.code === 'auth/invalid-verification-code'
-      ? 'Incorrect OTP. Please check and try again.'
-      : e.code === 'auth/code-expired'
-      ? 'OTP has expired. Please request a new one.'
-      : 'Verification failed: ' + (e.message || 'Unknown error');
-    showErr(msg);
-    setLoading('verify-btn', false, 'Verify & Login →');
-  }
-};
-
-async function completePhoneSetup() {
-  const name = document.getElementById('ph-name').value.trim();
-  if (!name) { showErr('Please enter your name.'); return; }
-  setLoading('verify-btn', true, 'Saving...');
-  try {
-    await updateProfile(auth.currentUser, { displayName: name });
-    showOk('Setup complete! Redirecting...');
-    setTimeout(() => window.location.href = 'dashboard.html', 800);
-  } catch(e) {
-    showErr('Could not save name: ' + e.message);
-    setLoading('verify-btn', false, 'Complete Setup →');
-  }
-}
-
-window.resetPhoneStep = function() {
-  clearMsgs();
-  clearInterval(countdownTimer);
-  document.getElementById('phone-step1').style.display = 'block';
-  document.getElementById('phone-step2').style.display = 'none';
-  document.querySelectorAll('.otp-digit').forEach(i => i.value = '');
-  document.getElementById('send-otp-btn').disabled = false;
-  document.getElementById('send-otp-btn').textContent = 'Send OTP';
-  document.getElementById('otp-countdown').textContent = '';
-};
-
-// ── Forgot Password ───────────────────────────────────────────
-window.doForgotPassword = async function() {
-  clearMsgs();
-  const email = document.getElementById('li-email').value.trim();
-  if (!email) { showErr('Please enter your email address first, then click Forgot Password.'); return; }
-  try {
-    await resetPassword(email);
-    showOk('Password reset email sent! Check your inbox (and spam folder).');
-  } catch(e) {
-    showErr('Could not send reset email. Please check your email address.');
-  }
-};
-</script>
+<script>injectNav('login');</script>
 </body>
 </html>

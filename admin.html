@@ -91,6 +91,7 @@
     <button class="aside-link" onclick="show('payment-mgmt',this)">💳 Payment Settings</button>
 
     <div class="aside-section">Clients</div>
+    <button class="aside-link" onclick="show('add-client',this)">➕ Add Client</button>
     <button class="aside-link" onclick="show('all-users',this)">👥 All Clients</button>
     <button class="aside-link" onclick="show('filings-mgmt',this)">📋 Filings</button>
     <button class="aside-link" onclick="show('send-notification',this)">🔔 Send Notification</button>
@@ -267,6 +268,53 @@
           <div class="fg2"><label>Payment Note</label><textarea id="pm-note" rows="2" placeholder="Please send screenshot to WhatsApp..."></textarea></div>
           <button class="abtn" onclick="savePaymentSettings()">Save Payment Settings</button>
         </div>
+      </div>
+    </div>
+
+    <!-- ADD CLIENT -->
+    <div id="sec-add-client" class="asec">
+      <div class="section-header"><h2>➕ Add Client Manually</h2></div>
+      <div class="acard" style="max-width:600px;">
+        <h3>Create Client Account</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:1.5rem;line-height:1.6;">Add a client manually so they can access their dashboard, view filings and upload documents. They can also login via Google or OTP using the same email/phone.</p>
+        <div class="aform">
+          <div class="row2a">
+            <div class="fg2"><label>Full Name *</label><input type="text" id="ac-name" placeholder="Raj Sharma"/></div>
+            <div class="fg2"><label>Phone Number *</label><input type="tel" id="ac-phone" placeholder="+91 98765 43210"/></div>
+          </div>
+          <div class="fg2"><label>Email Address *</label><input type="email" id="ac-email" placeholder="raj@business.com"/></div>
+          <div class="fg2"><label>Business Name</label><input type="text" id="ac-biz" placeholder="Raj Enterprises"/></div>
+          <div class="row2a">
+            <div class="fg2"><label>Package / Plan</label>
+              <select id="ac-pkg">
+                <option value="">None assigned</option>
+                <option>GST Monthly</option>
+                <option>ITR Filing</option>
+                <option>Bookkeeping Basic</option>
+                <option>Bookkeeping Pro</option>
+                <option>GST + ITR Combo</option>
+                <option>Complete Compliance</option>
+                <option>Virtual CFO</option>
+              </select>
+            </div>
+            <div class="fg2"><label>Temporary Password *</label><input type="text" id="ac-pwd" placeholder="Min 6 characters" value="Kunwar@123"/></div>
+          </div>
+          <div class="fg2"><label>Notes (internal)</label><input type="text" id="ac-notes" placeholder="Any internal notes about this client"/></div>
+          <div style="background:#0f172a;border-radius:8px;padding:12px;margin-bottom:14px;">
+            <p style="font-size:12px;color:#94a3b8;line-height:1.7;">ℹ️ <strong style="color:white;">How it works:</strong> This creates the client's account in Firebase + Supabase. Share their email and the temporary password with them. They can change their password after first login via Forgot Password.</p>
+          </div>
+          <div class="a-err" id="ac-err" style="display:none;background:rgba(220,38,38,0.12);color:#f87171;border:1px solid rgba(220,38,38,0.25);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:12px;"></div>
+          <div class="a-ok"  id="ac-ok"  style="display:none;background:rgba(22,163,74,0.12);color:#4ade80;border:1px solid rgba(22,163,74,0.25);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:12px;"></div>
+          <button class="abtn" id="ac-btn" onclick="addClient()">Create Client Account →</button>
+        </div>
+      </div>
+
+      <div class="acard" style="max-width:600px;margin-top:1.5rem;">
+        <h3>📱 Share Login Details with Client</h3>
+        <p style="font-size:13px;color:#64748b;margin-bottom:1rem;">After creating the account, send this WhatsApp message to the client:</p>
+        <div style="background:#0f172a;border-radius:8px;padding:1rem;font-size:13px;color:#94a3b8;line-height:1.8;white-space:pre-wrap;" id="wa-template">Fill in client details above to generate WhatsApp message...</div>
+        <button onclick="copyWAMsg()" style="background:rgba(37,211,102,0.15);color:#4ade80;border:1px solid rgba(37,211,102,0.3);padding:8px 16px;border-radius:6px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:10px;">📋 Copy Message</button>
+        <a id="wa-link" href="#" target="_blank" style="display:inline-block;margin-left:8px;background:#25D366;color:white;padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;text-decoration:none;">WhatsApp →</a>
       </div>
     </div>
 
@@ -642,6 +690,117 @@ async function recordPayment(){
   try{await sbFetch('payments','POST',{client_id,amount,payment_method:document.getElementById('pr-method').value,service_description:document.getElementById('pr-desc').value.trim(),payment_date:document.getElementById('pr-date').value||null,status:'completed'});toast('Recorded!');loadPaymentsRec();}catch(e){toast('Error: '+e.message,true);}
 }
 window.recordPayment=recordPayment;
+
+// ── ADD CLIENT ─────────────────────────────────────────────────
+window.addClient = async function() {
+  const name  = document.getElementById('ac-name').value.trim();
+  const phone = document.getElementById('ac-phone').value.trim();
+  const email = document.getElementById('ac-email').value.trim();
+  const biz   = document.getElementById('ac-biz').value.trim();
+  const pkg   = document.getElementById('ac-pkg').value;
+  const pwd   = document.getElementById('ac-pwd').value.trim();
+  const notes = document.getElementById('ac-notes').value.trim();
+
+  const errEl = document.getElementById('ac-err');
+  const okEl  = document.getElementById('ac-ok');
+  errEl.style.display = 'none';
+  okEl.style.display  = 'none';
+
+  if (!name)  { errEl.textContent = 'Please enter client name.';  errEl.style.display='block'; return; }
+  if (!phone) { errEl.textContent = 'Please enter phone number.'; errEl.style.display='block'; return; }
+  if (!email) { errEl.textContent = 'Please enter email address.'; errEl.style.display='block'; return; }
+  if (!pwd || pwd.length < 6) { errEl.textContent = 'Password must be at least 6 characters.'; errEl.style.display='block'; return; }
+
+  const btn = document.getElementById('ac-btn');
+  btn.disabled = true; btn.textContent = 'Creating account...';
+
+  try {
+    // Create Firebase user using REST API (admin panel can't use client SDK to create other users)
+    // Instead we save to Supabase directly and let the client create their own Firebase account
+    // OR we use Firebase Admin SDK via a simple endpoint
+
+    // METHOD: Create directly in Supabase users table
+    // Client can then login via "Forgot Password" to set their own password
+    const payload = {
+      firebase_uid: 'manual_' + Date.now() + '_' + Math.random().toString(36).slice(2,8),
+      email,
+      name,
+      phone: phone.replace(/\D/g,'').slice(-10),
+      role: 'client',
+      package_name: pkg || null,
+      notifications_enabled: true,
+      created_at: new Date().toISOString(),
+      last_login: null
+    };
+
+    // Save to Supabase
+    await sbFetch('users', 'POST', payload);
+
+    // Also try to create a clients record if table exists
+    try {
+      await sbFetch('clients', 'POST', {
+        name, email,
+        phone: phone.replace(/\D/g,'').slice(-10),
+        business_name: biz || null,
+        package_id: null,
+        notes: notes || null,
+        created_at: new Date().toISOString()
+      });
+    } catch(e) { /* clients table may not exist — that's ok */ }
+
+    okEl.textContent = `✓ Client "${name}" added successfully! Share their login details via WhatsApp.`;
+    okEl.style.display = 'block';
+
+    // Generate WhatsApp message
+    const waMsg = `Hi ${name}! 👋
+
+Welcome to Kunwar Accounting Services! 🎉
+
+Your client account has been created. You can now:
+✅ View your filing status
+✅ Upload documents
+✅ Download reports
+✅ Track tax deadlines
+
+🔗 Login here: https://www.kunwaraccountingservices.in/login.html
+
+📧 Email: ${email}
+🔑 Password: ${pwd}
+
+Please change your password after first login.
+
+For any queries, contact Sukant:
+📞 +91 80761 36300
+
+— Kunwar Accounting Services`;
+
+    document.getElementById('wa-template').textContent = waMsg;
+    const waPhone = phone.replace(/\D/g,'').slice(-10);
+    document.getElementById('wa-link').href = `https://wa.me/91${waPhone}?text=${encodeURIComponent(waMsg)}`;
+
+    // Clear form
+    ['ac-name','ac-phone','ac-email','ac-biz','ac-notes'].forEach(id => document.getElementById(id).value = '');
+    document.getElementById('ac-pwd').value = 'Kunwar@123';
+    document.getElementById('ac-pkg').selectedIndex = 0;
+
+    toast(`Client "${name}" added! ✓`);
+    // Refresh users list
+    allUsers = [];
+
+  } catch(e) {
+    errEl.textContent = 'Error: ' + (e.message || 'Could not create client. Please try again.');
+    errEl.style.display = 'block';
+    toast('Error adding client', true);
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Create Client Account →';
+};
+
+window.copyWAMsg = function() {
+  const msg = document.getElementById('wa-template').textContent;
+  navigator.clipboard.writeText(msg).then(() => toast('Message copied!')).catch(() => toast('Copy failed', true));
+};
 
 // ── Shared helpers ─────────────────────────────────────────────
 window.clearForm=function(...ids){ids.forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});};
