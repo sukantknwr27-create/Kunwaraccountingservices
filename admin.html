@@ -515,6 +515,9 @@
 <div class="toast" id="toast"></div>
 
 <script src="supabase.js"></script>
+<script>
+// Override sbFetch with hardcoded key to ensure it always works
+window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21liwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I';
 <script type="module">
 import { onUserChanged, isFirebaseAdmin, kasSignOut } from './firebase.js';
 
