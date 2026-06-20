@@ -166,32 +166,26 @@
   </div>
 </main>
 <div id="footer-placeholder"></div>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script src="supabase.js"></script>
+<script src="firebase.js"></script>
 <script src="nav.js"></script>
-<script type="module">
-import { onUserChanged, kasSignOut, getCurrentUser } from './firebase.js';
-
+<script>
 injectNav('tools');
-
-const TOOL_KEY = 'kas_tool_access';
+var TOOL_KEY = 'kas_tool_access';
 
 function checkAccess() {
-  // Check if logged in via Firebase
-  onUserChanged(user => {
+  kasOnAuthChanged(function(user) {
     if (user) {
-      // Logged in — full access, show welcome bar
       document.getElementById('gate-overlay').style.display = 'none';
-      const name = user.displayName || user.email?.split('@')[0] || 'User';
+      var name = user.displayName || user.email.split('@')[0] || 'User';
       document.getElementById('ub-name').textContent = name.split(' ')[0];
       document.getElementById('user-bar').style.display = 'flex';
       return;
     }
-    // Check if tool lead already submitted
-    const stored = localStorage.getItem(TOOL_KEY);
-    if (stored) {
-      document.getElementById('gate-overlay').style.display = 'none';
-    }
-    // else gate stays visible
+    var stored = localStorage.getItem(TOOL_KEY);
+    if (stored) document.getElementById('gate-overlay').style.display = 'none';
   });
 }
 
@@ -235,10 +229,8 @@ window.unlockTools = async function() {
 
 window.openTool = function(url) { window.location.href = url; };
 
-window.logoutUser = async function() {
-  await kasSignOut();
-  localStorage.removeItem(TOOL_KEY);
-  window.location.reload();
+window.logoutUser = function() {
+  kasSignOut().then(function(){ localStorage.removeItem(TOOL_KEY); window.location.reload(); });
 };
 
 checkAccess();

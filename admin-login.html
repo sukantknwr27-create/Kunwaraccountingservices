@@ -3,47 +3,91 @@
 <head>
   <meta charset="UTF-8"/>
   <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
-  <link rel="shortcut icon" href="favicon.svg"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Login | Kunwar Accounting Services</title>
-  <link rel="stylesheet" href="style.css"/>
   <style>
-    body { background: #0f172a; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
-    .admin-card { background: #1e293b; border: 1px solid #334155; border-radius: 20px; padding: 2.5rem; width: 100%; max-width: 400px; }
-    .a-logo { text-align: center; margin-bottom: 2rem; }
-    .a-icon { width: 60px; height: 60px; background: #0C447C; border-radius: 16px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; }
-    .a-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: white; margin-bottom: 4px; }
-    .a-sub { font-size: 12px; color: #64748b; }
-    .a-badge { display: inline-block; background: #C9973A; color: #042C53; font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 8px; }
-    .a-group { margin-bottom: 1rem; }
-    .a-group label { display: block; font-size: 11px; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 5px; }
-    .a-group input { width: 100%; background: #0f172a; border: 1px solid #334155; color: white; padding: 12px 14px; border-radius: 8px; font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; transition: border-color 0.2s; }
-    .a-group input:focus { border-color: #378ADD; }
-    .a-btn { width: 100%; background: #0C447C; color: white; padding: 13px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 4px; }
-    .a-btn:hover { background: #185FA5; }
-    .a-btn:disabled { opacity: 0.55; cursor: not-allowed; }
-    .a-err { background: rgba(220,38,38,0.12); color: #f87171; border: 1px solid rgba(220,38,38,0.25); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; display: none; }
-    .a-ok  { background: rgba(22,163,74,0.12); color: #4ade80; border: 1px solid rgba(22,163,74,0.25); border-radius: 8px; padding: 10px 14px; font-size: 13px; margin-bottom: 1rem; display: none; }
-    .a-note { background: rgba(12,68,124,0.2); border: 1px solid rgba(12,68,124,0.35); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: #64748b; margin-top: 1.5rem; text-align: center; }
-    .a-links { display: flex; justify-content: center; gap: 1.5rem; margin-top: 1.25rem; }
-    .a-links a { font-size: 13px; color: #475569; text-decoration: none; }
-    .a-links a:hover { color: #94a3b8; }
-    .loading-spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; margin-right: 6px; vertical-align: middle; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    /* Modal */
-    .modal-bg { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; padding: 1rem; }
-    .modal-bg.open { display: flex; }
-    .modal-box { background: #1e293b; border: 1px solid #334155; border-radius: 16px; padding: 2rem; width: 100%; max-width: 360px; }
-    .modal-box h3 { color: white; font-size: 16px; font-weight: 600; margin-bottom: 1rem; }
-    .modal-btn { width: 100%; background: #0C447C; color: white; padding: 11px; border-radius: 8px; border: none; font-size: 14px; font-weight: 600; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-bottom: 8px; }
-    .modal-close { width: 100%; background: none; border: 1px solid #334155; color: #64748b; padding: 9px; border-radius: 8px; font-size: 13px; cursor: pointer; font-family: 'DM Sans', sans-serif; }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:#0f172a;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:2rem;font-family:'DM Sans',sans-serif;}
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600&display=swap');
+    .card{background:#1e293b;border:1px solid #334155;border-radius:20px;padding:2.5rem;width:100%;max-width:400px;}
+    .logo{text-align:center;margin-bottom:2rem;}
+    .logo-icon{width:60px;height:60px;background:#0C447C;border-radius:16px;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;}
+    .logo h2{font-size:1.4rem;color:white;margin-bottom:4px;font-family:'Playfair Display',serif;}
+    .logo p{font-size:12px;color:#64748b;}
+    .badge{display:inline-block;background:#C9973A;color:#042C53;font-size:10px;font-weight:700;padding:3px 10px;border-radius:4px;text-transform:uppercase;letter-spacing:0.08em;margin-top:8px;}
+    .group{margin-bottom:1rem;}
+    .group label{display:block;font-size:11px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+    .group input{width:100%;background:#0f172a;border:1px solid #334155;color:white;padding:12px 14px;border-radius:8px;font-size:14px;font-family:'DM Sans',sans-serif;outline:none;transition:border-color .2s;}
+    .group input:focus{border-color:#378ADD;}
+    .abtn{width:100%;background:#0C447C;color:white;padding:13px;border-radius:8px;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:8px;}
+    .abtn:hover{background:#185FA5;}
+    .abtn:disabled{opacity:0.55;cursor:not-allowed;}
+    .err{background:rgba(220,38,38,.12);color:#f87171;border:1px solid rgba(220,38,38,.25);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:1rem;display:none;}
+    .ok{background:rgba(22,163,74,.12);color:#4ade80;border:1px solid rgba(22,163,74,.25);border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:1rem;display:none;}
+    .note{background:rgba(12,68,124,.2);border:1px solid rgba(12,68,124,.35);border-radius:8px;padding:10px 14px;font-size:12px;color:#64748b;margin-top:1.5rem;text-align:center;}
+    .links{display:flex;justify-content:center;gap:1.5rem;margin-top:1.25rem;}
+    .links a{font-size:13px;color:#475569;text-decoration:none;}
+    .links a:hover{color:#94a3b8;}
+    .sp{width:15px;height:15px;border:2px solid rgba(255,255,255,0.35);border-top-color:white;border-radius:50%;animation:spin .7s linear infinite;display:inline-block;}
+    @keyframes spin{to{transform:rotate(360deg);}}
   </style>
 </head>
 <body>
+<!-- Firebase CDN compat scripts -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="supabase.js"></script>
+<script src="firebase.js"></script>
+<script>
+var ADMIN = 'sukant@kunwaraccountingservices.in';
 
-<div class="admin-card">
-  <div class="a-logo">
-    <div class="a-icon">
+// Check if already logged in as admin
+kasOnAuthChanged(function(user) {
+  if (user && kasIsAdmin(user)) { window.location.href = 'admin.html'; return; }
+  if (user && !kasIsAdmin(user)) { kasSignOut(); }
+});
+
+function showErr(m){ var e=document.getElementById('err'); e.textContent=m; e.style.display='block'; document.getElementById('ok').style.display='none'; }
+function showOk(m){  var e=document.getElementById('ok');  e.textContent=m; e.style.display='block'; document.getElementById('err').style.display='none'; }
+
+function doLogin() {
+  var email = document.getElementById('a-email').value.trim();
+  var pwd   = document.getElementById('a-pwd').value;
+  document.getElementById('err').style.display='none';
+  document.getElementById('ok').style.display='none';
+  if (!email || !pwd) { showErr('Please enter email and password.'); return; }
+  if (email !== ADMIN) { showErr('Access denied. Admin only.'); return; }
+  var btn = document.getElementById('a-btn');
+  btn.disabled = true;
+  btn.innerHTML = '<span class="sp"></span> Logging in...';
+  kasSignInEmail(email, pwd)
+    .then(function(user) {
+      if (!kasIsAdmin(user)) { kasSignOut(); showErr('Access denied.'); btn.disabled=false; btn.textContent='Login to Admin Panel'; return; }
+      showOk('✓ Login successful! Redirecting...');
+      setTimeout(function(){ window.location.href='admin.html'; }, 800);
+    })
+    .catch(function(e) {
+      var m = 'Incorrect password. Please try again.';
+      if (e.code==='auth/user-not-found') m = 'Admin account not found in Firebase. Please create it first.';
+      else if (e.code==='auth/too-many-requests') m = 'Too many attempts. Please wait a few minutes.';
+      showErr(m);
+      btn.disabled = false;
+      btn.textContent = 'Login to Admin Panel';
+    });
+}
+
+function doReset() {
+  kasResetPassword(ADMIN)
+    .then(function(){ showOk('Reset email sent! Check your inbox.'); })
+    .catch(function(){ showErr('Could not send reset email.'); });
+}
+
+document.addEventListener('keydown', function(e){ if(e.key==='Enter') doLogin(); });
+</script>
+
+<div class="card">
+  <div class="logo">
+    <div class="logo-icon">
       <svg width="32" height="32" viewBox="0 0 28 28" fill="none">
         <rect x="4" y="14" width="4" height="10" rx="1" fill="white"/>
         <rect x="12" y="9" width="4" height="15" rx="1" fill="white"/>
@@ -51,148 +95,26 @@
         <path d="M6 12 L14 7 L22 4" stroke="#C9973A" stroke-width="1.5" stroke-linecap="round"/>
       </svg>
     </div>
-    <div class="a-title">Kunwar Accounting</div>
-    <div class="a-sub">Admin Control Panel</div>
-    <div><span class="a-badge">🔐 Admin Access Only</span></div>
+    <h2>Kunwar Accounting</h2>
+    <p>Admin Control Panel</p>
+    <div><span class="badge">🔐 Admin Only</span></div>
   </div>
-
-  <div class="a-err" id="a-err"></div>
-  <div class="a-ok"  id="a-ok"></div>
-
-  <div class="a-group">
+  <div class="err" id="err"></div>
+  <div class="ok"  id="ok"></div>
+  <div class="group">
     <label>Admin Email</label>
-    <input type="email" id="a-email" placeholder="sukant@kunwaraccountingservices.in"
-           autocomplete="email" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+    <input type="email" id="a-email" value="sukant@kunwaraccountingservices.in"/>
   </div>
-  <div class="a-group">
+  <div class="group">
     <label>Password</label>
-    <input type="password" id="a-pwd" placeholder="••••••••"
-           autocomplete="current-password" onkeydown="if(event.key==='Enter')doAdminLogin()"/>
+    <input type="password" id="a-pwd" placeholder="••••••••"/>
   </div>
-
-  <button class="a-btn" id="a-btn" onclick="doAdminLogin()">Login to Admin Panel</button>
-
+  <button class="abtn" id="a-btn" onclick="doLogin()">Login to Admin Panel</button>
   <div style="text-align:center;margin-top:1rem;">
-    <button onclick="document.getElementById('reset-modal').classList.add('open')"
-            style="background:none;border:none;color:#475569;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">
-      Forgot password?
-    </button>
+    <button onclick="doReset()" style="background:none;border:none;color:#475569;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">Forgot password?</button>
   </div>
-
-  <div class="a-note">🔒 Restricted to authorised administrators only</div>
-
-  <div class="a-links">
-    <a href="index.html">← Website</a>
-    <a href="login.html">Client Login</a>
-  </div>
+  <div class="note">🔒 Restricted to authorised administrators only</div>
+  <div class="links"><a href="index.html">← Website</a><a href="login.html">Client Login</a></div>
 </div>
-
-<!-- Reset Modal -->
-<div class="modal-bg" id="reset-modal">
-  <div class="modal-box">
-    <h3>🔑 Reset Admin Password</h3>
-    <p style="font-size:13px;color:#64748b;margin-bottom:1rem;">A password reset link will be sent to your admin email.</p>
-    <div class="a-err" id="m-err" style="margin-bottom:10px;"></div>
-    <div class="a-ok"  id="m-ok"  style="margin-bottom:10px;"></div>
-    <div class="a-group">
-      <label>Admin Email</label>
-      <input type="email" id="r-email" value="sukant@kunwaraccountingservices.in"/>
-    </div>
-    <button class="modal-btn" onclick="doResetPwd()">Send Reset Link</button>
-    <button class="modal-close" onclick="document.getElementById('reset-modal').classList.remove('open')">Cancel</button>
-  </div>
-</div>
-
-<!-- Firebase for admin auth -->
-<script type="module">
-import {
-  signInEmail, onUserChanged, isFirebaseAdmin, kasSignOut, resetPassword
-} from './firebase.js';
-
-// If already logged in as admin, go straight to panel
-onUserChanged(user => {
-  if (user && isFirebaseAdmin(user)) {
-    window.location.href = 'admin.html';
-  } else if (user && !isFirebaseAdmin(user)) {
-    // Logged in but NOT admin — sign them out
-    kasSignOut().then(() => {
-      showErr('Access denied. This portal is for admin only.');
-    });
-  }
-});
-
-function showErr(msg) {
-  const e = document.getElementById('a-err');
-  e.textContent = msg; e.style.display = 'block';
-  document.getElementById('a-ok').style.display = 'none';
-}
-function showOk(msg) {
-  const e = document.getElementById('a-ok');
-  e.textContent = msg; e.style.display = 'block';
-  document.getElementById('a-err').style.display = 'none';
-}
-
-window.doAdminLogin = async function() {
-  const email = document.getElementById('a-email').value.trim();
-  const pwd   = document.getElementById('a-pwd').value;
-
-  document.getElementById('a-err').style.display = 'none';
-  document.getElementById('a-ok').style.display  = 'none';
-
-  if (!email || !pwd) { showErr('Please enter email and password.'); return; }
-
-  // Check admin email before even trying
-  if (email !== 'sukant@kunwaraccountingservices.in') {
-    showErr('Access denied. This portal is only for admin.');
-    return;
-  }
-
-  const btn = document.getElementById('a-btn');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="loading-spinner"></span>Logging in...';
-
-  try {
-    const user = await signInEmail(email, pwd);
-
-    if (!isFirebaseAdmin(user)) {
-      await kasSignOut();
-      showErr('Access denied. Admin accounts only.');
-      btn.disabled = false;
-      btn.textContent = 'Login to Admin Panel';
-      return;
-    }
-
-    showOk('✓ Login successful! Redirecting to admin panel...');
-    setTimeout(() => window.location.href = 'admin.html', 800);
-
-  } catch(e) {
-    const msg = e.code === 'auth/invalid-credential' || e.code === 'auth/wrong-password'
-      ? 'Incorrect password. Please try again.'
-      : e.code === 'auth/user-not-found'
-      ? 'Admin account not found. Please create it in Firebase Console first.'
-      : e.code === 'auth/too-many-requests'
-      ? 'Too many failed attempts. Please wait a few minutes.'
-      : 'Login failed: ' + (e.message || 'Unknown error');
-    showErr(msg);
-    btn.disabled = false;
-    btn.textContent = 'Login to Admin Panel';
-  }
-};
-
-window.doResetPwd = async function() {
-  const email = document.getElementById('r-email').value.trim();
-  const me = document.getElementById('m-err');
-  const mo = document.getElementById('m-ok');
-  me.style.display = 'none'; mo.style.display = 'none';
-  try {
-    await resetPassword(email);
-    mo.textContent = '✓ Reset link sent! Check your email.';
-    mo.style.display = 'block';
-  } catch(e) {
-    me.textContent = 'Error sending reset email. Check the address.';
-    me.style.display = 'block';
-  }
-};
-</script>
 </body>
 </html>

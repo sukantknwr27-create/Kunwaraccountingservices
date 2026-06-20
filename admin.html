@@ -516,26 +516,24 @@
 
 <script src="supabase.js"></script>
 <script>
-// Override sbFetch with hardcoded key to ensure it always works
+// Hardcode key as backup
 window.SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21liwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I';
-<script type="module">
-import { onUserChanged, isFirebaseAdmin, kasSignOut } from './firebase.js';
-
-// ── Auth guard ─────────────────────────────────────────────────
-onUserChanged(user => {
+</script>
+<!-- Firebase CDN compat scripts MUST come before firebase.js -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="firebase.js"></script>
+<script>
+// Auth guard — plain JS, no modules
+kasOnAuthChanged(function(user) {
   if (!user) { window.location.href = 'admin-login.html'; return; }
-  if (!isFirebaseAdmin(user)) {
-    kasSignOut().then(() => window.location.href = 'admin-login.html');
-    return;
-  }
-  // Admin confirmed — load dashboard
+  if (!kasIsAdmin(user)) { kasSignOut().then(function(){ window.location.href='admin-login.html'; }); return; }
   loadDashboard();
 });
 
-window.doAdminLogout = async function() {
-  await kasSignOut();
-  window.location.href = 'admin-login.html';
-};
+window.doAdminLogout = function() {
+  kasSignOut().then(function(){ window.location.href='admin-login.html'; });
+};<script>
 
 // ── Navigation ─────────────────────────────────────────────────
 window.show = function(id, btn) {
@@ -931,20 +929,12 @@ window.saveSocial = function() {
 };
 
 window.sendAdminReset = function() {
-  const email = 'sukant@kunwaraccountingservices.in';
-  const errEl = document.getElementById('ss-pwd-err');
-  const okEl  = document.getElementById('ss-pwd-ok');
-  // Import firebase auth reset
-  import('./firebase.js').then(({ resetPassword }) => {
-    resetPassword(email)
-      .then(() => { okEl.textContent = '✓ Reset email sent to ' + email; okEl.style.display='block'; errEl.style.display='none'; })
-      .catch(e => { errEl.textContent = 'Error: ' + e.message; errEl.style.display='block'; okEl.style.display='none'; });
-  }).catch(() => {
-    // Fallback if firebase.js export not available
-    firebase.auth().sendPasswordResetEmail(email)
-      .then(() => { okEl.textContent = '✓ Reset email sent! Check your inbox.'; okEl.style.display='block'; errEl.style.display='none'; })
-      .catch(e => { errEl.textContent = 'Error: ' + e.message; errEl.style.display='block'; });
-  });
+  var email = 'sukant@kunwaraccountingservices.in';
+  var errEl = document.getElementById('ss-pwd-err');
+  var okEl  = document.getElementById('ss-pwd-ok');
+  kasResetPassword(email)
+    .then(function(){ okEl.textContent='✓ Reset email sent to '+email; okEl.style.display='block'; errEl.style.display='none'; })
+    .catch(function(e){ errEl.textContent='Error: '+e.message; errEl.style.display='block'; okEl.style.display='none'; });
 };
 
 window.clearOldLeads = async function() {

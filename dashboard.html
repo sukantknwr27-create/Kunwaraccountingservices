@@ -207,26 +207,31 @@
 </div>
 
 <div id="footer-placeholder"></div>
-<script src="supabase.js"></script><script src="nav.js"></script>
-<script type="module">
-import { onUserChanged, kasSignOut, getCurrentUser } from './firebase.js';
-
+<script src="supabase.js"></script>
+<!-- Firebase CDN before firebase.js -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="firebase.js"></script>
+<script src="nav.js"></script>
+<script>
 injectNav('dashboard');
+var currentUser = null;
+var dbUser = null;
+var selectedDocType = 'PAN Card';
+var selectedFile = null;
 
-let currentUser = null;
-let dbUser = null;
-let selectedDocType = 'PAN Card';
-let selectedFile = null;
-
-// ── Auth Check ─────────────────────────────────────────────────
-onUserChanged(async user => {
+kasOnAuthChanged(function(user) {
   if (!user) { window.location.href = 'login.html'; return; }
   currentUser = user;
-  const name = user.displayName || user.email?.split('@')[0] || 'Client';
+  var name = user.displayName || user.email.split('@')[0] || 'Client';
   document.getElementById('user-name').textContent = name.split(' ')[0];
   document.getElementById('user-email').textContent = user.email || user.phoneNumber || '';
-  await loadDashboard();
+  loadDashboard();
 });
+
+window.doLogout = function() {
+  kasSignOut().then(function(){ window.location.href='index.html'; });
+};
 
 // ── Tab switching ──────────────────────────────────────────────
 window.switchTab = function(id, btn) {
@@ -522,8 +527,7 @@ window.markAllRead = async function() {
   document.getElementById('notif-tab').innerHTML = '🔔 Notifications';
 };
 
-window.doLogout = async function() {
-  await kasSignOut();
+// logout handled above
   window.location.href = 'index.html';
 };
 </script>
