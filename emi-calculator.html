@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>EMI Calculator India 2026 | Loan EMI Calculator | Kunwar Accounting Delhi</title>
+  <meta name="description" content="Free online EMI calculator for India 2026. Calculate monthly EMI for home loan, car loan, business loan. Full amortisation schedule with interest breakup."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body{background:var(--light);}
+    .wrap{max-width:900px;margin:0 auto;padding:2rem;}
+    .card{background:white;border-radius:16px;border:1px solid var(--border);padding:2rem;margin-bottom:1.5rem;}
+    .card h2{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--charcoal);margin-bottom:1.5rem;}
+    .fg{margin-bottom:1.25rem;}
+    .fg label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:5px;}
+    .fg input,.fg select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--charcoal);outline:none;transition:border-color .2s;background:white;}
+    .fg input:focus,.fg select:focus{border-color:var(--navy);}
+    .fg .hint{font-size:11px;color:var(--gray);margin-top:3px;}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem;}
+    .slider-wrap{margin-top:6px;}
+    .slider-wrap input[type=range]{width:100%;accent-color:var(--navy);height:4px;}
+    .slider-val{display:flex;justify-content:space-between;font-size:11px;color:var(--gray);margin-top:2px;}
+    .calc-btn{width:100%;background:var(--navy);color:white;padding:13px;border-radius:10px;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+    .calc-btn:hover{background:var(--navy-dark);}
+    .result-panel{display:none;}
+    .result-panel.show{display:block;animation:fadeUp .3s ease;}
+    .emi-hero{background:linear-gradient(135deg,var(--navy-dark),var(--navy));border-radius:16px;padding:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;text-align:center;}
+    .emi-stat .lbl{font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+    .emi-stat .val{font-size:1.5rem;font-weight:700;font-family:'Playfair Display',serif;color:white;}
+    .emi-stat .val.gold{color:var(--gold);}
+    .emi-stat .val.red{color:#FCA5A5;}
+    .chart-wrap{display:flex;align-items:center;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem;}
+    .donut-wrap{position:relative;width:160px;height:160px;flex-shrink:0;}
+    .donut-label{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:11px;color:var(--gray);}
+    .donut-label strong{font-size:14px;color:var(--charcoal);}
+    .chart-legend{flex:1;}
+    .legend-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);font-size:13px;}
+    .legend-item:last-child{border-bottom:none;}
+    .legend-dot{width:12px;height:12px;border-radius:3px;flex-shrink:0;}
+    .legend-val{margin-left:auto;font-weight:600;color:var(--charcoal);}
+    .amort-table{width:100%;border-collapse:collapse;font-size:12px;}
+    .amort-table th{text-align:left;padding:8px 10px;background:var(--light);color:var(--gray);font-size:10px;text-transform:uppercase;letter-spacing:.06em;border-bottom:2px solid var(--border);}
+    .amort-table td{padding:9px 10px;border-bottom:1px solid var(--border);}
+    .amort-table tr:hover td{background:var(--light);}
+    .loan-type-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:1.25rem;}
+    .loan-type-btn{padding:10px 8px;border:1.5px solid var(--border);border-radius:10px;background:white;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;font-family:'DM Sans',sans-serif;color:var(--charcoal);}
+    .loan-type-btn.active{background:var(--navy);color:white;border-color:var(--navy);}
+    .loan-type-btn .icon{display:block;font-size:1.4rem;margin-bottom:3px;}
+    @media(max-width:600px){.g2,.g3{grid-template-columns:1fr;}.emi-hero{grid-template-columns:1fr;}.chart-wrap{flex-direction:column;}.donut-wrap{margin:0 auto;}}
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge" style="position:relative;display:inline-block;margin-bottom:1rem;">💰 Free · Instant · Amortisation Schedule</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">EMI / Loan Calculator</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:480px;margin:0 auto;">Calculate monthly EMI for any loan. Home loan, car loan, business loan — with complete amortisation schedule.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>Loan Details</h2>
+
+      <p style="font-size:12px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;">Loan Type</p>
+      <div class="loan-type-grid">
+        <button class="loan-type-btn active" onclick="setLoanType('home',this,8.5)"><span class="icon">🏠</span>Home Loan</button>
+        <button class="loan-type-btn" onclick="setLoanType('car',this,9.0)"><span class="icon">🚗</span>Car Loan</button>
+        <button class="loan-type-btn" onclick="setLoanType('business',this,12.0)"><span class="icon">💼</span>Business</button>
+        <button class="loan-type-btn" onclick="setLoanType('personal',this,15.0)"><span class="icon">👤</span>Personal</button>
+        <button class="loan-type-btn" onclick="setLoanType('education',this,10.5)"><span class="icon">🎓</span>Education</button>
+        <button class="loan-type-btn" onclick="setLoanType('custom',this,10.0)"><span class="icon">✏️</span>Custom</button>
+      </div>
+
+      <div class="fg">
+        <label>Loan Amount ₹</label>
+        <input type="number" id="loan-amt" value="2000000" min="10000" oninput="syncSlider('loan-amt','loan-slider');calcEMI()"/>
+        <div class="slider-wrap">
+          <input type="range" id="loan-slider" min="100000" max="50000000" step="50000" value="2000000" oninput="syncInput('loan-slider','loan-amt');calcEMI()"/>
+          <div class="slider-val"><span>₹1L</span><span>₹5Cr</span></div>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="fg">
+          <label>Annual Interest Rate (%)</label>
+          <input type="number" id="loan-rate" value="8.5" min="1" max="36" step="0.1" oninput="calcEMI()"/>
+          <div class="hint">Current SBI home loan: ~8.5%</div>
+        </div>
+        <div class="fg">
+          <label>Loan Tenure</label>
+          <div style="display:flex;gap:8px;">
+            <input type="number" id="loan-tenure" value="20" min="1" oninput="calcEMI()" style="flex:1;"/>
+            <select id="tenure-unit" onchange="calcEMI()" style="width:100px;">
+              <option value="years">Years</option>
+              <option value="months">Months</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label>Processing Fee ₹ (optional)</label>
+        <input type="number" id="proc-fee" value="0" min="0" oninput="calcEMI()" placeholder="e.g. 5000"/>
+      </div>
+
+      <button class="calc-btn" onclick="calcEMI()">Calculate EMI →</button>
+    </div>
+
+    <div class="result-panel" id="result-panel">
+      <div class="emi-hero">
+        <div class="emi-stat"><div class="lbl">Monthly EMI</div><div class="val gold" id="res-emi">₹0</div></div>
+        <div class="emi-stat"><div class="lbl">Total Interest</div><div class="val red" id="res-interest">₹0</div></div>
+        <div class="emi-stat"><div class="lbl">Total Payment</div><div class="val" id="res-total">₹0</div></div>
+      </div>
+
+      <div class="card">
+        <h2>Breakup</h2>
+        <div class="chart-wrap">
+          <div class="donut-wrap">
+            <svg width="160" height="160" viewBox="0 0 160 160">
+              <circle cx="80" cy="80" r="60" fill="none" stroke="#E2E8F0" stroke-width="28"/>
+              <circle cx="80" cy="80" r="60" fill="none" stroke="#0C447C" stroke-width="28"
+                id="principal-arc" stroke-dasharray="0 377" stroke-linecap="round"
+                transform="rotate(-90 80 80)" style="transition:all .6s ease;"/>
+              <circle cx="80" cy="80" r="60" fill="none" stroke="#DC2626" stroke-width="28"
+                id="interest-arc" stroke-dasharray="0 377" stroke-linecap="round"
+                transform="rotate(-90 80 80)" style="transition:all .6s ease;"/>
+            </svg>
+            <div class="donut-label"><div id="donut-pct" style="font-size:1.2rem;font-weight:700;color:var(--navy);"></div><div>Principal</div></div>
+          </div>
+          <div class="chart-legend">
+            <div class="legend-item"><div class="legend-dot" style="background:#0C447C;"></div><span>Principal Amount</span><span class="legend-val" id="leg-principal">₹0</span></div>
+            <div class="legend-item"><div class="legend-dot" style="background:#DC2626;"></div><span>Total Interest</span><span class="legend-val" id="leg-interest">₹0</span></div>
+            <div class="legend-item" id="leg-fee-row" style="display:none;"><div class="legend-dot" style="background:#F59E0B;"></div><span>Processing Fee</span><span class="legend-val" id="leg-fee">₹0</span></div>
+            <div class="legend-item" style="font-weight:700;"><div class="legend-dot" style="background:var(--light);border:1px solid var(--border);"></div><span>Total Cost</span><span class="legend-val" id="leg-total">₹0</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Amortisation Schedule <span style="font-size:13px;font-weight:400;color:var(--gray);">(first 12 months)</span></h2>
+        <div style="overflow-x:auto;">
+          <table class="amort-table">
+            <thead><tr><th>Month</th><th>EMI</th><th>Principal</th><th>Interest</th><th>Balance</th></tr></thead>
+            <tbody id="amort-body"></tbody>
+          </table>
+        </div>
+        <p style="font-size:12px;color:var(--gray);margin-top:10px;">Showing first 12 months. Total tenure: <span id="total-months-label">—</span></p>
+      </div>
+
+      <div style="text-align:center;margin-bottom:1.5rem;">
+        <button onclick="document.getElementById('result-panel').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});" style="background:none;border:1.5px solid var(--border);color:var(--gray);padding:9px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">↺ Recalculate</button>
+      </div>
+
+      <div class="cta-banner">
+        <h2>Need a business loan?</h2>
+        <p>We help prepare financials, ITR and balance sheets for loan applications.</p>
+        <a href="contact.html" class="btn-primary">Book Free Consultation →</a>
+      </div>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('tools');
+function fmt(n){return '₹'+Math.round(n).toLocaleString('en-IN');}
+function syncSlider(inputId,sliderId){document.getElementById(sliderId).value=document.getElementById(inputId).value;}
+function syncInput(sliderId,inputId){document.getElementById(inputId).value=document.getElementById(sliderId).value;}
+
+function setLoanType(type,btn,rate){
+  document.querySelectorAll('.loan-type-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('loan-rate').value=rate;
+  const tenures={home:20,car:7,business:5,personal:3,education:8,custom:10};
+  document.getElementById('loan-tenure').value=tenures[type]||10;
+  document.getElementById('tenure-unit').value='years';
+  calcEMI();
+}
+
+function calcEMI(){
+  const P=parseFloat(document.getElementById('loan-amt').value)||0;
+  const annualRate=parseFloat(document.getElementById('loan-rate').value)||0;
+  const tenureVal=parseFloat(document.getElementById('loan-tenure').value)||0;
+  const unit=document.getElementById('tenure-unit').value;
+  const fee=parseFloat(document.getElementById('proc-fee').value)||0;
+  if(!P||!annualRate||!tenureVal)return;
+  const r=annualRate/(12*100);
+  const n=unit==='years'?tenureVal*12:tenureVal;
+  const emi=r===0?P/n:P*(r*Math.pow(1+r,n))/(Math.pow(1+r,n)-1);
+  const totalPayment=emi*n;
+  const totalInterest=totalPayment-P;
+  const totalCost=totalPayment+fee;
+
+  document.getElementById('res-emi').textContent=fmt(emi);
+  document.getElementById('res-interest').textContent=fmt(totalInterest);
+  document.getElementById('res-total').textContent=fmt(totalCost);
+  document.getElementById('leg-principal').textContent=fmt(P);
+  document.getElementById('leg-interest').textContent=fmt(totalInterest);
+  document.getElementById('leg-total').textContent=fmt(totalCost);
+  document.getElementById('total-months-label').textContent=n+' months';
+
+  const pPct=Math.round(P/totalPayment*100);
+  document.getElementById('donut-pct').textContent=pPct+'%';
+
+  // Draw donut
+  const circ=2*Math.PI*60;
+  const pArc=circ*(P/totalPayment);
+  const iArc=circ*(totalInterest/totalPayment);
+  const pEl=document.getElementById('principal-arc');
+  const iEl=document.getElementById('interest-arc');
+  pEl.setAttribute('stroke-dasharray',`${pArc} ${circ}`);
+  pEl.setAttribute('stroke-dashoffset','0');
+  iEl.setAttribute('stroke-dasharray',`${iArc} ${circ}`);
+  iEl.setAttribute('stroke-dashoffset',`-${pArc}`);
+
+  if(fee>0){document.getElementById('leg-fee-row').style.display='flex';document.getElementById('leg-fee').textContent=fmt(fee);}
+  else{document.getElementById('leg-fee-row').style.display='none';}
+
+  // Amortisation (first 12 months)
+  let balance=P;
+  let rows='';
+  const months=Math.min(n,12);
+  for(let m=1;m<=months;m++){
+    const intPart=balance*r;
+    const prinPart=emi-intPart;
+    balance-=prinPart;
+    rows+=`<tr>
+      <td>${m}</td>
+      <td style="font-weight:600;">${fmt(emi)}</td>
+      <td style="color:var(--navy);">${fmt(prinPart)}</td>
+      <td style="color:#DC2626;">${fmt(intPart)}</td>
+      <td>${fmt(Math.max(0,balance))}</td>
+    </tr>`;
+  }
+  document.getElementById('amort-body').innerHTML=rows;
+  document.getElementById('result-panel').classList.add('show');
+  document.getElementById('result-panel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+calcEMI();
+</script>
+</body>
+</html>

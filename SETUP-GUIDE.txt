@@ -1,0 +1,221 @@
+================================================================
+KUNWAR ACCOUNTING SERVICES — UPDATE v3 SETUP GUIDE
+================================================================
+Complete guide to activate all new features:
+✅ Google Sign-In
+✅ Mobile OTP Login  
+✅ Email/Password Login
+✅ Tool Access Gate (lead capture)
+✅ 5 New Tools (EMI, P&L, Salary, Depreciation, HRA)
+✅ Client Document Portal (upload/download)
+✅ Filing Status Tracker
+✅ Reports Download
+✅ Auto Deadline Notifications
+================================================================
+
+STEP 1 — RUN DATABASE SQL
+─────────────────────────
+1. Go to supabase.com → Your project
+2. Click SQL Editor → New query
+3. Open database-v3.sql from this ZIP
+4. Copy ALL content → Paste → Click Run
+5. You should see 6 tables created with 0 rows each ✅
+
+STEP 2 — CREATE SUPABASE STORAGE BUCKET
+────────────────────────────────────────
+1. Go to Supabase → Storage (left sidebar)
+2. Click "New bucket"
+3. Bucket name: client-documents
+4. Toggle: Private (NOT public) ✅
+5. Click Create bucket
+6. Click on the bucket → Policies → New policy
+7. Select "For full customization"
+8. Policy name: allow_all_storage
+9. Allowed operations: SELECT, INSERT, UPDATE, DELETE
+10. USING expression: true
+11. WITH CHECK expression: true
+12. Click Save ✅
+
+STEP 3 — ENABLE FIREBASE AUTHENTICATION
+────────────────────────────────────────
+1. Go to console.firebase.google.com
+2. Open project "kunwar-accounting"
+3. Left sidebar → Authentication → Sign-in method
+4. Enable GOOGLE:
+   - Click Google → Enable toggle ON
+   - Project support email: sukant@kunwaraccountingservices.in
+   - Click Save ✅
+5. Enable PHONE:
+   - Click Phone → Enable toggle ON
+   - Click Save ✅
+6. Enable EMAIL/PASSWORD:
+   - Click Email/Password → Enable toggle ON
+   - Click Save ✅
+
+STEP 4 — ADD YOUR DOMAIN TO FIREBASE
+──────────────────────────────────────
+1. Firebase → Authentication → Settings → Authorized domains
+2. Click "Add domain"
+3. Add: kunwaraccountingservices.in
+4. Add: www.kunwaraccountingservices.in
+5. Click Add ✅
+(Without this, Google Sign-In will be blocked)
+
+STEP 5 — UPDATE ANON KEY IN ALL FILES
+───────────────────────────────────────
+Your Supabase anon key needs to be in 3 files:
+
+1. Get your anon key:
+   Supabase → Project Settings → API → "anon public" key (starts with eyJ...)
+
+2. Open supabase.js → Replace:
+   PASTE_YOUR_ANON_KEY_HERE → your actual key
+
+3. Open firebase.js → Replace:
+   PASTE_YOUR_ANON_KEY_HERE → your actual key (line ~15)
+
+4. Open dashboard.html → Replace ALL 3 occurrences of:
+   PASTE_YOUR_ANON_KEY_HERE → your actual key
+   (Search for it in the file — Ctrl+F)
+
+STEP 6 — UPLOAD ALL FILES TO GITHUB
+─────────────────────────────────────
+Upload ALL files from this ZIP to your GitHub repo root.
+These are the NEW/UPDATED files:
+  ✅ login.html          (new — 3 login methods)
+  ✅ dashboard.html      (new — full client portal)
+  ✅ tools.html          (new — access gate + all tools)
+  ✅ firebase.js         (new — Firebase auth)
+  ✅ notifications.js    (new — deadline notifications)
+  ✅ nav.js              (updated — Firebase aware)
+  ✅ supabase.js         (updated)
+  ✅ emi-calculator.html (new tool)
+  ✅ pl-calculator.html  (new tool)
+  ✅ salary-calculator.html (new tool)
+  ✅ depreciation-calculator.html (new tool)
+  ✅ hra-calculator.html (new tool)
+  ✅ database-v3.sql     (run in Supabase)
+
+STEP 7 — TEST EVERYTHING
+──────────────────────────
+After Vercel deploys (1-2 min):
+
+□ Test Email login:
+  → Go to yoursite.com/login.html
+  → Create account with email
+  → Should redirect to dashboard
+
+□ Test Google login:
+  → Click "Continue with Google"
+  → Should open Google popup
+  → Should redirect to dashboard
+
+□ Test OTP login:
+  → Enter +91 mobile number
+  → Should receive SMS OTP
+  → Enter OTP → should login
+
+□ Test Tool Gate:
+  → Go to yoursite.com/tools.html (logged out)
+  → Should show gate asking for name/email/phone
+  → Enter details → tools should unlock
+  → Check Supabase tool_leads table → should have new row
+
+□ Test Document Upload:
+  → Login → Go to dashboard
+  → Click Documents tab
+  → Upload a test PDF
+  → Should appear in list
+
+□ Test Notifications:
+  → Login → Go to dashboard  
+  → Click Notifications tab
+  → (Notifications auto-created when Sukant adds filings with due dates)
+
+STEP 8 — ADMIN PANEL UPDATES (for Sukant)
+───────────────────────────────────────────
+Your existing admin.html works as before.
+New things you can do from admin:
+
+1. Add filings for clients:
+   → Admin → Clients section → select client
+   → Add filing with due date
+   → Client sees it in their dashboard
+   → Client gets notified 7 days and 2 days before due date
+
+2. Upload reports for clients:
+   → Supabase → Table Editor → reports
+   → Add row with user_id, title, report_type, file_path
+   → Client sees it in Reports tab and can download
+
+3. See tool leads:
+   → Supabase → Table Editor → tool_leads
+   → All visitor details who unlocked tools
+   → These are your leads — follow up on WhatsApp!
+
+4. See all registered users:
+   → Supabase → Table Editor → users
+   → All clients who created accounts
+
+================================================================
+COMMON ISSUES & FIXES
+================================================================
+
+Issue: Google Sign-In popup blocked
+Fix: Add your domain to Firebase Authorized Domains (Step 4)
+
+Issue: OTP not received
+Fix: Firebase Phone auth needs billing enabled for production
+     Go to Firebase → Upgrade to Blaze plan (free tier included)
+     Or test with Firebase test phone numbers first
+
+Issue: Document upload fails  
+Fix: Check Supabase Storage bucket policies (Step 2)
+     Make sure bucket name is exactly: client-documents
+
+Issue: Login works but dashboard shows empty
+Fix: Check if database-v3.sql was run successfully
+     Go to Supabase → Table Editor → users table
+     Should have a row after first login
+
+Issue: Tool gate not showing
+Fix: Clear browser localStorage and try again
+     Open DevTools → Application → Local Storage → Clear All
+
+================================================================
+HOW NOTIFICATIONS WORK
+================================================================
+
+Automatic notifications are created when:
+1. A filing due date is 7 days away
+2. A filing due date is 2 days away  
+3. A filing becomes overdue
+
+The system checks deadlines automatically when client logs in.
+Notifications appear in:
+  → Dashboard → Notifications tab (with unread count badge)
+  → Browser push notification (if client allows)
+  → Overview tab (recent 3 notifications)
+
+For WhatsApp reminders — send manually from admin panel
+using the client's phone number from users table.
+
+================================================================
+FIREBASE PHONE AUTH — PRODUCTION NOTE
+================================================================
+
+Firebase Phone Auth is FREE for:
+  → Up to 10 SMS/day during testing
+  → Unlimited with Blaze plan (pay as you go)
+  → First 10,000 verifications/month FREE on Blaze
+
+To enable for production:
+1. Firebase Console → Upgrade to Blaze plan
+2. No charges unless you exceed 10,000 OTPs/month
+3. After that, ~$0.01 per OTP (1 paisa per OTP)
+
+For a small accounting firm sending <100 OTPs/month = COMPLETELY FREE
+
+================================================================
+Contact: sukant@kunwaraccountingservices.in | +91 80761 36300
+================================================================

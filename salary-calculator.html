@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg"/>
+  <link rel="shortcut icon" href="favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Salary & TDS Calculator FY 2026-27 | Net Take Home | Kunwar Accounting Delhi</title>
+  <meta name="description" content="Free salary and TDS calculator FY 2026-27. Calculate net take-home salary after TDS, PF, ESI deductions. For employers and employees in Delhi."/>
+  <link rel="stylesheet" href="style.css"/>
+  <style>
+    body{background:var(--light);}
+    .wrap{max-width:900px;margin:0 auto;padding:2rem;}
+    .card{background:white;border-radius:16px;border:1px solid var(--border);padding:2rem;margin-bottom:1.5rem;}
+    .card h2{font-family:'Playfair Display',serif;font-size:1.3rem;color:var(--charcoal);margin-bottom:1.5rem;}
+    .fg{margin-bottom:1.1rem;}
+    .fg label{display:block;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gray);margin-bottom:5px;}
+    .fg input,.fg select{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:15px;font-family:'DM Sans',sans-serif;color:var(--charcoal);outline:none;transition:border-color .2s;background:white;}
+    .fg input:focus,.fg select:focus{border-color:var(--navy);}
+    .fg .hint{font-size:11px;color:var(--gray);margin-top:3px;}
+    .g2{display:grid;grid-template-columns:1fr 1fr;gap:1rem;}
+    .calc-btn{width:100%;background:var(--navy);color:white;padding:13px;border-radius:10px;font-size:15px;font-weight:600;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+    .calc-btn:hover{background:var(--navy-dark);}
+    .result-panel{display:none;}
+    .result-panel.show{display:block;animation:fadeUp .3s ease;}
+    .salary-hero{background:linear-gradient(135deg,var(--navy-dark),var(--navy));border-radius:16px;padding:2rem;display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;text-align:center;}
+    .sh-stat .lbl{font-size:11px;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;}
+    .sh-stat .val{font-size:1.3rem;font-weight:700;font-family:'Playfair Display',serif;color:white;}
+    .sh-stat .val.gold{color:var(--gold);}
+    .breakdown-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px;}
+    .breakdown-row:last-child{border-bottom:none;}
+    .breakdown-row .lbl{color:var(--gray);}
+    .breakdown-row .val{font-weight:600;color:var(--charcoal);}
+    .breakdown-row .val.red{color:#DC2626;}
+    .breakdown-row .val.green{color:#16A34A;}
+    .breakdown-row.total{font-weight:700;font-size:14px;background:var(--light);padding:12px;border-radius:8px;margin-top:8px;}
+    .section-label2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--navy);margin:1.25rem 0 0.75rem;padding-bottom:6px;border-bottom:2px solid var(--ice);}
+    .regime-toggle{display:flex;background:var(--light);border-radius:10px;padding:3px;margin-bottom:1.25rem;border:1px solid var(--border);}
+    .regime-btn{flex:1;padding:9px;border:none;background:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;color:var(--gray);font-family:'DM Sans',sans-serif;transition:all .2s;}
+    .regime-btn.active{background:var(--navy);color:white;}
+    @media(max-width:600px){.g2{grid-template-columns:1fr;}.salary-hero{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge" style="position:relative;display:inline-block;margin-bottom:1rem;">👨‍💼 FY 2026-27 · Updated Slabs</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">Salary & TDS Calculator</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:520px;margin:0 auto;">Calculate net take-home salary after TDS, PF, ESI and professional tax deductions.</p>
+  </div>
+
+  <div class="wrap">
+    <div class="card">
+      <h2>Enter Salary Details</h2>
+      <div class="regime-toggle">
+        <button class="regime-btn active" id="r-new" onclick="setRegime('new',this)">New Tax Regime (Default)</button>
+        <button class="regime-btn" id="r-old" onclick="setRegime('old',this)">Old Tax Regime</button>
+      </div>
+      <div class="g2">
+        <div class="fg"><label>Basic Salary ₹ / month *</label><input type="number" id="basic" placeholder="e.g. 50000" oninput="autoCalc()"/></div>
+        <div class="fg"><label>HRA ₹ / month</label><input type="number" id="hra" placeholder="e.g. 20000" oninput="autoCalc()"/></div>
+      </div>
+      <div class="g2">
+        <div class="fg"><label>Special Allowance ₹ / month</label><input type="number" id="special" placeholder="e.g. 15000" oninput="autoCalc()"/></div>
+        <div class="fg"><label>Other Allowances ₹ / month</label><input type="number" id="other-allow" placeholder="e.g. 5000" oninput="autoCalc()"/></div>
+      </div>
+      <div class="g2">
+        <div class="fg"><label>Bonus ₹ / year (optional)</label><input type="number" id="bonus" placeholder="e.g. 50000" oninput="autoCalc()"/></div>
+        <div class="fg"><label>City Type (for HRA)</label><select id="city-type" onchange="autoCalc()"><option value="metro">Metro (Delhi, Mumbai, Kolkata, Chennai)</option><option value="non-metro">Non-Metro</option></select></div>
+      </div>
+      <div id="old-regime-fields" style="display:none;">
+        <div class="section-label2">Old Regime Deductions</div>
+        <div class="g2">
+          <div class="fg"><label>Section 80C ₹/year (max ₹1.5L)</label><input type="number" id="d80c" placeholder="PPF, ELSS, LIC" oninput="autoCalc()"/></div>
+          <div class="fg"><label>Section 80D ₹/year</label><input type="number" id="d80d" placeholder="Health insurance" oninput="autoCalc()"/></div>
+        </div>
+      </div>
+      <div class="section-label2">Statutory Deductions</div>
+      <div class="g2">
+        <div class="fg"><label>PF Contribution</label>
+          <select id="pf-type" onchange="autoCalc()">
+            <option value="12">12% of Basic (Standard)</option>
+            <option value="0">Not Applicable</option>
+            <option value="custom">Custom Amount</option>
+          </select>
+        </div>
+        <div class="fg"><label>Professional Tax ₹/month</label>
+          <select id="pt" onchange="autoCalc()">
+            <option value="200">₹200/month (Delhi)</option>
+            <option value="0">Nil / Not Applicable</option>
+            <option value="250">₹250/month</option>
+          </select>
+        </div>
+      </div>
+      <div id="custom-pf-wrap" style="display:none;">
+        <div class="fg"><label>Custom PF Amount ₹/month</label><input type="number" id="custom-pf" placeholder="Employee PF contribution" oninput="autoCalc()"/></div>
+      </div>
+      <div class="fg"><label>ESI Applicable?</label>
+        <select id="esi" onchange="autoCalc()">
+          <option value="0">No (Salary above ₹21,000/month)</option>
+          <option value="0.75">Yes — 0.75% of Gross Salary</option>
+        </select>
+      </div>
+      <button class="calc-btn" onclick="calcSalary()">Calculate Take-Home Salary →</button>
+    </div>
+
+    <div class="result-panel" id="result-panel">
+      <div class="salary-hero">
+        <div class="sh-stat"><div class="lbl">Monthly Take-Home</div><div class="val gold" id="r-monthly">₹0</div></div>
+        <div class="sh-stat"><div class="lbl">Annual Take-Home</div><div class="val" id="r-annual">₹0</div></div>
+        <div class="sh-stat"><div class="lbl">Monthly TDS</div><div class="val" id="r-tds">₹0</div></div>
+      </div>
+
+      <div class="card">
+        <h2>Monthly Salary Breakup</h2>
+        <div class="section-label2">Gross Earnings</div>
+        <div id="earnings-rows"></div>
+        <div class="section-label2">Deductions</div>
+        <div id="deduction-rows"></div>
+        <div class="breakdown-row total"><span class="lbl">Net Take-Home (Monthly)</span><span class="val green" id="net-monthly-total">₹0</span></div>
+      </div>
+
+      <div class="card">
+        <h2>Annual Summary</h2>
+        <div id="annual-rows"></div>
+        <div style="background:var(--ice);border-radius:10px;padding:1rem;margin-top:1rem;">
+          <p style="font-size:13px;color:var(--navy);font-weight:600;margin-bottom:4px;">Tax Regime: <span id="regime-label">New Regime</span></p>
+          <p style="font-size:12px;color:var(--gray);">Annual income tax + cess: <strong id="annual-tax-label" style="color:var(--charcoal);">₹0</strong></p>
+        </div>
+      </div>
+
+      <div style="background:#FEF3C7;border:1px solid #FCD34D;border-radius:12px;padding:1.25rem;margin-bottom:1.5rem;">
+        <p style="font-size:13px;font-weight:600;color:#92400E;margin-bottom:4px;">⚠️ Disclaimer</p>
+        <p style="font-size:12px;color:#78350F;line-height:1.6;">This is an estimate. Actual TDS may vary based on declarations, investment proofs and employer's TDS computation. Consult us for exact Form 16 computation.</p>
+      </div>
+      <button class="calc-btn" style="background:var(--gold);color:var(--navy-dark);margin-bottom:1.5rem;" onclick="openWA()">📞 Get Payroll Managed by Expert</button>
+      <div style="text-align:center;"><button onclick="document.getElementById('result-panel').classList.remove('show');window.scrollTo({top:0,behavior:'smooth'});" style="background:none;border:1.5px solid var(--border);color:var(--gray);padding:9px 20px;border-radius:8px;font-size:13px;cursor:pointer;font-family:'DM Sans',sans-serif;">↺ Recalculate</button></div>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="supabase.js"></script><script src="nav.js"></script>
+<script>
+injectNav('tools');
+let regime='new';
+function fmt(n){return '₹'+Math.round(n).toLocaleString('en-IN');}
+function fmtR(n){return '<span style="font-weight:600;color:var(--charcoal);">'+fmt(n)+'</span>';}
+function setRegime(r,btn){
+  regime=r;
+  document.getElementById('r-new').classList.toggle('active',r==='new');
+  document.getElementById('r-old').classList.toggle('active',r==='old');
+  document.getElementById('old-regime-fields').style.display=r==='old'?'block':'none';
+  autoCalc();
+}
+function autoCalc(){const b=parseFloat(document.getElementById('basic').value);if(b>0)calcSalary();}
+
+document.getElementById('pf-type').addEventListener('change',function(){
+  document.getElementById('custom-pf-wrap').style.display=this.value==='custom'?'block':'none';
+  autoCalc();
+});
+
+function calcITR(grossAnnual,deductions={}) {
+  if(regime==='new'){
+    const sd=75000;
+    const taxable=Math.max(0,grossAnnual-sd);
+    let tax=0;
+    if(taxable>400000)tax+=(Math.min(taxable,800000)-400000)*0.05;
+    if(taxable>800000)tax+=(Math.min(taxable,1200000)-800000)*0.10;
+    if(taxable>1200000)tax+=(Math.min(taxable,1600000)-1200000)*0.15;
+    if(taxable>1600000)tax+=(Math.min(taxable,2000000)-1600000)*0.20;
+    if(taxable>2000000)tax+=(Math.min(taxable,2400000)-2000000)*0.25;
+    if(taxable>2400000)tax+=(taxable-2400000)*0.30;
+    if(taxable<=1200000)tax=Math.max(0,tax-60000);
+    return Math.round(tax*1.04);
+  } else {
+    const sd=50000;
+    const c80c=Math.min(deductions.d80c||0,150000);
+    const c80d=deductions.d80d||0;
+    const hraEx=deductions.hraEx||0;
+    const taxable=Math.max(0,grossAnnual-sd-c80c-c80d-hraEx);
+    let tax=0;
+    if(taxable>250000)tax+=(Math.min(taxable,500000)-250000)*0.05;
+    if(taxable>500000)tax+=(Math.min(taxable,1000000)-500000)*0.20;
+    if(taxable>1000000)tax+=(taxable-1000000)*0.30;
+    if(taxable<=500000)tax=0;
+    return Math.round(tax*1.04);
+  }
+}
+
+function calcHRAEx(basic,hra,rent,isMetro){
+  if(!hra||!rent)return 0;
+  const actual=hra*12;
+  const excess=Math.max(0,rent*12-basic*12*0.1);
+  const percent=isMetro?basic*12*0.5:basic*12*0.4;
+  return Math.min(actual,excess,percent);
+}
+
+function calcSalary(){
+  const basic=parseFloat(document.getElementById('basic').value)||0;
+  const hra=parseFloat(document.getElementById('hra').value)||0;
+  const special=parseFloat(document.getElementById('special').value)||0;
+  const otherAllow=parseFloat(document.getElementById('other-allow').value)||0;
+  const bonus=parseFloat(document.getElementById('bonus').value)||0;
+  const pfType=document.getElementById('pf-type').value;
+  const pt=parseFloat(document.getElementById('pt').value)||0;
+  const esiRate=parseFloat(document.getElementById('esi').value)||0;
+  const city=document.getElementById('city-type').value;
+  const d80c=parseFloat(document.getElementById('d80c')?.value)||0;
+  const d80d=parseFloat(document.getElementById('d80d')?.value)||0;
+  if(!basic){return;}
+
+  const grossMonthly=basic+hra+special+otherAllow;
+  const grossAnnual=grossMonthly*12+bonus;
+
+  // PF
+  let pfMonthly=0;
+  if(pfType==='12')pfMonthly=Math.round(basic*0.12);
+  else if(pfType==='custom')pfMonthly=parseFloat(document.getElementById('custom-pf').value)||0;
+
+  // ESI
+  const esiMonthly=Math.round(grossMonthly*esiRate/100);
+
+  // HRA exemption (old regime only, assume rent = 40% of basic for estimate)
+  const assumedRent=basic*0.4;
+  const hraEx=regime==='old'?calcHRAEx(basic,hra,assumedRent,city==='metro'):0;
+
+  // TDS
+  const annualTax=calcITR(grossAnnual,{d80c,d80d,hraEx});
+  const tdsMonthly=Math.round(annualTax/12);
+
+  // Total deductions
+  const totalDedMonthly=pfMonthly+esiMonthly+pt+tdsMonthly;
+  const netMonthly=grossMonthly-totalDedMonthly;
+  const netAnnual=netMonthly*12;
+
+  // Display
+  document.getElementById('r-monthly').textContent=fmt(netMonthly);
+  document.getElementById('r-annual').textContent=fmt(netAnnual);
+  document.getElementById('r-tds').textContent=fmt(tdsMonthly);
+  document.getElementById('net-monthly-total').textContent=fmt(netMonthly);
+  document.getElementById('annual-tax-label').textContent=fmt(annualTax);
+  document.getElementById('regime-label').textContent=regime==='new'?'New Tax Regime (FY 2026-27)':'Old Tax Regime (FY 2026-27)';
+
+  const eRows=[
+    ['Basic Salary',basic],['HRA',hra],['Special Allowance',special],
+    ['Other Allowances',otherAllow],
+  ].filter(r=>r[1]>0);
+  document.getElementById('earnings-rows').innerHTML=eRows.map(r=>
+    `<div class="breakdown-row"><span class="lbl">${r[0]}</span><span class="val">${fmt(r[1])}</span></div>`
+  ).join('')+`<div class="breakdown-row" style="font-weight:700;"><span class="lbl">Gross Salary</span><span class="val">${fmt(grossMonthly)}</span></div>`;
+
+  const dRows=[
+    ['Provident Fund (Employee)',pfMonthly],
+    ['ESI (Employee)',esiMonthly],
+    ['Professional Tax',pt],
+    ['TDS (Income Tax / 12)',tdsMonthly],
+  ].filter(r=>r[1]>0);
+  document.getElementById('deduction-rows').innerHTML=dRows.map(r=>
+    `<div class="breakdown-row"><span class="lbl">${r[0]}</span><span class="val red">- ${fmt(r[1])}</span></div>`
+  ).join('')+`<div class="breakdown-row" style="font-weight:700;"><span class="lbl">Total Deductions</span><span class="val red">- ${fmt(totalDedMonthly)}</span></div>`;
+
+  const pfAnn=pfMonthly*12;
+  const empPF=pfMonthly*12;// employer matches
+  document.getElementById('annual-rows').innerHTML=`
+    <div class="breakdown-row"><span class="lbl">Annual Gross Salary</span><span class="val">${fmt(grossAnnual)}</span></div>
+    ${bonus>0?`<div class="breakdown-row"><span class="lbl">Annual Bonus</span><span class="val">${fmt(bonus)}</span></div>`:''}
+    <div class="breakdown-row"><span class="lbl">Annual PF (Employee)</span><span class="val red">- ${fmt(pfAnn)}</span></div>
+    <div class="breakdown-row"><span class="lbl">Annual Income Tax (TDS)</span><span class="val red">- ${fmt(annualTax)}</span></div>
+    <div class="breakdown-row" style="font-weight:700;border-top:2px solid var(--border);padding-top:12px;"><span class="lbl">Annual Net Take-Home</span><span class="val green">${fmt(netAnnual)}</span></div>
+  `;
+
+  document.getElementById('result-panel').classList.add('show');
+  document.getElementById('result-panel').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function openWA(){window.open('https://wa.me/918076136300?text=Hi!%20I%20need%20help%20with%20payroll%20management.');}
+</script>
+</body>
+</html>
