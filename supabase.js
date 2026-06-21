@@ -1,13 +1,11 @@
 // Kunwar Accounting Services — Supabase Client
-// supabase.js must be loaded ONCE per page only
-
-// Guard against duplicate loading
+// Guard against duplicate loading (fixes "already declared" error)
 if (typeof window.SUPABASE_ANON_KEY === 'undefined') {
 
-  var SUPABASE_URL = 'https://lkvmlgpuktbxohtuvwmb.supabase.co';
-  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21liwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I';
+  var SUPABASE_URL      = 'https://lkvmlgpuktbxohtuvwmb.supabase.co';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I';
 
-  window.SUPABASE_URL     = SUPABASE_URL;
+  window.SUPABASE_URL      = SUPABASE_URL;
   window.SUPABASE_ANON_KEY = SUPABASE_ANON_KEY;
 
   window.sbFetch = async function(table, method, body, qs) {
