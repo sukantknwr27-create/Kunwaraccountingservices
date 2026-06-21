@@ -62,8 +62,6 @@ var fbApp = firebase.initializeApp({
 var auth = firebase.auth();
 auth.languageCode = 'en';
 var ADMIN = 'sukant@kunwaraccountingservices.in';
-var SUPABASE_URL = 'https://lkvmlgpuktbxohtuvwmb.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21liwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I';
 
 function isAdmin(u){ return u && u.email === ADMIN; }
 function saveUser(u){
