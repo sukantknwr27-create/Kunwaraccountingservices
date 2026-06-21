@@ -207,9 +207,13 @@
 </div>
 
 <div id="footer-placeholder"></div>
-<script src="supabase.js"></script><script src="nav.js"></script>
-<script type="module">
-import { onUserChanged, kasSignOut, getCurrentUser } from './firebase.js';
+<script src="supabase.js"></script>
+<script src="nav.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="firebase.js"></script>
+<script >
+
 
 injectNav('dashboard');
 
