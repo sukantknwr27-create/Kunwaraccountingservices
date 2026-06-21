@@ -47,6 +47,7 @@
 <div id="nav-placeholder"></div>
 
 <!-- Firebase MUST load first and synchronously -->
+<script src="supabase.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 <script>
@@ -62,8 +63,7 @@ var fbApp = firebase.initializeApp({
 var auth = firebase.auth();
 auth.languageCode = 'en';
 var ADMIN = 'sukant@kunwaraccountingservices.in';
-var SUPABASE_URL = 'https://lkvmlgpuktbxohtuvwmb.supabase.co';
-var SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxrdm1sZ3B1a3RieG9odHV2d21iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5NjY2MTUsImV4cCI6MjA5MTU0MjYxNX0.KKhiMsZSwBbiyQo3B5jHKxerIYQqMZ18HvDY03u2J6I';
+// Supabase vars loaded from supabase.js
 
 function isAdmin(u){ return u && u.email === ADMIN; }
 function saveUser(u){
@@ -77,7 +77,7 @@ function saveUser(u){
 // Sync to Supabase (non-blocking)
 function syncDB(u){
   if(!u||!SUPABASE_KEY) return;
-  var h={'apikey':SUPABASE_KEY,'Authorization':'Bearer '+SUPABASE_KEY,'Content-Type':'application/json','Prefer':'return=representation'};
+  var h={'apikey':SUPABASE_ANON_KEY,'Authorization':'Bearer '+SUPABASE_ANON_KEY,'Content-Type':'application/json','Prefer':'return=representation'};
   var b=JSON.stringify({firebase_uid:u.uid,email:u.email||'',name:u.displayName||'',phone:u.phoneNumber||'',photo_url:u.photoURL||'',last_login:new Date().toISOString()});
   fetch(SUPABASE_URL+'/rest/v1/users?firebase_uid=eq.'+u.uid,{method:'PATCH',headers:h,body:b})
     .then(function(r){return r.json();})
@@ -199,59 +199,6 @@ function doForgot(){
     .catch(function(){showErr('Could not send reset email. Check the address.');});
 }
 
-// ── EMAIL OTP ─────────────────────────────────────────────────
-var otpCode=null, otpEmail=null, cdInt=null;
-function doSendOTP(){
-  clearMsg();
-  var email=document.getElementById('otp-email').value.trim();
-  if(!email||!/\S+@\S+\.\S+/.test(email)){showErr('Please enter a valid email address.');return;}
-  otpCode=Math.floor(100000+Math.random()*900000).toString();
-  otpEmail=email;
-  localStorage.setItem('kas_otp',JSON.stringify({code:otpCode,email:email,time:Date.now()}));
-  var btn=document.getElementById('send-btn');
-  btn.disabled=true; btn.textContent='Sending...';
-  // Send via Firebase email sign-in link OR show code for testing
-  // For production use EmailJS or any email API
-  // For now we use Firebase anonymous then verify
-  showOk('OTP generated: ' + otpCode + ' (For production, integrate EmailJS to send via email)');
-  document.getElementById('otp-s1').style.display='none';
-  document.getElementById('otp-s2').style.display='block';
-  document.querySelector('.dig').focus();
-  var s=60; var cd=document.getElementById('otp-cd');
-  cdInt=setInterval(function(){s--;cd.textContent=s>0?'Resend in '+s+'s':'';if(s<=0){clearInterval(cdInt);btn.disabled=false;btn.textContent='Resend OTP';}},1000);
-}
-function digNext(el){if(el.value.length>1)el.value=el.value.slice(-1);if(el.value&&el.nextElementSibling)el.nextElementSibling.focus();}
-function doVerify(){
-  clearMsg();
-  var entered=Array.from(document.querySelectorAll('.dig')).map(function(i){return i.value;}).join('');
-  if(entered.length<6){showErr('Please enter all 6 digits.');return;}
-  var stored=JSON.parse(localStorage.getItem('kas_otp')||'{}');
-  if(!stored.code){showErr('Please send OTP first.');return;}
-  if(Date.now()-stored.time>600000){showErr('OTP expired. Please request a new one.');return;}
-  if(entered!==stored.code){showErr('Incorrect OTP. Please try again.');return;}
-  localStorage.removeItem('kas_otp');
-  busy('vbtn',true,'Verifying...');
-  // Sign in or create account with the email
-  auth.signInWithEmailAndPassword(stored.email,'KAS_'+stored.code+'_temp')
-    .catch(function(){return auth.createUserWithEmailAndPassword(stored.email,'KAS_'+stored.code+'_temp');})
-    .then(function(c){
-      saveUser(c.user); syncDB(c.user);
-      showOk('Login successful! Redirecting...');
-      setTimeout(function(){window.location.href='dashboard.html';},800);
-    })
-    .catch(function(e){showErr('Could not complete login. Please use Email tab instead.');busy('vbtn',false,'Verify & Login →');});
-}
-function resetOTP(){
-  clearMsg(); clearInterval(cdInt);
-  document.getElementById('otp-s1').style.display='block';
-  document.getElementById('otp-s2').style.display='none';
-  document.querySelectorAll('.dig').forEach(function(i){i.value='';});
-  otpCode=null; otpEmail=null;
-  document.getElementById('send-btn').disabled=false;
-  document.getElementById('send-btn').textContent='Send OTP';
-  document.getElementById('otp-cd').textContent='';
-}
-
 // Enter key
 document.addEventListener('keydown',function(e){
   if(e.key!=='Enter')return;
@@ -282,7 +229,7 @@ document.addEventListener('keydown',function(e){
     <div class="tabs">
       <button class="tab on"  onclick="showTab('email',this)">📧 Email</button>
       <button class="tab"     onclick="showTab('google',this)">🔵 Google</button>
-      <button class="tab"     onclick="showTab('otp',this)">📱 OTP</button>
+      
     </div>
 
     <!-- EMAIL -->
@@ -315,35 +262,11 @@ document.addEventListener('keydown',function(e){
         Continue with Google
       </button>
     </div>
-
-    <!-- OTP -->
-    <div class="panel" id="p-otp">
-      <div id="otp-s1">
-        <p style="font-size:13px;color:var(--gray);margin-bottom:1rem;text-align:center;line-height:1.7;">Enter your email to receive a 6-digit OTP code.</p>
-        <div class="form-group">
-          <label>Email Address</label>
-          <div class="orow">
-            <input type="email" id="otp-email" placeholder="raj@business.com"/>
-            <button class="sbtn" id="send-btn" onclick="doSendOTP()">Send OTP</button>
-          </div>
-        </div>
-        <div style="font-size:12px;color:var(--gray);text-align:center;" id="otp-cd"></div>
+        
       </div>
-      <div id="otp-s2" style="display:none;">
-        <div style="background:var(--ice);border-radius:8px;padding:10px 14px;font-size:13px;color:var(--navy);margin-bottom:12px;border-left:3px solid var(--navy);">📧 Check your email for the OTP code.</div>
-        <div class="form-group">
-          <label>Enter 6-Digit OTP</label>
-          <div class="digits">
-            <input class="dig" type="number" oninput="digNext(this)"/>
-            <input class="dig" type="number" oninput="digNext(this)"/>
-            <input class="dig" type="number" oninput="digNext(this)"/>
-            <input class="dig" type="number" oninput="digNext(this)"/>
-            <input class="dig" type="number" oninput="digNext(this)"/>
-            <input class="dig" type="number" oninput="digNext(this)"/>
-          </div>
-        </div>
+      
         <button class="btn" id="vbtn" onclick="doVerify()">Verify & Login →</button>
-        <div class="fl"><a onclick="resetOTP()">← Change email</a></div>
+        
       </div>
     </div>
 
@@ -351,7 +274,6 @@ document.addEventListener('keydown',function(e){
   </div>
 </div>
 
-<script src="supabase.js"></script>
 <script src="nav.js"></script>
 <script>if(typeof injectNav==='function')injectNav('login');</script>
 </body>
