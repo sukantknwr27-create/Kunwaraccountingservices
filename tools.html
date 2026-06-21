@@ -168,8 +168,10 @@
 <div id="footer-placeholder"></div>
 <script src="supabase.js"></script>
 <script src="nav.js"></script>
-<script type="module">
-import { onUserChanged, kasSignOut, getCurrentUser } from './firebase.js';
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<script src="firebase.js"></script>
+<script >
 
 injectNav('tools');
 
@@ -177,7 +179,7 @@ const TOOL_KEY = 'kas_tool_access';
 
 function checkAccess() {
   // Check if logged in via Firebase
-  onUserChanged(user => {
+  kasOnAuthChanged(user => {
     if (user) {
       // Logged in — full access, show welcome bar
       document.getElementById('gate-overlay').style.display = 'none';
