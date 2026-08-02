@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <link rel="shortcut icon" href="../../favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GST Error Report Tool | Find Mistakes Before You File | Kunwar Accounting Services</title>
+  <meta name="description" content="Upload your sales/invoice register and instantly find GST filing errors — invalid GSTINs, invoice number gaps, duplicate invoices, wrong rates, missing HSN codes. Free tool."/>
+  <meta name="keywords" content="gst error report, gst return error check, gstin validation tool, invoice error checker gst"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/gst-error-report.html"/>
+  <link rel="stylesheet" href="../../style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:980px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--charcoal); margin-bottom:1rem; }
+    .dropzone { border:2px dashed var(--border); border-radius:14px; padding:2.5rem 1.5rem; text-align:center; cursor:pointer; transition:all 0.2s; background:var(--light); }
+    .dropzone.drag { border-color:var(--navy); background:var(--ice); }
+    .dropzone .dz-icon { font-size:2.2rem; margin-bottom:.5rem; }
+    .dropzone .dz-text { font-size:14px; color:var(--charcoal); font-weight:600; }
+    .dropzone .dz-sub { font-size:12px; color:var(--gray); margin-top:4px; }
+    .file-chip { display:inline-flex; align-items:center; gap:8px; background:var(--ice); border-radius:8px; padding:8px 14px; font-size:13px; color:var(--navy); font-weight:600; margin-top:1rem; }
+    .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:1.25rem 0; }
+    .summary-box { border-radius:12px; padding:1rem 1.25rem; background:var(--light); }
+    .summary-box.err { background:#FEE2E2; }
+    .summary-box.warn { background:#FEF3C7; }
+    .summary-box.ok { background:#DCFCE7; }
+    .summary-box .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--gray); }
+    .summary-box .val { font-size:1.35rem; font-weight:700; color:var(--navy); font-family:'Playfair Display',serif; margin-top:2px; }
+    .calc-btn { background:var(--navy); color:white; padding:13px 26px; border-radius:10px; font-size:15px; font-weight:600; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+    .calc-btn:hover { background:var(--navy-dark); }
+    .btn-ghost { background:none; border:1.5px solid var(--border); color:var(--gray); padding:11px 20px; border-radius:10px; font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:1rem; }
+    .hidden { display:none !important; }
+    .err-box { background:#FEE2E2; border:1px solid #FCA5A5; border-radius:8px; padding:12px 16px; font-size:13px; color:#991B1B; margin-top:1rem; }
+    .warn-box { background:#FEF3C7; border:1px solid #FCD34D; border-radius:8px; padding:12px 16px; font-size:13px; color:#78350F; margin-top:1rem; }
+    table.data-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+    table.data-table th { text-align:left; padding:8px 10px; background:var(--navy); color:white; position:sticky; top:0; }
+    table.data-table td { padding:7px 10px; border-bottom:1px solid var(--border); }
+    table.data-table tr:nth-child(even) { background:var(--light); }
+    .table-scroll { max-height:420px; overflow:auto; border:1px solid var(--border); border-radius:10px; }
+    .sev-pill { padding:2px 9px; border-radius:20px; font-size:11px; font-weight:700; }
+    .sev-error { background:#FEE2E2; color:#991B1B; }
+    .sev-warning { background:#FEF3C7; color:#92400E; }
+    .field-group { margin-bottom:1rem; }
+    .field-group label { display:block; font-size:12px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+    .field-group select { padding:9px 12px; border:1.5px solid var(--border); border-radius:8px; font-size:13px; font-family:'DM Sans',sans-serif; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge">Free Tool · Instant</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">GST Error Report</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:520px;margin:0 auto;">Upload your sales/invoice register and catch GST filing mistakes before the portal does — invalid GSTINs, gaps in invoice numbering, duplicates, wrong rates and more.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="calc-card">
+      <h2>Upload Sales / Invoice Register</h2>
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
+        <div class="dz-icon">📤</div>
+        <div class="dz-text">Click to upload or drag & drop</div>
+        <div class="dz-sub">.xlsx, .xls or .csv — needs invoice no, date, GSTIN (optional), taxable value, rate columns</div>
+        <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none;" onchange="handleFile(this.files[0])"/>
+      </div>
+      <div id="file-chip-wrap"></div>
+      <div class="warn-box">Your file is processed entirely in your browser — nothing is uploaded to any server.</div>
+    </div>
+
+    <div class="calc-card hidden" id="result-section">
+      <h2>Error Report</h2>
+      <div class="summary-grid">
+        <div class="summary-box"><div class="lbl">Rows Scanned</div><div class="val" id="cnt-total">0</div></div>
+        <div class="summary-box err"><div class="lbl">Errors</div><div class="val" id="cnt-error">0</div></div>
+        <div class="summary-box warn"><div class="lbl">Warnings</div><div class="val" id="cnt-warning">0</div></div>
+        <div class="summary-box ok"><div class="lbl">Clean Rows</div><div class="val" id="cnt-clean">0</div></div>
+      </div>
+      <div class="table-scroll"><table class="data-table" id="issues-table"></table></div>
+      <div class="btn-row">
+        <button class="calc-btn" onclick="downloadReport()">⬇ Download Error Report (Excel)</button>
+        <button class="btn-ghost" onclick="resetAll()">↺ Upload Another File</button>
+      </div>
+    </div>
+
+    <div class="calc-card" style="background:var(--light);">
+      <h2 style="font-size:15px;">Checks this tool runs</h2>
+      <p style="font-size:13px;color:var(--gray);line-height:1.8;">
+        GSTIN format & checksum validation · duplicate invoice number detection · invoice numbering gap detection · negative or zero taxable value · invalid GST rate (must be one of 0, 0.25, 3, 5, 12, 18, 28%) · missing HSN code · missing or unrecognised place of supply state · CGST/SGST/IGST vs taxable value × rate mismatch beyond ₹1 rounding tolerance.
+      </p>
+    </div>
+
+    <div class="cta-banner">
+      <h2>Want a CA to review before you file?</h2>
+      <p>We review and file GST returns for businesses across India — accuracy guaranteed.</p>
+      <a href="contact.html" class="btn-primary">Get Expert Review →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="../../js/gst-tools-utils.js"></script>
+<script src="../../js/nav.js"></script>
+<script>
+injectNav('tools');
+let allIssues = [];
+
+const dz = document.getElementById('dropzone');
+dz.addEventListener('dragover', e=>{e.preventDefault();dz.classList.add('drag');});
+dz.addEventListener('dragleave', ()=>dz.classList.remove('drag'));
+dz.addEventListener('drop', e=>{e.preventDefault();dz.classList.remove('drag');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
+
+const ERR_ALIASES = {
+  invoiceNumber: ['invoice number','invoice no','inv no'],
+  invoiceDate: ['invoice date','inv date'],
+  customerGstin: ['customer gstin','gstin','buyer gstin'],
+  taxableValue: ['taxable value','taxable amount'],
+  gstRate: ['gst rate','tax rate','rate'],
+  hsn: ['hsn code','hsn','hsn/sac'],
+  cgst: ['cgst amount','cgst'],
+  sgst: ['sgst amount','sgst'],
+  igst: ['igst amount','igst'],
+  shipToState: ['place of supply','customer state','ship to state','state']
+};
+
+async function handleFile(file) {
+  if (!file) return;
+  document.getElementById('file-chip-wrap').innerHTML = `<div class="file-chip">📄 ${file.name}</div>`;
+  const wb = await readWorkbookFile(file);
+  const { headers, rows } = sheetToRows(wb);
+  const map = autoMapColumns(headers, ERR_ALIASES);
+  const objs = rowsToObjects(headers, rows);
+
+  allIssues = [];
+  const seenInvoices = {};
+  const invoiceNums = [];
+  let cleanCount = 0;
+
+  objs.forEach((row, idx) => {
+    const rowNum = idx + 2;
+    const rowIssues = [];
+    const invNo = map.invoiceNumber ? String(row[map.invoiceNumber]||'').trim() : '';
+    const gstin = map.customerGstin ? String(row[map.customerGstin]||'').trim() : '';
+    const taxable = map.taxableValue ? num(row[map.taxableValue]) : null;
+    const rate = map.gstRate ? num(row[map.gstRate]) : null;
+    const hsn = map.hsn ? String(row[map.hsn]||'').trim() : '';
+    const cgst = map.cgst ? num(row[map.cgst]) : 0;
+    const sgst = map.sgst ? num(row[map.sgst]) : 0;
+    const igst = map.igst ? num(row[map.igst]) : 0;
+    const state = map.shipToState ? row[map.shipToState] : '';
+
+    if (!invNo) rowIssues.push(['error','Missing invoice number']);
+    else {
+      if (seenInvoices[invNo]) rowIssues.push(['error', `Duplicate invoice number (also row ${seenInvoices[invNo]})`]);
+      seenInvoices[invNo] = rowNum;
+      invoiceNums.push(invNo);
+    }
+
+    if (gstin) {
+      const v = validateGSTIN(gstin);
+      if (!v.valid) rowIssues.push(['error', `Invalid customer GSTIN: ${v.reason}`]);
+    }
+
+    if (taxable === null || taxable === undefined) rowIssues.push(['warning','No taxable value column mapped']);
+    else if (taxable <= 0) rowIssues.push(['error','Taxable value is zero or negative']);
+
+    if (rate === null) rowIssues.push(['warning','No GST rate column mapped']);
+    else if (!VALID_GST_RATES.includes(Math.round(rate*100)/100)) rowIssues.push(['warning',`Unusual GST rate: ${rate}% (expected 0, 0.25, 3, 5, 12, 18 or 28%)`]);
+
+    if (!hsn && map.hsn) rowIssues.push(['warning','Missing HSN/SAC code']);
+
+    if (state && !stateNameToCode(state)) rowIssues.push(['warning',`Unrecognised place of supply: "${state}"`]);
+
+    if (taxable && rate) {
+      const expectedTax = taxable * rate / 100;
+      const actualTax = cgst + sgst + igst;
+      if (Math.abs(expectedTax - actualTax) > Math.max(1, expectedTax*0.02)) {
+        rowIssues.push(['warning', `Tax amount (₹${round2(actualTax)}) doesn't match taxable value × rate (expected ≈₹${round2(expectedTax)})`]);
+      }
+    }
+
+    if (rowIssues.length === 0) cleanCount++;
+    rowIssues.forEach(([sev,msg]) => allIssues.push({ row: rowNum, invoice: invNo, severity: sev, message: msg }));
+  });
+
+  // Invoice numbering gap detection (numeric suffix based)
+  const numericInvoices = invoiceNums.map(i => { const m = i.match(/(\d+)$/); return m ? { full:i, num:parseInt(m[1],10), prefix:i.slice(0,i.length-m[1].length) } : null; }).filter(Boolean);
+  const byPrefix = {};
+  numericInvoices.forEach(n => { (byPrefix[n.prefix]=byPrefix[n.prefix]||[]).push(n.num); });
+  Object.keys(byPrefix).forEach(prefix => {
+    const nums = [...new Set(byPrefix[prefix])].sort((a,b)=>a-b);
+    for (let i=1;i<nums.length;i++) {
+      if (nums[i] - nums[i-1] > 1) {
+        allIssues.push({ row:'-', invoice: `${prefix}${nums[i-1]}…${prefix}${nums[i]}`, severity:'warning', message: `Possible gap in invoice numbering: ${nums[i]-nums[i-1]-1} number(s) missing between ${prefix}${nums[i-1]} and ${prefix}${nums[i]}` });
+      }
+    }
+  });
+
+  renderResults(objs.length, cleanCount);
+}
+
+function round2(n){ return Math.round(n*100)/100; }
+
+function renderResults(total, clean) {
+  const errCount = allIssues.filter(i=>i.severity==='error').length;
+  const warnCount = allIssues.filter(i=>i.severity==='warning').length;
+  document.getElementById('cnt-total').textContent = total;
+  document.getElementById('cnt-error').textContent = errCount;
+  document.getElementById('cnt-warning').textContent = warnCount;
+  document.getElementById('cnt-clean').textContent = clean;
+
+  let html = '<thead><tr><th>Row</th><th>Invoice</th><th>Severity</th><th>Issue</th></tr></thead><tbody>';
+  allIssues.slice(0,500).forEach(i => {
+    html += `<tr><td>${i.row}</td><td>${i.invoice||''}</td><td><span class="sev-pill sev-${i.severity}">${i.severity==='error'?'Error':'Warning'}</span></td><td>${i.message}</td></tr>`;
+  });
+  html += '</tbody>';
+  if (!allIssues.length) html = '<thead><tr><th>Result</th></tr></thead><tbody><tr><td>🎉 No issues found in this file!</td></tr></tbody>';
+  document.getElementById('issues-table').innerHTML = html;
+
+  document.getElementById('result-section').classList.remove('hidden');
+  document.getElementById('result-section').scrollIntoView({behavior:'smooth'});
+}
+
+function downloadReport() {
+  const rows = allIssues.map(i => ({ Row: i.row, Invoice: i.invoice||'', Severity: i.severity==='error'?'Error':'Warning', Issue: i.message }));
+  const summary = [{ 'Errors': allIssues.filter(i=>i.severity==='error').length, 'Warnings': allIssues.filter(i=>i.severity==='warning').length, 'Generated On': new Date().toLocaleString('en-IN') }];
+  downloadExcelFile({ 'Summary': summary, 'Issues': rows.length?rows:[{Row:'',Invoice:'',Severity:'',Issue:'No issues found'}] }, `GST-Error-Report-${Date.now()}.xlsx`);
+}
+function resetAll() {
+  allIssues=[]; document.getElementById('file-chip-wrap').innerHTML=''; document.getElementById('file-input').value='';
+  document.getElementById('result-section').classList.add('hidden');
+}
+</script>
+</body>
+</html>

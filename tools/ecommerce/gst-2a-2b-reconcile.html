@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <link rel="shortcut icon" href="../../favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GSTR-2A / 2B Reconciliation Tool v2.0 | Match Purchases with ITC | Kunwar Accounting</title>
+  <meta name="description" content="Reconcile your purchase register with GSTR-2A/2B in seconds. Instantly find matched entries, amount mismatches, invoice mismatches, entry pending and return pending suppliers. Free tool."/>
+  <meta name="keywords" content="2A 2B reconciliation tool, GSTR-2B reconciliation, ITC reconciliation, purchase register matching, GST reconciliation excel"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/gst-2a-2b-reconcile.html"/>
+  <link rel="stylesheet" href="../../style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:1080px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--charcoal); margin-bottom:1rem; }
+    .two-col { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    @media(max-width:720px){ .two-col{ grid-template-columns:1fr; } }
+    .dropzone { border:2px dashed var(--border); border-radius:14px; padding:1.75rem 1rem; text-align:center; cursor:pointer; transition:all 0.2s; background:var(--light); }
+    .dropzone.drag { border-color:var(--navy); background:var(--ice); }
+    .dropzone .dz-icon { font-size:1.8rem; margin-bottom:.4rem; }
+    .dropzone .dz-text { font-size:13px; color:var(--charcoal); font-weight:600; }
+    .dropzone .dz-sub { font-size:11px; color:var(--gray); margin-top:4px; }
+    .file-chip { display:inline-flex; align-items:center; gap:8px; background:var(--ice); border-radius:8px; padding:6px 12px; font-size:12px; color:var(--navy); font-weight:600; margin-top:.75rem; }
+    .tol-row { display:flex; align-items:center; gap:10px; margin-top:1rem; }
+    .tol-row label { font-size:12px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:.05em; }
+    .tol-row input { width:100px; padding:8px 10px; border:1.5px solid var(--border); border-radius:8px; font-size:13px; font-family:'DM Sans',sans-serif; }
+    .calc-btn { background:var(--navy); color:white; padding:13px 26px; border-radius:10px; font-size:15px; font-weight:600; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+    .calc-btn:hover { background:var(--navy-dark); }
+    .calc-btn:disabled { opacity:.5; cursor:not-allowed; }
+    .btn-ghost { background:none; border:1.5px solid var(--border); color:var(--gray); padding:11px 20px; border-radius:10px; font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .tile-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:1.25rem 0; }
+    .tile { border-radius:12px; padding:1rem 1.1rem; cursor:pointer; border:2px solid transparent; transition:all .15s; }
+    .tile.active { border-color: currentColor; }
+    .tile .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.05em; opacity:.8; }
+    .tile .val { font-size:1.35rem; font-weight:700; font-family:'Playfair Display',serif; margin-top:2px; }
+    .tile-matched { background:#DCFCE7; color:#166534; }
+    .tile-amount-mismatch { background:#FEF3C7; color:#92400E; }
+    .tile-invoice-mismatch { background:#FFE4D6; color:#9A3412; }
+    .tile-entry-pending { background:#FEE2E2; color:#991B1B; }
+    .tile-return-pending { background:#EDE9FE; color:#5B21B6; }
+    .tile-all { background:var(--light); color:var(--charcoal); }
+    table.data-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+    table.data-table th { text-align:left; padding:8px 10px; background:var(--navy); color:white; position:sticky; top:0; }
+    table.data-table td { padding:7px 10px; border-bottom:1px solid var(--border); }
+    table.data-table tr:nth-child(even) { background:var(--light); }
+    .table-scroll { max-height:440px; overflow:auto; border:1px solid var(--border); border-radius:10px; }
+    .status-pill { padding:2px 9px; border-radius:20px; font-size:11px; font-weight:700; white-space:nowrap; }
+    .pill-matched { background:#DCFCE7; color:#166534; }
+    .pill-amount-mismatch { background:#FEF3C7; color:#92400E; }
+    .pill-invoice-mismatch { background:#FFE4D6; color:#9A3412; }
+    .pill-entry-pending { background:#FEE2E2; color:#991B1B; }
+    .pill-return-pending { background:#EDE9FE; color:#5B21B6; }
+    .hidden { display:none !important; }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:1rem; }
+    .warn-box { background:#FEF3C7; border:1px solid #FCD34D; border-radius:8px; padding:12px 16px; font-size:13px; color:#78350F; margin-top:1rem; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge">v2.0 · Unlimited Usage · Free</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">2B/2A Reconcile</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:560px;margin:0 auto;">Reconcile your purchase register against GSTR-2A/2B and get a clear, categorised query report — matched entries, mismatches, entry pending and return pending suppliers.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="calc-card" id="upload-section">
+      <h2>Upload Files for Reconciliation</h2>
+      <p style="font-size:13px;color:var(--gray);margin-bottom:0;">Please upload your Purchase Register and the 2A/2B data sheet downloaded from the GST portal.</p>
+      <div class="two-col" style="margin-top:1rem;">
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;">Your Purchase Register (Excel/CSV)</label>
+          <div class="dropzone" id="dz-books" onclick="document.getElementById('file-books').click()">
+            <div class="dz-icon">📗</div>
+            <div class="dz-text">Upload Purchase Register</div>
+            <div class="dz-sub">Columns: Supplier GSTIN, Invoice No, Invoice Date, Taxable Value, CGST/SGST/IGST</div>
+            <input type="file" id="file-books" accept=".xlsx,.xls,.csv" style="display:none;" onchange="handleBooksFile(this.files[0])"/>
+          </div>
+          <div id="chip-books"></div>
+        </div>
+        <div>
+          <label style="font-size:12px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.05em;">2A/2B Data Sheet</label>
+          <div class="dropzone" id="dz-2b" onclick="document.getElementById('file-2b').click()">
+            <div class="dz-icon">📘</div>
+            <div class="dz-text">Upload 2A/2B Data Sheet</div>
+            <div class="dz-sub">Downloaded from GST portal — Excel export or raw JSON</div>
+            <input type="file" id="file-2b" accept=".xlsx,.xls,.csv,.json" style="display:none;" onchange="handle2BFile(this.files[0])"/>
+          </div>
+          <div id="chip-2b"></div>
+        </div>
+      </div>
+      <div class="tol-row">
+        <label>Difference (₹)</label>
+        <input type="number" id="tolerance" value="1" min="0"/>
+        <span style="font-size:12px;color:var(--gray);">rounding tolerance before flagging an amount mismatch</span>
+      </div>
+      <div class="warn-box">Both files are processed entirely in your browser. Nothing is uploaded to any server.</div>
+      <div class="btn-row"><button class="calc-btn" id="reconcile-btn" onclick="runReconcile()" disabled>Submit →</button></div>
+    </div>
+
+    <div class="calc-card hidden" id="result-section">
+      <h2>2A/2B Reconciliation — Query Report</h2>
+      <div class="tile-grid">
+        <div class="tile tile-all active" data-f="all" onclick="setFilter('all')"><div class="lbl">All Entry</div><div class="val" id="cnt-all">0</div></div>
+        <div class="tile tile-matched" data-f="matched" onclick="setFilter('matched')"><div class="lbl">Matched Entry</div><div class="val" id="cnt-matched">0</div></div>
+        <div class="tile tile-amount-mismatch" data-f="amount-mismatch" onclick="setFilter('amount-mismatch')"><div class="lbl">Amount Mismatched</div><div class="val" id="cnt-amount-mismatch">0</div></div>
+        <div class="tile tile-invoice-mismatch" data-f="invoice-mismatch" onclick="setFilter('invoice-mismatch')"><div class="lbl">Invoice Mismatched</div><div class="val" id="cnt-invoice-mismatch">0</div></div>
+        <div class="tile tile-entry-pending" data-f="entry-pending" onclick="setFilter('entry-pending')"><div class="lbl">Entry Pending</div><div class="val" id="cnt-entry-pending">0</div></div>
+        <div class="tile tile-return-pending" data-f="return-pending" onclick="setFilter('return-pending')"><div class="lbl">Return Pending</div><div class="val" id="cnt-return-pending">0</div></div>
+      </div>
+      <div class="tile-grid" style="grid-template-columns:repeat(auto-fit,minmax(200px,1fr));">
+        <div class="tile" style="background:var(--light);color:var(--navy);"><div class="lbl" style="color:var(--gray);">ITC Confirmed (Matched)</div><div class="val" id="itc-confirmed">₹0</div></div>
+        <div class="tile" style="background:var(--light);color:#DC2626;"><div class="lbl" style="color:var(--gray);">ITC at Risk (Entry/Return Pending)</div><div class="val" id="itc-risk">₹0</div></div>
+      </div>
+
+      <div class="table-scroll"><table class="data-table" id="recon-table"></table></div>
+
+      <div class="btn-row">
+        <button class="calc-btn" onclick="downloadReconExcel()">⬇ Download Query Report (Excel)</button>
+        <button class="btn-ghost" onclick="resetAll()">↺ Start Over</button>
+      </div>
+    </div>
+
+    <div class="calc-card" style="background:var(--light);">
+      <h2 style="font-size:15px;">What each category means</h2>
+      <p style="font-size:13px;color:var(--gray);line-height:1.8;">
+        <strong>Matched Entry</strong> — GSTIN + invoice number found in both, values match within tolerance.<br>
+        <strong>Amount Mismatched</strong> — same GSTIN + invoice number in both, but taxable value or tax amounts differ beyond tolerance.<br>
+        <strong>Invoice Mismatched</strong> — the supplier appears in 2A/2B and a similar invoice value exists, but the invoice number doesn't match exactly — check for a typo on either side.<br>
+        <strong>Entry Pending</strong> — the supplier has filed their return (other invoices from them appear in 2A/2B) but this specific invoice hasn't shown up yet.<br>
+        <strong>Return Pending</strong> — the supplier's GSTIN doesn't appear in 2A/2B at all for this period — their return itself is pending.
+      </p>
+    </div>
+
+    <div class="cta-banner">
+      <h2>Let us handle ITC reconciliation every month</h2>
+      <p>We reconcile 2A/2B and chase up supplier non-filers so you never lose ITC.</p>
+      <a href="contact.html" class="btn-primary">Get Reconciliation Help →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="../../js/gst-tools-utils.js"></script>
+<script src="../../js/nav.js"></script>
+<script>
+injectNav('tools');
+
+let booksData = null, twoBData = null, reconResults = [], currentFilter = 'all';
+
+const BOOKS_ALIASES = {
+  supplierGstin: ['supplier gstin','gstin','vendor gstin','supplier gstin/uin'],
+  invoiceNumber: ['invoice number','invoice no','inv no','invoice-no'],
+  invoiceDate: ['invoice date','inv date'],
+  taxableValue: ['taxable value','taxable amount'],
+  cgst: ['cgst amount','cgst'],
+  sgst: ['sgst amount','sgst'],
+  igst: ['igst amount','igst'],
+  supplierName: ['supplier name','trade name','vendor name']
+};
+const TWOB_ALIASES = {
+  supplierGstin: ['gstin of supplier','supplier gstin','gstin'],
+  invoiceNumber: ['invoice number','invoice no'],
+  invoiceDate: ['invoice date'],
+  taxableValue: ['taxable value','taxable amount'],
+  cgst: ['central tax','cgst amount','cgst'],
+  sgst: ['state/ut tax','sgst amount','sgst'],
+  igst: ['integrated tax','igst amount','igst'],
+  supplierName: ['trade name','supplier name','trade/legal name']
+};
+
+function normInv(s) { return String(s||'').trim().toUpperCase().replace(/^0+/,'').replace(/[\s\-\/]/g,''); }
+function normGstin(s) { return String(s||'').trim().toUpperCase(); }
+
+// ---- File 1: Books ----
+const dzB = document.getElementById('dz-books');
+dzB.addEventListener('dragover', e=>{e.preventDefault();dzB.classList.add('drag');});
+dzB.addEventListener('dragleave', ()=>dzB.classList.remove('drag'));
+dzB.addEventListener('drop', e=>{e.preventDefault();dzB.classList.remove('drag');if(e.dataTransfer.files[0])handleBooksFile(e.dataTransfer.files[0]);});
+
+async function handleBooksFile(file) {
+  if (!file) return;
+  document.getElementById('chip-books').innerHTML = `<div class="file-chip">📄 ${file.name}</div>`;
+  const wb = await readWorkbookFile(file);
+  const { headers, rows } = sheetToRows(wb);
+  const map = autoMapColumns(headers, BOOKS_ALIASES);
+  const objs = rowsToObjects(headers, rows);
+  booksData = objs.map(r => ({
+    gstin: normGstin(r[map.supplierGstin]),
+    invNo: normInv(r[map.invoiceNumber]),
+    invNoDisplay: r[map.invoiceNumber],
+    invDate: r[map.invoiceDate],
+    taxable: num(r[map.taxableValue]),
+    cgst: num(r[map.cgst]), sgst: num(r[map.sgst]), igst: num(r[map.igst]),
+    name: r[map.supplierName] || ''
+  })).filter(r => r.gstin && r.invNo);
+  checkReady();
+}
+
+// ---- File 2: 2A/2B ----
+const dz2 = document.getElementById('dz-2b');
+dz2.addEventListener('dragover', e=>{e.preventDefault();dz2.classList.add('drag');});
+dz2.addEventListener('dragleave', ()=>dz2.classList.remove('drag'));
+dz2.addEventListener('drop', e=>{e.preventDefault();dz2.classList.remove('drag');if(e.dataTransfer.files[0])handle2BFile(e.dataTransfer.files[0]);});
+
+async function handle2BFile(file) {
+  if (!file) return;
+  document.getElementById('chip-2b').innerHTML = `<div class="file-chip">📄 ${file.name}</div>`;
+  if (file.name.toLowerCase().endsWith('.json')) {
+    const text = await file.text();
+    try {
+      const json = JSON.parse(text);
+      twoBData = parse2BJson(json);
+    } catch(e) {
+      document.getElementById('chip-2b').innerHTML += `<div class="warn-box">Could not parse JSON: ${e.message}</div>`;
+      return;
+    }
+  } else {
+    const wb = await readWorkbookFile(file);
+    const { headers, rows } = sheetToRows(wb);
+    const map = autoMapColumns(headers, TWOB_ALIASES);
+    const objs = rowsToObjects(headers, rows);
+    twoBData = objs.map(r => ({
+      gstin: normGstin(r[map.supplierGstin]),
+      invNo: normInv(r[map.invoiceNumber]),
+      invNoDisplay: r[map.invoiceNumber],
+      invDate: r[map.invoiceDate],
+      taxable: num(r[map.taxableValue]),
+      cgst: num(r[map.cgst]), sgst: num(r[map.sgst]), igst: num(r[map.igst]),
+      name: r[map.supplierName] || ''
+    })).filter(r => r.gstin && r.invNo);
+  }
+  checkReady();
+}
+
+function parse2BJson(json) {
+  const out = [];
+  function walkB2B(b2bArr) {
+    (b2bArr||[]).forEach(supplier => {
+      const gstin = supplier.ctin || supplier.gstin || '';
+      const name = supplier.trdnm || supplier.name || '';
+      (supplier.inv || supplier.invoices || []).forEach(inv => {
+        let taxable=0,cgst=0,sgst=0,igst=0;
+        (inv.itms||inv.items||[]).forEach(it => {
+          const d = it.itm_det || it.det || it;
+          taxable += num(d.txval); cgst += num(d.camt); sgst += num(d.samt); igst += num(d.iamt);
+        });
+        out.push({ gstin: normGstin(gstin), invNo: normInv(inv.inum||inv.invoice_number||inv.invno), invNoDisplay: inv.inum||inv.invoice_number||inv.invno, invDate: inv.idt||inv.invoice_date, taxable, cgst, sgst, igst, name });
+      });
+    });
+  }
+  const root = json.data || json;
+  walkB2B(root.docdata ? root.docdata.b2b : root.b2b);
+  return out;
+}
+
+function checkReady() {
+  document.getElementById('reconcile-btn').disabled = !(booksData && booksData.length && twoBData && twoBData.length);
+}
+
+function amountsMatch(a, tol) { return Math.abs(a) <= tol; }
+
+function runReconcile() {
+  const tol = parseFloat(document.getElementById('tolerance').value) || 1;
+  const results = [];
+
+  const bookByKey = {}; booksData.forEach(b => { const k=b.gstin+'|'+b.invNo; (bookByKey[k]=bookByKey[k]||[]).push(b); });
+  const twoBByKey = {}; twoBData.forEach(t => { const k=t.gstin+'|'+t.invNo; (twoBByKey[k]=twoBByKey[k]||[]).push(t); });
+  const twoBByGstin = {}; twoBData.forEach(t => { (twoBByGstin[t.gstin]=twoBByGstin[t.gstin]||[]).push(t); });
+
+  const consumed2B = new Set(); // index keys already used in a match/mismatch pairing
+
+  booksData.forEach((b, idx) => {
+    const key = b.gstin+'|'+b.invNo;
+    const matchesExact = (twoBByKey[key]||[]).filter((t,i2) => !consumed2B.has(key+'::'+i2));
+    if (matchesExact.length) {
+      const t = matchesExact[0];
+      consumed2B.add(key+'::0');
+      const mismatch = Math.abs(b.taxable-t.taxable) > tol || Math.abs(b.cgst-t.cgst) > tol || Math.abs(b.sgst-t.sgst) > tol || Math.abs(b.igst-t.igst) > tol;
+      results.push({ status: mismatch?'amount-mismatch':'matched', gstin:b.gstin, name:b.name||t.name, invNo:b.invNoDisplay,
+        booksTaxable:b.taxable, twoBTaxable:t.taxable, booksTax:b.cgst+b.sgst+b.igst, twoBTax:t.cgst+t.sgst+t.igst });
+      return;
+    }
+
+    // no exact invoice match — check if supplier filed at all
+    const supplierInvoices = twoBByGstin[b.gstin] || [];
+    if (!supplierInvoices.length) {
+      results.push({ status:'return-pending', gstin:b.gstin, name:b.name, invNo:b.invNoDisplay, booksTaxable:b.taxable, twoBTaxable:0, booksTax:b.cgst+b.sgst+b.igst, twoBTax:0 });
+      return;
+    }
+
+    // fuzzy invoice match within same GSTIN by close taxable value
+    const bookTax = b.cgst+b.sgst+b.igst;
+    let fuzzyMatch = null;
+    supplierInvoices.forEach((t, i2) => {
+      const tk = t.gstin+'|'+t.invNo+'::'+i2;
+      if (consumed2B.has(tk)) return;
+      if (Math.abs(t.taxable - b.taxable) <= Math.max(tol, b.taxable*0.02)) fuzzyMatch = { t, tk };
+    });
+    if (fuzzyMatch) {
+      consumed2B.add(fuzzyMatch.tk);
+      results.push({ status:'invoice-mismatch', gstin:b.gstin, name:b.name||fuzzyMatch.t.name, invNo:`${b.invNoDisplay} (2B: ${fuzzyMatch.t.invNoDisplay})`,
+        booksTaxable:b.taxable, twoBTaxable:fuzzyMatch.t.taxable, booksTax:bookTax, twoBTax:fuzzyMatch.t.cgst+fuzzyMatch.t.sgst+fuzzyMatch.t.igst });
+      return;
+    }
+
+    // supplier filed, but this exact invoice not found anywhere close
+    results.push({ status:'entry-pending', gstin:b.gstin, name:b.name, invNo:b.invNoDisplay, booksTaxable:b.taxable, twoBTaxable:0, booksTax:bookTax, twoBTax:0 });
+  });
+
+  // Any 2B entries never consumed and with no books counterpart at all -> informational "missing in books" folded into invoice-mismatch pool is skipped;
+  // add them as their own bucket appended to entry-pending view isn't accurate, so we surface separately for completeness.
+  const consumedSet = new Set(); results.forEach(r => {}); // no-op placeholder to keep structure simple
+  twoBData.forEach((t, i2) => {
+    const tk = t.gstin+'|'+t.invNo+'::'+i2;
+    if (consumed2B.has(tk)) return;
+    const key = t.gstin+'|'+t.invNo;
+    if (bookByKey[key]) return; // already handled via exact match above (consumed or otherwise present)
+    results.push({ status:'missing-in-books', gstin:t.gstin, name:t.name, invNo:t.invNoDisplay, booksTaxable:0, twoBTaxable:t.taxable, booksTax:0, twoBTax:t.cgst+t.sgst+t.igst });
+  });
+
+  reconResults = results;
+  renderResults();
+  document.getElementById('result-section').classList.remove('hidden');
+  document.getElementById('result-section').scrollIntoView({behavior:'smooth'});
+}
+
+const PILL = {
+  matched: ['pill-matched','✓ Matched'],
+  'amount-mismatch': ['pill-amount-mismatch','⚠ Amount Mismatch'],
+  'invoice-mismatch': ['pill-invoice-mismatch','⚠ Invoice Mismatch'],
+  'entry-pending': ['pill-entry-pending','Entry Pending'],
+  'return-pending': ['pill-return-pending','Return Pending'],
+  'missing-in-books': ['pill-entry-pending','In 2B, Not in Books']
+};
+
+function renderResults() {
+  const counts = { matched:0, 'amount-mismatch':0, 'invoice-mismatch':0, 'entry-pending':0, 'return-pending':0 };
+  let itcConfirmed=0, itcRisk=0;
+  reconResults.forEach(r => {
+    if (counts[r.status] !== undefined) counts[r.status]++;
+    if (r.status==='matched') itcConfirmed += r.twoBTax;
+    if (r.status==='entry-pending' || r.status==='return-pending') itcRisk += r.booksTax;
+  });
+  document.getElementById('cnt-all').textContent = reconResults.length;
+  document.getElementById('cnt-matched').textContent = counts.matched;
+  document.getElementById('cnt-amount-mismatch').textContent = counts['amount-mismatch'];
+  document.getElementById('cnt-invoice-mismatch').textContent = counts['invoice-mismatch'];
+  document.getElementById('cnt-entry-pending').textContent = counts['entry-pending'];
+  document.getElementById('cnt-return-pending').textContent = counts['return-pending'];
+  document.getElementById('itc-confirmed').textContent = fmtINR(itcConfirmed);
+  document.getElementById('itc-risk').textContent = fmtINR(itcRisk);
+  renderTable();
+}
+
+function setFilter(f) {
+  currentFilter = f;
+  document.querySelectorAll('.tile[data-f]').forEach(t => t.classList.toggle('active', t.dataset.f===f));
+  renderTable();
+}
+
+function renderTable() {
+  const rows = currentFilter==='all' ? reconResults : reconResults.filter(r=>r.status===currentFilter);
+  let html = '<thead><tr><th>Status</th><th>Supplier GSTIN</th><th>Name</th><th>Invoice No</th><th>Books Taxable</th><th>2B Taxable</th><th>Books Tax</th><th>2B Tax</th></tr></thead><tbody>';
+  rows.slice(0,500).forEach(r => {
+    const p = PILL[r.status] || ['status-pill',r.status];
+    html += `<tr><td><span class="status-pill ${p[0]}">${p[1]}</span></td><td>${r.gstin}</td><td>${r.name||''}</td><td>${r.invNo}</td><td>${fmtINR(r.booksTaxable)}</td><td>${fmtINR(r.twoBTaxable)}</td><td>${fmtINR(r.booksTax)}</td><td>${fmtINR(r.twoBTax)}</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('recon-table').innerHTML = html;
+  if (rows.length > 500) document.getElementById('recon-table').innerHTML += `<caption style="caption-side:bottom;padding:8px;font-size:12px;color:var(--gray);">Showing first 500 of ${rows.length} rows — download the full report below.</caption>`;
+}
+
+function downloadReconExcel() {
+  const sheetRows = reconResults.map(r => {
+    const p = PILL[r.status] || ['',r.status];
+    return {
+      Status: p[1], 'Supplier GSTIN': r.gstin, 'Supplier Name': r.name||'', 'Invoice No': r.invNo,
+      'Books Taxable Value': round2(r.booksTaxable), '2B Taxable Value': round2(r.twoBTaxable),
+      'Books Tax': round2(r.booksTax), '2B Tax': round2(r.twoBTax), 'Difference (Tax)': round2(r.booksTax - r.twoBTax)
+    };
+  });
+  const summary = [{
+    'Matched Entry': reconResults.filter(r=>r.status==='matched').length,
+    'Amount Mismatched': reconResults.filter(r=>r.status==='amount-mismatch').length,
+    'Invoice Mismatched': reconResults.filter(r=>r.status==='invoice-mismatch').length,
+    'Entry Pending': reconResults.filter(r=>r.status==='entry-pending').length,
+    'Return Pending': reconResults.filter(r=>r.status==='return-pending').length,
+    'Generated On': new Date().toLocaleString('en-IN')
+  }];
+  downloadExcelFile({ 'Summary': summary, 'Query Report': sheetRows }, `2A-2B-Query-Report-${Date.now()}.xlsx`);
+}
+
+function round2(n){ return Math.round(n*100)/100; }
+function resetAll() {
+  booksData=null; twoBData=null; reconResults=[];
+  document.getElementById('chip-books').innerHTML=''; document.getElementById('chip-2b').innerHTML='';
+  document.getElementById('file-books').value=''; document.getElementById('file-2b').value='';
+  document.getElementById('reconcile-btn').disabled = true;
+  document.getElementById('result-section').classList.add('hidden');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>

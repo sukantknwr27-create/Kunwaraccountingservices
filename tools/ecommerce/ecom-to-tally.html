@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <link rel="shortcut icon" href="../../favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>eCom to Tally Tool | Convert Amazon Flipkart Meesho Myntra Excel to Tally XML | Kunwar Accounting</title>
+  <meta name="description" content="Convert Amazon, Flipkart, Meesho, Myntra, Glowroad, Snapdeal, Limeroad, JioMart, Tata CliQ, Ajio, Shopsy and Club Factory order/tax reports into Tally Prime/ERP9 import-ready XML sales vouchers."/>
+  <meta name="keywords" content="ecom to tally, ecommerce excel to tally xml, amazon tally import, flipkart tally import, meesho tally xml, 13 platform tally import"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/ecom-to-tally.html"/>
+  <link rel="stylesheet" href="../../style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:1020px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--charcoal); margin-bottom:1rem; }
+    .company-bar { display:flex; justify-content:space-between; align-items:center; background:var(--navy-dark); color:white; border-radius:12px; padding:12px 20px; margin-bottom:1.5rem; font-size:13px; flex-wrap:wrap; gap:8px; }
+    .company-bar b { color:#85B7EB; }
+    .company-bar .change-btn { background:rgba(255,255,255,0.15); border:none; color:white; padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .steps { display:flex; gap:0; margin-bottom:1.5rem; flex-wrap:wrap; }
+    .step-chip { flex:1; min-width:110px; text-align:center; padding:10px 6px; font-size:11.5px; font-weight:600; color:var(--gray); background:var(--light); border-bottom:3px solid var(--border); cursor:pointer; }
+    .step-chip.active { color:var(--navy); border-bottom-color:var(--navy); background:var(--ice); }
+    .step-chip.done { color:#16A34A; border-bottom-color:#16A34A; }
+    .field-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin:1rem 0; }
+    @media(max-width:600px){ .field-row{ grid-template-columns:1fr; } }
+    .field-group label { display:block; font-size:12px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+    .field-group input, .field-group select { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:14px; font-family:'DM Sans',sans-serif; color:var(--charcoal); outline:none; }
+    .company-list { display:flex; flex-direction:column; gap:8px; margin:1rem 0; }
+    .company-row { display:flex; justify-content:space-between; align-items:center; background:var(--light); border:1.5px solid var(--border); border-radius:10px; padding:12px 16px; cursor:pointer; }
+    .company-row.sel { border-color:var(--navy); background:var(--ice); }
+    .company-row .c-name { font-size:14px; font-weight:600; color:var(--charcoal); }
+    .company-row .c-gstin { font-size:12px; color:var(--gray); }
+    .platform-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:14px; margin:1rem 0; }
+    .platform-card { border:1.5px solid var(--border); border-radius:12px; padding:1rem; text-align:center; background:white; position:relative; }
+    .platform-card .p-icon { width:38px; height:38px; border-radius:8px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:white; }
+    .platform-card .p-name { font-size:13px; font-weight:600; color:var(--charcoal); }
+    .platform-card button { width:100%; padding:7px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid var(--border); background:var(--light); color:var(--charcoal); cursor:pointer; font-family:'DM Sans',sans-serif; margin-top:6px; }
+    .platform-card.imported { border-color:#16A34A; background:#F0FDF4; }
+    .platform-card .imported-badge { position:absolute; top:8px; right:8px; font-size:10px; color:#16A34A; font-weight:700; }
+    table.data-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+    table.data-table th { text-align:left; padding:9px 12px; background:var(--navy); color:white; }
+    table.data-table td { padding:7px 10px; border-bottom:1px solid var(--border); }
+    table.data-table tr:nth-child(even) { background:var(--light); }
+    table.data-table input { width:100%; padding:5px 7px; border:1px solid var(--border); border-radius:5px; font-size:12px; font-family:'DM Sans',sans-serif; }
+    .action-link { color:var(--navy); font-size:12px; font-weight:600; cursor:pointer; }
+    .calc-btn { background:var(--navy); color:white; padding:13px 26px; border-radius:10px; font-size:15px; font-weight:600; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+    .calc-btn:hover { background:var(--navy-dark); }
+    .calc-btn:disabled { opacity:.5; cursor:not-allowed; }
+    .btn-ghost { background:none; border:1.5px solid var(--border); color:var(--gray); padding:11px 20px; border-radius:10px; font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:1rem; }
+    .checkbox-row { display:flex; align-items:center; gap:8px; margin:1rem 0; font-size:13px; color:var(--charcoal); }
+    .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:12px; margin:1.25rem 0; }
+    .summary-box { background:var(--light); border-radius:12px; padding:1rem 1.25rem; }
+    .summary-box .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--gray); }
+    .summary-box .val { font-size:1.35rem; font-weight:700; color:var(--navy); font-family:'Playfair Display',serif; margin-top:2px; }
+    .hidden { display:none !important; }
+    .warn-box { background:#FEF3C7; border:1px solid #FCD34D; border-radius:8px; padding:12px 16px; font-size:13px; color:#78350F; margin-top:1rem; }
+    .table-scroll { max-height:340px; overflow:auto; border:1px solid var(--border); border-radius:10px; margin-top:.75rem; }
+    pre.xml-preview { background:#0C1B2E; color:#9FE6A0; font-size:11.5px; padding:1rem; border-radius:10px; max-height:260px; overflow:auto; white-space:pre-wrap; }
+    .dl-btn { display:flex; align-items:center; gap:12px; padding:16px 20px; border-radius:12px; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; color:white; background:var(--navy); flex:1; min-width:200px; }
+    .dl-btn .dl-icon { font-size:1.4rem; }
+    .dl-btn .dl-text { text-align:left; font-size:13px; font-weight:700; }
+    .dl-btn .dl-sub { font-size:10px; opacity:.85; font-weight:400; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge">13 Platform Support · Free</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">eCom to Tally Tool</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:560px;margin:0 auto;">Add your Tally company, import each marketplace's report, manage the data, customize your ledger names, then download Tally-ready import XML.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="company-bar hidden" id="company-bar">
+      <div>Company: <b id="cb-name"></b> &nbsp;|&nbsp; GSTIN: <b id="cb-gstin"></b></div>
+      <button class="change-btn" onclick="goStep(1)">Change</button>
+    </div>
+
+    <div class="calc-card">
+      <div class="steps">
+        <div class="step-chip active" id="s1" onclick="goStep(1)">1. Tally Company</div>
+        <div class="step-chip" id="s2" onclick="tryGoStep(2)">2. Import Data</div>
+        <div class="step-chip" id="s3" onclick="tryGoStep(3)">3. Manage/Edit Data</div>
+        <div class="step-chip" id="s4" onclick="tryGoStep(4)">4. Customize Ledger</div>
+        <div class="step-chip" id="s5" onclick="tryGoStep(5)">5. Download XML</div>
+      </div>
+
+      <!-- STEP 1: COMPANY -->
+      <div id="step-1">
+        <h2>Add Tally Company</h2>
+        <div class="field-row">
+          <div class="field-group"><label>Tally Company Name</label><input type="text" id="c-name" placeholder="e.g. Sharma Textile Traders"/></div>
+          <div class="field-group"><label>Company GSTIN</label><input type="text" id="c-gstin" placeholder="e.g. 24ANBPR4639L1ZO" maxlength="15" style="text-transform:uppercase;"/></div>
+        </div>
+        <div class="btn-row"><button class="calc-btn" onclick="addCompany()">Add Company →</button></div>
+        <div id="company-err"></div>
+        <h3 style="font-size:13px;font-weight:600;margin:1.25rem 0 .5rem;color:var(--gray);">Saved Companies (select one to continue)</h3>
+        <div class="company-list" id="company-list"></div>
+      </div>
+
+      <!-- STEP 2: IMPORT -->
+      <div id="step-2" class="hidden">
+        <h2>Import Platform Data</h2>
+        <p style="font-size:13px;color:var(--gray);">Upload each marketplace's order/tax report to convert into vouchers.</p>
+        <div class="warn-box">Files are processed entirely in your browser — nothing is uploaded to any server.</div>
+        <div class="platform-grid" id="platform-grid"></div>
+        <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none;" onchange="handleImportFile(this.files[0])"/>
+        <div id="import-msg"></div>
+        <div class="btn-row"><button class="calc-btn" onclick="goStep(3)">Continue to Manage Data →</button></div>
+      </div>
+
+      <!-- STEP 3: MANAGE/EDIT -->
+      <div id="step-3" class="hidden">
+        <h2>Manage of Imported Data</h2>
+        <p style="font-size:13px;color:var(--gray);">View, edit stock name/UQC, or delete individual line items before converting to vouchers.</p>
+        <div class="table-scroll"><table class="data-table" id="manage-table"></table></div>
+        <div class="btn-row">
+          <button class="btn-ghost" onclick="goStep(2)">← Import More</button>
+          <button class="calc-btn" onclick="goStep(4)">Continue to Customize Ledger →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: CUSTOMIZE LEDGER -->
+      <div id="step-4" class="hidden">
+        <h2>Customize Ledger Name</h2>
+        <p style="font-size:13px;color:var(--gray);">These must exactly match ledger names already created in your Tally company.</p>
+        <div class="field-row">
+          <div class="field-group"><label>Party Name (Debtor Ledger)</label><input type="text" id="ledger-party" value="E-Commerce Debtors"/></div>
+          <div class="field-group"><label>Voucher Type</label><select id="voucher-type"><option value="Sales">Sales</option><option value="Sales - E-Commerce">Sales - E-Commerce</option></select></div>
+          <div class="field-group"><label>Sales Ledger</label><input type="text" id="ledger-sales" value="Sales - E-Commerce"/></div>
+          <div class="field-group"><label>CGST Ledger</label><input type="text" id="ledger-cgst" value="Output CGST"/></div>
+          <div class="field-group"><label>SGST Ledger</label><input type="text" id="ledger-sgst" value="Output SGST"/></div>
+          <div class="field-group"><label>IGST Ledger</label><input type="text" id="ledger-igst" value="Output IGST"/></div>
+        </div>
+        <div class="checkbox-row"><input type="checkbox" id="include-stock"/> <label for="include-stock">Include stock/inventory item entries in each voucher</label></div>
+        <div class="field-row" id="stock-uqc-row" style="display:none;">
+          <div class="field-group"><label>Default Stock UQC (Unit)</label><input type="text" id="ledger-uqc" value="PCS"/></div>
+        </div>
+        <div class="btn-row">
+          <button class="btn-ghost" onclick="goStep(3)">← Back</button>
+          <button class="calc-btn" onclick="goStep(5)">Continue to Download →</button>
+        </div>
+      </div>
+
+      <!-- STEP 5: DOWNLOAD -->
+      <div id="step-5" class="hidden">
+        <h2>Download Tally XML</h2>
+        <div class="field-row">
+          <div class="field-group"><label>Select Tally Version</label><select id="tally-version"><option>Tally Prime</option><option>Tally ERP 9</option></select></div>
+          <div class="field-group" style="display:flex;align-items:end;">
+            <div class="checkbox-row" style="margin:0;"><input type="checkbox" id="auto-create-ledger" checked/> <label for="auto-create-ledger">Auto Create Ledger (adds ledger master entries)</label></div>
+          </div>
+        </div>
+        <div class="summary-grid" id="summary-grid"></div>
+        <h3 style="font-size:14px;font-weight:600;margin:1rem 0 .5rem;">XML Preview (first voucher)</h3>
+        <pre class="xml-preview" id="xml-preview"></pre>
+        <div class="btn-row">
+          <button class="dl-btn" onclick="downloadTallyXML()"><span class="dl-icon">📥</span><span class="dl-text">Tally XML<br><span class="dl-sub">Download</span></span></button>
+          <button class="btn-ghost" onclick="resetAll()">↺ Start Over</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="calc-card" style="background:var(--light);">
+      <h2 style="font-size:15px;">How to import into Tally</h2>
+      <p style="font-size:13px;color:var(--gray);line-height:1.8;">
+        1. In Tally, first create the Sales, Party and Tax ledgers exactly as named in Step 4 (skip this if "Auto Create Ledger" is checked and your Tally version supports ledger auto-creation on import).<br>
+        2. Go to <strong>Gateway of Tally → Import Data → Vouchers</strong> and select the downloaded XML file.<br>
+        3. Review the import summary Tally shows before accepting — always test on a backup company first.
+      </p>
+    </div>
+
+    <div class="cta-banner">
+      <h2>Want your books fully maintained instead?</h2>
+      <p>We do end-to-end Tally bookkeeping for e-commerce sellers — every order, every month.</p>
+      <a href="contact.html" class="btn-primary">Get Bookkeeping Help →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="../../js/gst-tools-utils.js"></script>
+<script src="../../js/nav.js"></script>
+<script>
+injectNav('tools');
+
+const PLATFORMS = [
+  { key:'amazon',   name:'Amazon',   color:'#FF9900' },
+  { key:'amazon_b2b', name:'Amazon B2B', color:'#FF9900', aliasKey:'amazon' },
+  { key:'flipkart', name:'Flipkart', color:'#2874F0' },
+  { key:'meesho',   name:'Meesho',   color:'#D6006D' },
+  { key:'myntra',   name:'Myntra',   color:'#FF3E6C' },
+  { key:'glowroad', name:'Glowroad', color:'#5B21B6' },
+  { key:'snapdeal', name:'Snapdeal', color:'#E40046' },
+  { key:'limeroad', name:'Limeroad', color:'#DB2777' },
+  { key:'jiomart',  name:'JioMart',  color:'#0F4C81' },
+  { key:'tatacliq', name:'Tata CliQ',color:'#E01A22' },
+  { key:'ajio',     name:'Ajio',     color:'#2B2B2B' },
+  { key:'shopsy',   name:'Shopsy',   color:'#00786F' },
+  { key:'clubfactory', name:'Club Factory', color:'#EF4444' }
+];
+
+let companies = [];
+let activeCompany = null;
+let importedItems = []; // flat list across platforms: {platform, invNo, date, taxable, cgst, sgst, igst, stockName, uqc}
+let currentImportPlatform = null;
+
+// Load saved companies
+try { companies = JSON.parse(localStorage.getItem('kas_tally_companies')||'[]'); } catch(e) { companies = []; }
+
+function goStep(n) {
+  for (let i=1;i<=5;i++) document.getElementById('step-'+i).classList.toggle('hidden', i!==n);
+  for (let i=1;i<=5;i++) {
+    const chip = document.getElementById('s'+i);
+    chip.classList.toggle('active', i===n);
+    chip.classList.toggle('done', i<n);
+  }
+  if (n===1) renderCompanyList();
+  if (n===2) buildPlatformGrid();
+  if (n===3) renderManageTable();
+  if (n===5) prepDownloadStep();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tryGoStep(n) {
+  if (!activeCompany) { alert('Please select or add a Tally company first (Step 1).'); goStep(1); return; }
+  goStep(n);
+}
+
+function addCompany() {
+  const name = document.getElementById('c-name').value.trim();
+  const gstin = document.getElementById('c-gstin').value.trim().toUpperCase();
+  const errEl = document.getElementById('company-err');
+  errEl.innerHTML = '';
+  if (!name) { errEl.innerHTML = '<div class="warn-box">Please enter a company name.</div>'; return; }
+  if (gstin) { const v = validateGSTIN(gstin); if (!v.valid) { errEl.innerHTML = `<div class="warn-box">${v.reason}.</div>`; return; } }
+  companies.push({ name, gstin });
+  localStorage.setItem('kas_tally_companies', JSON.stringify(companies));
+  document.getElementById('c-name').value=''; document.getElementById('c-gstin').value='';
+  renderCompanyList();
+}
+
+function renderCompanyList() {
+  document.getElementById('company-list').innerHTML = companies.map((c,idx) =>
+    `<div class="company-row ${activeCompany===idx?'sel':''}" onclick="selectCompany(${idx})">
+      <div><div class="c-name">${c.name}</div><div class="c-gstin">${c.gstin||'No GSTIN provided'}</div></div>
+      <span class="action-link">${activeCompany===idx?'✓ Selected':'Select →'}</span>
+    </div>`
+  ).join('') || '<div style="font-size:13px;color:var(--gray);">No companies added yet.</div>';
+}
+
+function selectCompany(idx) {
+  activeCompany = idx;
+  const c = companies[idx];
+  document.getElementById('cb-name').textContent = c.name;
+  document.getElementById('cb-gstin').textContent = c.gstin || '—';
+  document.getElementById('ledger-party').value = c.name + ' (E-Commerce)';
+  document.getElementById('company-bar').classList.remove('hidden');
+  renderCompanyList();
+  goStep(2);
+}
+
+function buildPlatformGrid() {
+  document.getElementById('platform-grid').innerHTML = PLATFORMS.map(p => {
+    const count = importedItems.filter(i=>i.platform===p.key).length;
+    return `<div class="platform-card ${count?'imported':''}">
+      ${count?`<div class="imported-badge">✓ ${count}</div>`:''}
+      <div class="p-icon" style="background:${p.color};">${p.name[0]}</div>
+      <div class="p-name">${p.name}</div>
+      <button onclick="startImport('${p.key}')">${count?'Re-import':'Import Data'}</button>
+    </div>`;
+  }).join('');
+}
+
+function startImport(key) {
+  currentImportPlatform = key;
+  document.getElementById('file-input').value = '';
+  document.getElementById('file-input').click();
+}
+
+function tallyDate(d) {
+  if (!d) return new Date().toISOString().slice(0,10).replace(/-/g,'');
+  let dt;
+  if (d instanceof Date) dt = d;
+  else {
+    const parts = String(d).split(/[\/\-]/);
+    if (parts.length===3) {
+      if (parts[0].length===4) dt = new Date(+parts[0], +parts[1]-1, +parts[2]);
+      else dt = new Date(parts[2].length===2?'20'+parts[2]:parts[2], +parts[1]-1, +parts[0]);
+    } else dt = new Date(d);
+  }
+  if (isNaN(dt)) dt = new Date();
+  const y=dt.getFullYear(), m=String(dt.getMonth()+1).padStart(2,'0'), day=String(dt.getDate()).padStart(2,'0');
+  return `${y}${m}${day}`;
+}
+
+async function handleImportFile(file) {
+  if (!file || !currentImportPlatform) return;
+  const msgEl = document.getElementById('import-msg');
+  try {
+    const wb = await readWorkbookFile(file);
+    const { headers, rows } = sheetToRows(wb);
+    const objs = rowsToObjects(headers, rows);
+    const meta = PLATFORMS.find(p=>p.key===currentImportPlatform);
+    const aliasKey = meta.aliasKey || currentImportPlatform;
+    const aliases = PLATFORM_ALIASES[aliasKey] || PLATFORM_ALIASES.generic;
+    const map = autoMapColumns(headers, aliases);
+
+    let added = 0;
+    objs.forEach((row, idx) => {
+      const taxable = map.taxableValue ? num(row[map.taxableValue]) : 0;
+      if (!taxable) return;
+      const cgst = map.cgst ? num(row[map.cgst]) : 0;
+      const sgst = map.sgst ? num(row[map.sgst]) : 0;
+      const igst = map.igst ? num(row[map.igst]) : 0;
+      const invNo = map.invoiceNumber ? String(row[map.invoiceNumber]) : `AUTO-${meta.key}-${idx+1}`;
+      const date = tallyDate(map.invoiceDate ? row[map.invoiceDate] : new Date());
+      const stockName = map.itemDesc ? String(row[map.itemDesc]||'').slice(0,60) : `${meta.name} Sale Item`;
+      importedItems.push({ platform: meta.key, invNo, date, taxable, cgst, sgst, igst, stockName, uqc:'PCS' });
+      added++;
+    });
+    msgEl.innerHTML = `<div class="warn-box" style="background:#DCFCE7;border-color:#86EFAC;color:#166534;">✓ Imported ${added} line items from ${meta.name} (${file.name})</div>`;
+    buildPlatformGrid();
+  } catch (err) {
+    msgEl.innerHTML = `<div class="err-box">Could not read this file: ${err.message}</div>`;
+  }
+  currentImportPlatform = null;
+}
+
+function renderManageTable() {
+  if (!importedItems.length) {
+    document.getElementById('manage-table').innerHTML = '<thead><tr><th>No data imported yet</th></tr></thead><tbody><tr><td>Go to Step 2 and import at least one platform.</td></tr></tbody>';
+    return;
+  }
+  let html = '<thead><tr><th>Platform</th><th>Invoice No</th><th>Date</th><th>Stock/Item Name</th><th>UQC</th><th>Taxable Value</th><th>Total Tax</th><th></th></tr></thead><tbody>';
+  importedItems.forEach((it, idx) => {
+    const meta = PLATFORMS.find(p=>p.key===it.platform);
+    html += `<tr>
+      <td>${meta?meta.name:it.platform}</td><td>${it.invNo}</td><td>${it.date}</td>
+      <td><input value="${it.stockName.replace(/"/g,'&quot;')}" onchange="updateItem(${idx},'stockName',this.value)"/></td>
+      <td><input value="${it.uqc}" onchange="updateItem(${idx},'uqc',this.value)" style="width:60px;"/></td>
+      <td>${fmtINR(it.taxable)}</td><td>${fmtINR(it.cgst+it.sgst+it.igst)}</td>
+      <td><span class="action-link" style="color:#DC2626;" onclick="removeItem(${idx})">✕</span></td>
+    </tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('manage-table').innerHTML = html;
+}
+function updateItem(idx, field, val) { importedItems[idx][field] = val; }
+function removeItem(idx) { importedItems.splice(idx,1); renderManageTable(); buildPlatformGrid(); }
+
+document.getElementById('include-stock').addEventListener('change', function() {
+  document.getElementById('stock-uqc-row').style.display = this.checked ? 'grid' : 'none';
+});
+
+function buildVoucherXml(v, opts) {
+  const partyLedger = escapeXml(opts.party);
+  const salesLedger = escapeXml(opts.sales);
+  const cgstLedger = escapeXml(opts.cgst);
+  const sgstLedger = escapeXml(opts.sgst);
+  const igstLedger = escapeXml(opts.igst);
+  const voucherType = escapeXml(opts.voucherType);
+  const total = v.taxable + v.cgst + v.sgst + v.igst;
+
+  const ledgerEntries = [];
+  ledgerEntries.push({ name: partyLedger, amount: total, isDeemedPositive: 'Yes' });
+  ledgerEntries.push({ name: salesLedger, amount: -v.taxable, isDeemedPositive: 'No' });
+  if (v.cgst) ledgerEntries.push({ name: cgstLedger, amount: -v.cgst, isDeemedPositive: 'No' });
+  if (v.sgst) ledgerEntries.push({ name: sgstLedger, amount: -v.sgst, isDeemedPositive: 'No' });
+  if (v.igst) ledgerEntries.push({ name: igstLedger, amount: -v.igst, isDeemedPositive: 'No' });
+
+  const entriesXml = ledgerEntries.map(le => `
+        <ALLLEDGERENTRIES.LIST>
+          <LEDGERNAME>${escapeXml(le.name)}</LEDGERNAME>
+          <ISDEEMEDPOSITIVE>${le.isDeemedPositive}</ISDEEMEDPOSITIVE>
+          <AMOUNT>${round2(le.amount)}</AMOUNT>
+        </ALLLEDGERENTRIES.LIST>`).join('');
+
+  let inventoryXml = '';
+  if (opts.includeStock) {
+    inventoryXml = `
+        <ALLINVENTORYENTRIES.LIST>
+          <STOCKITEMNAME>${escapeXml(v.stockName)}</STOCKITEMNAME>
+          <ISDEEMEDPOSITIVE>No</ISDEEMEDPOSITIVE>
+          <RATE>${round2(v.taxable)}/1 ${escapeXml(v.uqc||opts.uqc)}</RATE>
+          <AMOUNT>${round2(-v.taxable)}</AMOUNT>
+          <ACTUALQTY>1 ${escapeXml(v.uqc||opts.uqc)}</ACTUALQTY>
+          <BILLEDQTY>1 ${escapeXml(v.uqc||opts.uqc)}</BILLEDQTY>
+        </ALLINVENTORYENTRIES.LIST>`;
+  }
+
+  return `<TALLYMESSAGE xmlns:UDF="TallyUDF">
+      <VOUCHER VCHTYPE="${voucherType}" ACTION="Create">
+        <DATE>${v.date}</DATE>
+        <VOUCHERTYPENAME>${voucherType}</VOUCHERTYPENAME>
+        <VOUCHERNUMBER>${escapeXml(v.invNo)}</VOUCHERNUMBER>
+        <PARTYLEDGERNAME>${partyLedger}</PARTYLEDGERNAME>
+        <REFERENCE>${escapeXml(v.invNo)}</REFERENCE>
+        <NARRATION>E-commerce sale — Invoice ${escapeXml(v.invNo)}</NARRATION>${inventoryXml}${entriesXml}
+      </VOUCHER>
+    </TALLYMESSAGE>`;
+}
+
+function getLedgerOpts() {
+  return {
+    party: document.getElementById('ledger-party').value || 'E-Commerce Debtors',
+    sales: document.getElementById('ledger-sales').value || 'Sales - E-Commerce',
+    cgst: document.getElementById('ledger-cgst').value || 'Output CGST',
+    sgst: document.getElementById('ledger-sgst').value || 'Output SGST',
+    igst: document.getElementById('ledger-igst').value || 'Output IGST',
+    voucherType: document.getElementById('voucher-type').value || 'Sales',
+    includeStock: document.getElementById('include-stock').checked,
+    uqc: document.getElementById('ledger-uqc') ? document.getElementById('ledger-uqc').value : 'PCS'
+  };
+}
+
+function prepDownloadStep() {
+  const totalTaxable = importedItems.reduce((s,i)=>s+i.taxable,0);
+  const totalTax = importedItems.reduce((s,i)=>s+i.cgst+i.sgst+i.igst,0);
+  document.getElementById('summary-grid').innerHTML = `
+    <div class="summary-box"><div class="lbl">Vouchers to Generate</div><div class="val">${importedItems.length}</div></div>
+    <div class="summary-box"><div class="lbl">Total Taxable Value</div><div class="val">${fmtINR(totalTaxable)}</div></div>
+    <div class="summary-box"><div class="lbl">Total GST</div><div class="val">${fmtINR(totalTax)}</div></div>
+    <div class="summary-box"><div class="lbl">Total Voucher Value</div><div class="val">${fmtINR(totalTaxable+totalTax)}</div></div>
+  `;
+  document.getElementById('xml-preview').textContent = importedItems.length ? buildVoucherXml(importedItems[0], getLedgerOpts()) : '(no items imported)';
+}
+
+function downloadTallyXML() {
+  if (!importedItems.length) { alert('No data imported yet.'); return; }
+  const opts = getLedgerOpts();
+  let ledgerMasters = '';
+  if (document.getElementById('auto-create-ledger').checked) {
+    const names = [opts.party, opts.sales, opts.cgst, opts.sgst, opts.igst];
+    ledgerMasters = names.map(n => `
+      <TALLYMESSAGE xmlns:UDF="TallyUDF">
+        <LEDGER NAME="${escapeXml(n)}" ACTION="Create">
+          <NAME>${escapeXml(n)}</NAME>
+          <PARENT>Sundry Debtors</PARENT>
+        </LEDGER>
+      </TALLYMESSAGE>`).join('');
+  }
+  const body = importedItems.map(v => buildVoucherXml(v, opts)).join('\n');
+  const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<ENVELOPE>
+  <HEADER>
+    <TALLYREQUEST>Import Data</TALLYREQUEST>
+  </HEADER>
+  <BODY>
+    <IMPORTDATA>
+      <REQUESTDESC>
+        <REPORTNAME>Vouchers</REPORTNAME>
+        <STATICVARIABLES>
+          <SVCURRENTCOMPANY>${escapeXml(companies[activeCompany] ? companies[activeCompany].name : '')}</SVCURRENTCOMPANY>
+        </STATICVARIABLES>
+      </REQUESTDESC>
+      <REQUESTDATA>${ledgerMasters}
+${body}
+      </REQUESTDATA>
+    </IMPORTDATA>
+  </BODY>
+</ENVELOPE>`;
+  downloadXMLFile(xml, `Tally-Import-${Date.now()}.xml`);
+}
+
+function round2(n){ return Math.round(n*100)/100; }
+function resetAll() {
+  importedItems = []; activeCompany = null;
+  document.getElementById('company-bar').classList.add('hidden');
+  document.getElementById('import-msg').innerHTML = '';
+  goStep(1);
+}
+goStep(1);
+</script>
+</body>
+</html>

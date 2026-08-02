@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <link rel="shortcut icon" href="../../favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GSTR-1 JSON Validator | Free Tool | Kunwar Accounting Services</title>
+  <meta name="description" content="Validate your GSTR-1 JSON file structure before uploading to the GST portal. Checks required fields, GSTIN format, invoice totals and section structure. Free, instant."/>
+  <meta name="keywords" content="gstr1 json validator, gst json validation tool, gstr-1 upload error check"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/gstr1-json-validator.html"/>
+  <link rel="stylesheet" href="../../style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:900px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--charcoal); margin-bottom:1rem; }
+    .dropzone { border:2px dashed var(--border); border-radius:14px; padding:2.5rem 1.5rem; text-align:center; cursor:pointer; transition:all 0.2s; background:var(--light); }
+    .dropzone.drag { border-color:var(--navy); background:var(--ice); }
+    .dropzone .dz-icon { font-size:2.2rem; margin-bottom:.5rem; }
+    .dropzone .dz-text { font-size:14px; color:var(--charcoal); font-weight:600; }
+    .dropzone .dz-sub { font-size:12px; color:var(--gray); margin-top:4px; }
+    .file-chip { display:inline-flex; align-items:center; gap:8px; background:var(--ice); border-radius:8px; padding:8px 14px; font-size:13px; color:var(--navy); font-weight:600; margin-top:1rem; }
+    .result-hero { border-radius:14px; padding:1.75rem; text-align:center; margin-bottom:1.5rem; }
+    .result-hero.valid { background:linear-gradient(135deg,#16A34A,#15803D); }
+    .result-hero.invalid { background:linear-gradient(135deg,#DC2626,#991B1B); }
+    .result-hero h3 { font-size:14px; color:rgba(255,255,255,0.85); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.06em; }
+    .result-hero .amount { font-size:1.9rem; font-weight:700; color:white; font-family:'Playfair Display',serif; }
+    table.data-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+    table.data-table th { text-align:left; padding:8px 10px; background:var(--navy); color:white; }
+    table.data-table td { padding:7px 10px; border-bottom:1px solid var(--border); }
+    table.data-table tr:nth-child(even) { background:var(--light); }
+    .table-scroll { max-height:380px; overflow:auto; border:1px solid var(--border); border-radius:10px; }
+    .sev-pill { padding:2px 9px; border-radius:20px; font-size:11px; font-weight:700; }
+    .sev-error { background:#FEE2E2; color:#991B1B; }
+    .sev-warning { background:#FEF3C7; color:#92400E; }
+    .btn-ghost { background:none; border:1.5px solid var(--border); color:var(--gray); padding:11px 20px; border-radius:10px; font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:1rem; }
+    .hidden { display:none !important; }
+    .warn-box { background:#FEF3C7; border:1px solid #FCD34D; border-radius:8px; padding:12px 16px; font-size:13px; color:#78350F; margin-top:1rem; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge">Free Tool · Instant</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">GSTR-1 JSON Validator</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:520px;margin:0 auto;">Catch structural problems in your GSTR-1 JSON before you upload it to the GST portal and waste a filing attempt.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="calc-card">
+      <h2>Upload GSTR-1 JSON File</h2>
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
+        <div class="dz-icon">📤</div>
+        <div class="dz-text">Click to upload or drag & drop</div>
+        <div class="dz-sub">.json file only</div>
+        <input type="file" id="file-input" accept=".json" style="display:none;" onchange="handleFile(this.files[0])"/>
+      </div>
+      <div id="file-chip-wrap"></div>
+      <div class="warn-box">Processed entirely in your browser. This checks structure and internal consistency only — final validation always happens on the GST portal itself.</div>
+    </div>
+
+    <div class="calc-card hidden" id="result-section">
+      <div class="result-hero" id="result-hero">
+        <h3>Validation Result</h3>
+        <div class="amount" id="res-text">—</div>
+      </div>
+      <div class="table-scroll"><table class="data-table" id="issues-table"></table></div>
+      <div class="btn-row"><button class="btn-ghost" onclick="resetAll()">↺ Upload Another File</button></div>
+    </div>
+
+    <div class="calc-card" style="background:var(--light);">
+      <h2 style="font-size:15px;">What gets checked</h2>
+      <p style="font-size:13px;color:var(--gray);line-height:1.8;">
+        Presence of required top-level keys (<code>gstin</code>, <code>fp</code> filing period, <code>version</code>) · GSTIN format & checksum · filing period format (MMYYYY) · presence of at least one supply section (b2b, b2cl, b2cs, exp, nil, hsn) · within each invoice, that taxable value, rate and tax amounts are internally consistent · that invoice values aren't negative · duplicate invoice numbers within the same section.
+      </p>
+    </div>
+
+    <div class="cta-banner">
+      <h2>Want a CA to double-check before filing?</h2>
+      <p>We review GSTR-1 JSON files for accuracy before every filing, every month.</p>
+      <a href="contact.html" class="btn-primary">Get Expert Review →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="../../js/gst-tools-utils.js"></script>
+<script src="../../js/nav.js"></script>
+<script>
+injectNav('tools');
+
+const dz = document.getElementById('dropzone');
+dz.addEventListener('dragover', e=>{e.preventDefault();dz.classList.add('drag');});
+dz.addEventListener('dragleave', ()=>dz.classList.remove('drag'));
+dz.addEventListener('drop', e=>{e.preventDefault();dz.classList.remove('drag');if(e.dataTransfer.files[0])handleFile(e.dataTransfer.files[0]);});
+
+async function handleFile(file) {
+  if (!file) return;
+  document.getElementById('file-chip-wrap').innerHTML = `<div class="file-chip">📄 ${file.name}</div>`;
+  const text = await file.text();
+  let json;
+  try { json = JSON.parse(text); }
+  catch(e) {
+    showResults([{ severity:'error', section:'File', message:`Not valid JSON: ${e.message}` }]);
+    return;
+  }
+  const issues = validateGSTR1Json(json);
+  showResults(issues);
+}
+
+function validateGSTR1Json(json) {
+  const issues = [];
+  if (!json.gstin) issues.push({severity:'error',section:'Header',message:'Missing "gstin" field.'});
+  else {
+    const v = validateGSTIN(json.gstin);
+    if (!v.valid) issues.push({severity:'error',section:'Header',message:`GSTIN "${json.gstin}" invalid: ${v.reason}`});
+  }
+  if (!json.fp) issues.push({severity:'error',section:'Header',message:'Missing "fp" (filing period) field.'});
+  else if (!/^\d{2}\d{4}$/.test(String(json.fp))) issues.push({severity:'warning',section:'Header',message:`Filing period "${json.fp}" doesn't look like MMYYYY format.`});
+  if (!json.version) issues.push({severity:'warning',section:'Header',message:'Missing "version" field.'});
+
+  const sections = ['b2b','b2cl','b2cs','exp','nil','cdnr','cdnur','at','txpd','hsn','doc_issue'];
+  const present = sections.filter(s => json[s] !== undefined);
+  if (present.length === 0) issues.push({severity:'error',section:'Body',message:'No recognised GSTR-1 sections found (b2b, b2cl, b2cs, exp, etc). Is this really a GSTR-1 JSON?'});
+
+  // b2b checks
+  (json.b2b||[]).forEach((party,pIdx) => {
+    if (!party.ctin) issues.push({severity:'error',section:'B2B',message:`Party #${pIdx+1}: missing recipient GSTIN (ctin).`});
+    else { const v = validateGSTIN(party.ctin); if (!v.valid) issues.push({severity:'error',section:'B2B',message:`Party #${pIdx+1}: GSTIN "${party.ctin}" — ${v.reason}`}); }
+    const seenInv = {};
+    (party.inv||[]).forEach((inv,iIdx) => {
+      if (!inv.inum) issues.push({severity:'error',section:'B2B',message:`Party #${pIdx+1}, Invoice #${iIdx+1}: missing invoice number (inum).`});
+      else if (seenInv[inv.inum]) issues.push({severity:'error',section:'B2B',message:`Party #${pIdx+1}: duplicate invoice number "${inv.inum}".`});
+      seenInv[inv.inum] = true;
+      if (inv.val === undefined || inv.val === null) issues.push({severity:'warning',section:'B2B',message:`Party #${pIdx+1}, Invoice "${inv.inum||iIdx+1}": missing invoice value (val).`});
+      if (inv.val < 0) issues.push({severity:'error',section:'B2B',message:`Party #${pIdx+1}, Invoice "${inv.inum}": negative invoice value.`});
+      let sumItems = 0;
+      (inv.itms||[]).forEach((it,itIdx) => {
+        const d = it.itm_det || {};
+        if (d.txval === undefined) issues.push({severity:'warning',section:'B2B',message:`Invoice "${inv.inum}", item ${itIdx+1}: missing taxable value.`});
+        if (d.rt !== undefined && !VALID_GST_RATES.includes(Math.round(d.rt*100)/100)) issues.push({severity:'warning',section:'B2B',message:`Invoice "${inv.inum}", item ${itIdx+1}: unusual rate ${d.rt}%.`});
+        const expected = (d.txval||0) * (d.rt||0) / 100;
+        const actual = (d.iamt||0)+(d.camt||0)+(d.samt||0);
+        if (Math.abs(expected-actual) > Math.max(1, expected*0.02)) issues.push({severity:'warning',section:'B2B',message:`Invoice "${inv.inum}", item ${itIdx+1}: tax amount ₹${round2(actual)} doesn't match taxable×rate (≈₹${round2(expected)}).`});
+        sumItems += (d.txval||0)+(d.iamt||0)+(d.camt||0)+(d.samt||0)+(d.csamt||0);
+      });
+    });
+  });
+
+  // b2cs checks
+  (json.b2cs||[]).forEach((r,idx) => {
+    if (!r.pos) issues.push({severity:'error',section:'B2CS',message:`Row #${idx+1}: missing place of supply (pos).`});
+    else if (!GST_STATE_CODES[String(r.pos).padStart(2,'0')]) issues.push({severity:'warning',section:'B2CS',message:`Row #${idx+1}: place of supply code "${r.pos}" not recognised.`});
+    if (r.txval === undefined) issues.push({severity:'warning',section:'B2CS',message:`Row #${idx+1}: missing taxable value.`});
+    if (r.rt !== undefined && !VALID_GST_RATES.includes(Math.round(r.rt*100)/100)) issues.push({severity:'warning',section:'B2CS',message:`Row #${idx+1}: unusual rate ${r.rt}%.`});
+  });
+
+  if (!issues.length) issues.push({severity:'ok',section:'All',message:'No structural issues found.'});
+  return issues;
+}
+
+function round2(n){ return Math.round(n*100)/100; }
+
+function showResults(issues) {
+  const errCount = issues.filter(i=>i.severity==='error').length;
+  const hero = document.getElementById('result-hero');
+  if (errCount > 0) {
+    hero.className='result-hero invalid';
+    document.getElementById('res-text').textContent = `${errCount} error(s) found`;
+  } else {
+    hero.className='result-hero valid';
+    document.getElementById('res-text').textContent = 'Structure looks valid';
+  }
+  let html = '<thead><tr><th>Section</th><th>Severity</th><th>Message</th></tr></thead><tbody>';
+  issues.forEach(i => {
+    if (i.severity==='ok') { html += `<tr><td>${i.section}</td><td><span class="sev-pill" style="background:#DCFCE7;color:#166534;">OK</span></td><td>${i.message}</td></tr>`; return; }
+    html += `<tr><td>${i.section}</td><td><span class="sev-pill sev-${i.severity}">${i.severity==='error'?'Error':'Warning'}</span></td><td>${i.message}</td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('issues-table').innerHTML = html;
+  document.getElementById('result-section').classList.remove('hidden');
+  document.getElementById('result-section').scrollIntoView({behavior:'smooth'});
+}
+function resetAll() {
+  document.getElementById('file-chip-wrap').innerHTML=''; document.getElementById('file-input').value='';
+  document.getElementById('result-section').classList.add('hidden');
+}
+</script>
+</body>
+</html>

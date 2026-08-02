@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <link rel="shortcut icon" href="../../favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GST Online Seller Tool | Convert Amazon Flipkart Meesho Myntra Excel to GSTR-1 | Kunwar Accounting</title>
+  <meta name="description" content="Convert Amazon, Flipkart, Meesho, Myntra, Snapdeal, Glowroad, Limeroad, JioMart, Tata CliQ, Ajio, Nykaa, Shopsy and CityMall order/tax reports into GSTR-1 ready Excel and JSON. Free tool."/>
+  <meta name="keywords" content="GST online seller tool, ecommerce GSTR-1, Amazon GST report, Flipkart GST report, Meesho GST report, GSTR1 excel to json, 14 platform GST tool"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/gst-online-seller.html"/>
+  <link rel="stylesheet" href="../../style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:1020px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--charcoal); margin-bottom:1rem; }
+    .profile-bar { display:flex; justify-content:space-between; align-items:center; background:var(--navy-dark); color:white; border-radius:12px; padding:12px 20px; margin-bottom:1.5rem; font-size:13px; flex-wrap:wrap; gap:8px; }
+    .profile-bar b { color:#85B7EB; }
+    .profile-bar .change-btn { background:rgba(255,255,255,0.15); border:none; color:white; padding:6px 14px; border-radius:6px; font-size:12px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .steps { display:flex; gap:0; margin-bottom:1.5rem; flex-wrap:wrap; }
+    .step-chip { flex:1; min-width:120px; text-align:center; padding:10px 8px; font-size:12px; font-weight:600; color:var(--gray); background:var(--light); border-bottom:3px solid var(--border); cursor:pointer; }
+    .step-chip.active { color:var(--navy); border-bottom-color:var(--navy); background:var(--ice); }
+    .step-chip.done { color:#16A34A; border-bottom-color:#16A34A; }
+    .field-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:1rem; align-items:end; }
+    @media(max-width:700px){ .field-row{ grid-template-columns:1fr; } }
+    .field-group label { display:block; font-size:12px; font-weight:600; color:var(--gray); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; }
+    .field-group input, .field-group select { width:100%; padding:11px 14px; border:1.5px solid var(--border); border-radius:10px; font-size:14px; font-family:'DM Sans',sans-serif; color:var(--charcoal); outline:none; }
+    .radio-row { display:flex; gap:1.5rem; padding:11px 0; font-size:14px; }
+    .radio-row label { display:flex; align-items:center; gap:6px; font-weight:500; color:var(--charcoal); text-transform:none; cursor:pointer; }
+    .platform-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(130px,1fr)); gap:14px; margin:1rem 0; }
+    .platform-card { border:1.5px solid var(--border); border-radius:12px; padding:1rem; text-align:center; background:white; position:relative; }
+    .platform-card .p-icon { width:38px; height:38px; border-radius:8px; margin:0 auto 8px; display:flex; align-items:center; justify-content:center; font-size:1.3rem; color:white; }
+    .platform-card .p-name { font-size:13px; font-weight:600; color:var(--charcoal); }
+    .platform-card .p-sub { font-size:10px; color:var(--gray); text-transform:uppercase; letter-spacing:.04em; margin-bottom:8px; }
+    .platform-card button { width:100%; padding:7px; border-radius:6px; font-size:11px; font-weight:600; border:1px solid var(--border); background:var(--light); color:var(--charcoal); cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .platform-card.imported { border-color:#16A34A; background:#F0FDF4; }
+    .platform-card .imported-badge { position:absolute; top:8px; right:8px; font-size:10px; color:#16A34A; font-weight:700; }
+    table.data-table { width:100%; border-collapse:collapse; font-size:12.5px; }
+    table.data-table th { text-align:left; padding:9px 12px; background:var(--navy); color:white; }
+    table.data-table td { padding:9px 12px; border-bottom:1px solid var(--border); }
+    table.data-table tr:nth-child(even) { background:var(--light); }
+    .del-icon { cursor:pointer; color:#DC2626; }
+    .calc-btn { background:var(--navy); color:white; padding:13px 26px; border-radius:10px; font-size:15px; font-weight:600; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+    .calc-btn:hover { background:var(--navy-dark); }
+    .calc-btn:disabled { opacity:.5; cursor:not-allowed; }
+    .btn-ghost { background:none; border:1.5px solid var(--border); color:var(--gray); padding:11px 20px; border-radius:10px; font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:1rem; }
+    .toggle-row { display:flex; align-items:center; justify-content:space-between; padding:12px 0; border-bottom:1px solid var(--border); }
+    .toggle-row:last-child { border-bottom:none; }
+    .toggle-row .t-label { font-size:13px; font-weight:600; color:var(--charcoal); }
+    .toggle-row .t-sub { font-size:11px; color:var(--gray); }
+    .switch { position:relative; width:40px; height:22px; }
+    .switch input { opacity:0; width:0; height:0; }
+    .slider { position:absolute; cursor:pointer; inset:0; background:#CBD5E1; border-radius:22px; transition:.2s; }
+    .slider:before { position:absolute; content:""; height:16px; width:16px; left:3px; top:3px; background:white; border-radius:50%; transition:.2s; }
+    input:checked + .slider { background:var(--navy); }
+    input:checked + .slider:before { transform:translateX(18px); }
+    .download-row { display:flex; gap:14px; margin-top:1.25rem; flex-wrap:wrap; }
+    .dl-btn { flex:1; min-width:200px; display:flex; align-items:center; gap:12px; padding:16px 20px; border-radius:12px; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; color:white; }
+    .dl-btn.excel { background:#16A34A; }
+    .dl-btn.json { background:var(--navy); }
+    .dl-btn .dl-icon { font-size:1.4rem; }
+    .dl-btn .dl-text { text-align:left; font-size:13px; font-weight:700; }
+    .dl-btn .dl-sub { font-size:10px; opacity:.85; font-weight:400; }
+    .hidden { display:none !important; }
+    .warn-box { background:#FEF3C7; border:1px solid #FCD34D; border-radius:8px; padding:12px 16px; font-size:13px; color:#78350F; margin-top:1rem; }
+    .err-box { background:#FEE2E2; border:1px solid #FCA5A5; border-radius:8px; padding:12px 16px; font-size:13px; color:#991B1B; margin-top:1rem; }
+    .table-scroll { max-height:340px; overflow:auto; border:1px solid var(--border); border-radius:10px; margin-top:.75rem; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge">14 Platform Support · Free</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">GST Online Seller Tool</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:560px;margin:0 auto;">Set up your GST profile, import each marketplace's report, manage the combined data, then generate your GSTR-1 Excel and JSON in one click.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="profile-bar hidden" id="profile-bar">
+      <div>GSTIN: <b id="pb-gstin"></b> &nbsp;|&nbsp; Period: <b id="pb-period"></b></div>
+      <button class="change-btn" onclick="goStep(1)">Change</button>
+    </div>
+
+    <div class="calc-card">
+      <div class="steps">
+        <div class="step-chip active" id="s1" onclick="goStep(1)">1. GST Profile</div>
+        <div class="step-chip" id="s2" onclick="tryGoStep(2)">2. Import Data</div>
+        <div class="step-chip" id="s3" onclick="tryGoStep(3)">3. Manage Data</div>
+        <div class="step-chip" id="s4" onclick="tryGoStep(4)">4. GSTR1 Report</div>
+      </div>
+
+      <!-- STEP 1: GST PROFILE -->
+      <div id="step-1">
+        <h2>GST Information</h2>
+        <p style="font-size:13px;color:var(--gray);margin-bottom:1rem;">Provide GST number, month and year of filing.</p>
+        <div class="field-row">
+          <div class="field-group" style="grid-column:span 2;">
+            <label>GST Number</label>
+            <input type="text" id="p-gstin" placeholder="e.g. 24ANBPR4639L1ZO" maxlength="15" style="text-transform:uppercase;"/>
+          </div>
+          <div class="field-group">
+            <label>Filing Type</label>
+            <div class="radio-row">
+              <label><input type="radio" name="filing-type" value="monthly" checked/> Monthly</label>
+              <label><input type="radio" name="filing-type" value="quarterly"/> Quarterly</label>
+            </div>
+          </div>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label>Month</label>
+            <select id="p-month">
+              <option>January</option><option>February</option><option>March</option><option>April</option><option>May</option><option>June</option>
+              <option>July</option><option>August</option><option>September</option><option>October</option><option>November</option><option>December</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label>Return Year</label>
+            <select id="p-year"><option>2025</option><option selected>2026</option><option>2027</option></select>
+          </div>
+          <div class="field-group"><button class="calc-btn" style="width:100%;" onclick="saveProfile()">Submit →</button></div>
+        </div>
+        <div id="profile-err"></div>
+      </div>
+
+      <!-- STEP 2: IMPORT DATA -->
+      <div id="step-2" class="hidden">
+        <h2>Import Platform Data</h2>
+        <p style="font-size:13px;color:var(--gray);">Search and upload platform data, then check Manage Data and generate GSTR1.</p>
+        <div class="warn-box">Caution: avoid importing an edited file to prevent potential errors. Files are processed entirely in your browser.</div>
+        <div class="platform-grid" id="platform-grid"></div>
+        <input type="file" id="file-input" accept=".xlsx,.xls,.csv" style="display:none;" onchange="handleImportFile(this.files[0])"/>
+        <div id="import-msg"></div>
+        <div class="btn-row"><button class="calc-btn" onclick="goStep(3)">Continue to Manage Data →</button></div>
+      </div>
+
+      <!-- STEP 3: MANAGE DATA -->
+      <div id="step-3" class="hidden">
+        <h2>Manage of Imported Data</h2>
+        <p style="font-size:13px;color:var(--gray);">You can view and delete imported platform data below.</p>
+        <div class="table-scroll"><table class="data-table" id="manage-table"></table></div>
+        <div class="btn-row">
+          <button class="btn-ghost" onclick="goStep(2)">← Import More</button>
+          <button class="calc-btn" id="generate-btn" onclick="generateGSTR1()">Generate GSTR1 →</button>
+        </div>
+      </div>
+
+      <!-- STEP 4: GSTR1 REPORT -->
+      <div id="step-4" class="hidden">
+        <h2>GSTR1 Report</h2>
+        <p style="font-size:13px;color:var(--gray);">Here is your GSTR1 report — generate and download Excel and JSON below.</p>
+
+        <div style="overflow-x:auto;">
+        <table class="data-table" style="margin-top:1rem;">
+          <thead><tr><th colspan="6" style="text-align:center;background:var(--navy-dark);">7 - B2CS (Others)</th></tr>
+          <tr><th>No. of records</th><th>Taxable Value (₹)</th><th>Integrated tax (₹)</th><th>Central tax (₹)</th><th>State/UT tax (₹)</th><th>Invoice (₹)</th></tr></thead>
+          <tbody id="b2cs-summary-row"></tbody>
+        </table>
+        </div>
+
+        <div style="margin-top:1rem;">
+          <div class="toggle-row">
+            <div><div class="t-label">B2C HSN <span style="color:var(--gray);font-weight:400;">?</span></div><div class="t-sub">Do you want to include B2C HSN in GSTR1?</div></div>
+            <label class="switch"><input type="checkbox" id="toggle-hsn"/><span class="slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div><div class="t-label">Documents Issued (Beta) <span style="color:var(--gray);font-weight:400;">?</span></div><div class="t-sub">Do you want to include Documents Issued list in GSTR1?</div></div>
+            <label class="switch"><input type="checkbox" id="toggle-docs"/><span class="slider"></span></label>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin:1.25rem 0 .5rem;font-size:14px;font-weight:600;color:var(--navy);" id="return-period-label"></div>
+
+        <div class="download-row">
+          <button class="dl-btn excel" onclick="downloadGSTR1Excel()"><span class="dl-icon">📗</span><span class="dl-text">GSTR1<br><span class="dl-sub">Excel Download</span></span></button>
+          <button class="dl-btn json" onclick="downloadGSTR1JSON()"><span class="dl-icon">🗎</span><span class="dl-text">GSTR1<br><span class="dl-sub">Json Download</span></span></button>
+        </div>
+
+        <h3 style="font-size:14px;font-weight:600;margin:1.5rem 0 .5rem;">Rate-wise & State-wise Detail (Table 7 / Table 4 breakup)</h3>
+        <div class="table-scroll"><table class="data-table" id="detail-table"></table></div>
+        <div class="btn-row"><button class="btn-ghost" onclick="resetAll()">↺ Start New Filing Period</button></div>
+      </div>
+    </div>
+
+    <div class="calc-card" style="background:var(--light);">
+      <h2 style="font-size:15px;">How this tool works</h2>
+      <p style="font-size:13px;color:var(--gray);line-height:1.8;">
+        Set your GSTIN and return period once, then import each marketplace's tax/order report — we auto-detect columns per platform. Every platform's data is grouped by <strong>place of supply</strong> and <strong>GST rate</strong> for GSTR-1 <strong>Table 7 (B2C Others)</strong> and <strong>Table 4 (B2B)</strong>. The downloaded Excel mirrors the official GSTR-1 offline utility layout; the JSON follows the general portal structure for reference — always cross-check figures on the GST portal before filing.
+      </p>
+    </div>
+
+    <div class="cta-banner">
+      <h2>Want us to file it for you instead?</h2>
+      <p>We handle monthly GSTR-1/3B filing for e-commerce sellers on Amazon, Flipkart and Meesho.</p>
+      <a href="contact.html" class="btn-primary">Get GST Filing Help →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="../../js/gst-tools-utils.js"></script>
+<script src="../../js/nav.js"></script>
+<script>
+injectNav('tools');
+
+const PLATFORMS = [
+  { key:'amazon',   name:'Amazon',   sub:'B2C', color:'#FF9900' },
+  { key:'amazon_b2b', name:'Amazon B2B', sub:'B2B', color:'#FF9900', aliasKey:'amazon' },
+  { key:'flipkart', name:'Flipkart', sub:'B2C', color:'#2874F0' },
+  { key:'meesho',   name:'Meesho',   sub:'B2C', color:'#D6006D' },
+  { key:'myntra',   name:'Myntra',   sub:'B2C', color:'#FF3E6C' },
+  { key:'snapdeal', name:'Snapdeal', sub:'B2C', color:'#E40046' },
+  { key:'glowroad', name:'Glowroad', sub:'B2C', color:'#5B21B6' },
+  { key:'limeroad', name:'Limeroad', sub:'B2C', color:'#DB2777' },
+  { key:'jiomart',  name:'JioMart',  sub:'B2C', color:'#0F4C81' },
+  { key:'tatacliq', name:'Tata CliQ',sub:'B2C', color:'#E01A22' },
+  { key:'ajio',     name:'Ajio',     sub:'B2C', color:'#2B2B2B' },
+  { key:'nykaa',    name:'Nykaa',    sub:'B2C', color:'#FC2779' },
+  { key:'shopsy',   name:'Shopsy',   sub:'B2C', color:'#00786F' },
+  { key:'citymall', name:'CityMall', sub:'B2C', color:'#F97316' }
+];
+
+let profile = null;      // { gstin, filingType, month, year }
+let importedData = {};   // platformKey -> { fileName, rows:[], b2cs:[], b2b:[] }
+let currentImportPlatform = null;
+let gstrFinal = null;
+
+function goStep(n) {
+  for (let i=1;i<=4;i++) document.getElementById('step-'+i).classList.toggle('hidden', i!==n);
+  for (let i=1;i<=4;i++) {
+    const chip = document.getElementById('s'+i);
+    chip.classList.toggle('active', i===n);
+    chip.classList.toggle('done', i<n);
+  }
+  if (n>=2) buildPlatformGrid();
+  if (n===3) renderManageTable();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function tryGoStep(n) {
+  if (!profile) { alert('Please set up your GST profile first (Step 1).'); goStep(1); return; }
+  goStep(n);
+}
+
+function saveProfile() {
+  const gstin = document.getElementById('p-gstin').value.trim().toUpperCase();
+  const errEl = document.getElementById('profile-err');
+  errEl.innerHTML = '';
+  if (gstin) {
+    const v = validateGSTIN(gstin);
+    if (!v.valid) { errEl.innerHTML = `<div class="err-box">${v.reason}. Please double check your GSTIN.</div>`; return; }
+  }
+  const filingType = document.querySelector('input[name="filing-type"]:checked').value;
+  const month = document.getElementById('p-month').value;
+  const year = document.getElementById('p-year').value;
+  profile = { gstin: gstin || '(not provided)', filingType, month, year };
+  document.getElementById('pb-gstin').textContent = profile.gstin;
+  document.getElementById('pb-period').textContent = `${month}-${year}`;
+  document.getElementById('profile-bar').classList.remove('hidden');
+  goStep(2);
+}
+
+function buildPlatformGrid() {
+  document.getElementById('platform-grid').innerHTML = PLATFORMS.map(p => {
+    const imported = importedData[p.key];
+    return `<div class="platform-card ${imported?'imported':''}">
+      ${imported?'<div class="imported-badge">✓ Imported</div>':''}
+      <div class="p-icon" style="background:${p.color};">${p.name[0]}</div>
+      <div class="p-name">${p.name}</div>
+      <div class="p-sub">${p.sub}</div>
+      <button onclick="startImport('${p.key}')">${imported ? 'Re-import' : 'Import Data'}</button>
+    </div>`;
+  }).join('');
+}
+
+function startImport(key) {
+  currentImportPlatform = key;
+  document.getElementById('file-input').value = '';
+  document.getElementById('file-input').click();
+}
+
+async function handleImportFile(file) {
+  if (!file || !currentImportPlatform) return;
+  const msgEl = document.getElementById('import-msg');
+  try {
+    const wb = await readWorkbookFile(file);
+    const { headers, rows } = sheetToRows(wb);
+    const objs = rowsToObjects(headers, rows);
+    const platformMeta = PLATFORMS.find(p => p.key === currentImportPlatform);
+    const aliasKey = platformMeta.aliasKey || currentImportPlatform;
+    const aliases = PLATFORM_ALIASES[aliasKey] || PLATFORM_ALIASES.generic;
+    const map = autoMapColumns(headers, aliases);
+
+    const b2cs = [], b2b = [];
+    let b2bTotal=0, b2cTotal=0, cdnrTotal=0, nilTotal=0, hsnTotal=0;
+
+    objs.forEach(row => {
+      const taxable = num(row[map.taxableValue]);
+      if (!taxable) { if (map.taxableValue) nilTotal++; return; }
+      let rate = Math.round(num(row[map.gstRate])*100)/100;
+      const cgst = map.cgst ? num(row[map.cgst]) : 0;
+      const sgst = map.sgst ? num(row[map.sgst]) : 0;
+      let igst = map.igst ? num(row[map.igst]) : 0;
+      if (!cgst && !sgst && !igst && rate) igst = Math.round(taxable*rate)/100;
+
+      const stateRaw = row[map.shipToState];
+      const stateCode = stateNameToCode(stateRaw) || 'NA';
+      const gstin = map.customerGstin ? String(row[map.customerGstin]||'').trim() : '';
+      const isB2B = gstin && isValidGSTINFormat(gstin);
+      hsnTotal += taxable;
+
+      if (isB2B || currentImportPlatform === 'amazon_b2b') {
+        b2b.push({ gstin: gstin || 'UNKNOWN', rate, taxable, cgst, sgst, igst });
+        b2bTotal += taxable;
+      } else {
+        b2cs.push({ stateCode, rate, taxable, cgst, sgst, igst });
+        b2cTotal += taxable;
+      }
+    });
+
+    importedData[currentImportPlatform] = {
+      fileName: file.name, month: profile ? profile.month : '', b2cs, b2b,
+      b2bTotal, b2cTotal, cdnrTotal, nilTotal, hsnTotal
+    };
+    msgEl.innerHTML = `<div class="warn-box" style="background:#DCFCE7;border-color:#86EFAC;color:#166534;">✓ Imported ${objs.length} rows from ${platformMeta.name} (${file.name})</div>`;
+    buildPlatformGrid();
+  } catch (err) {
+    msgEl.innerHTML = `<div class="err-box">Could not read this file: ${err.message}</div>`;
+  }
+  currentImportPlatform = null;
+}
+
+function renderManageTable() {
+  const keys = Object.keys(importedData);
+  if (!keys.length) {
+    document.getElementById('manage-table').innerHTML = '<thead><tr><th>No data imported yet</th></tr></thead><tbody><tr><td>Go to Step 2 and import at least one platform.</td></tr></tbody>';
+    document.getElementById('generate-btn').disabled = true;
+    return;
+  }
+  document.getElementById('generate-btn').disabled = false;
+  let html = '<thead><tr><th>Platform</th><th>Month</th><th>B2B Sales</th><th>B2C Sales</th><th>CDNR</th><th>Nil Rated</th><th>Total (HSN)</th><th></th></tr></thead><tbody>';
+  keys.forEach(key => {
+    const d = importedData[key];
+    const meta = PLATFORMS.find(p=>p.key===key);
+    html += `<tr><td>${meta.name}</td><td>${d.month}</td><td>${fmtINR(d.b2bTotal)}</td><td>${fmtINR(d.b2cTotal)}</td><td>${fmtINR(d.cdnrTotal)}</td><td>${d.nilTotal}</td><td>${fmtINR(d.hsnTotal)}</td><td><span class="del-icon" onclick="deletePlatform('${key}')">🗑</span></td></tr>`;
+  });
+  html += '</tbody>';
+  document.getElementById('manage-table').innerHTML = html;
+}
+function deletePlatform(key) { delete importedData[key]; renderManageTable(); }
+
+function generateGSTR1() {
+  const b2csGroups = {}, b2bGroups = {};
+  Object.values(importedData).forEach(d => {
+    d.b2cs.forEach(r => {
+      const k = r.stateCode+'|'+r.rate;
+      if (!b2csGroups[k]) b2csGroups[k] = { stateCode:r.stateCode, rate:r.rate, taxable:0, cgst:0, sgst:0, igst:0, count:0 };
+      b2csGroups[k].taxable += r.taxable; b2csGroups[k].cgst += r.cgst; b2csGroups[k].sgst += r.sgst; b2csGroups[k].igst += r.igst; b2csGroups[k].count++;
+    });
+    d.b2b.forEach(r => {
+      const k = r.gstin+'|'+r.rate;
+      if (!b2bGroups[k]) b2bGroups[k] = { gstin:r.gstin, rate:r.rate, taxable:0, cgst:0, sgst:0, igst:0, count:0 };
+      b2bGroups[k].taxable += r.taxable; b2bGroups[k].cgst += r.cgst; b2bGroups[k].sgst += r.sgst; b2bGroups[k].igst += r.igst; b2bGroups[k].count++;
+    });
+  });
+  const b2cs = Object.values(b2csGroups), b2b = Object.values(b2bGroups);
+  const totalTaxable = b2cs.reduce((s,r)=>s+r.taxable,0) + b2b.reduce((s,r)=>s+r.taxable,0);
+  const totalCgst = b2cs.reduce((s,r)=>s+r.cgst,0) + b2b.reduce((s,r)=>s+r.cgst,0);
+  const totalSgst = b2cs.reduce((s,r)=>s+r.sgst,0) + b2b.reduce((s,r)=>s+r.sgst,0);
+  const totalIgst = b2cs.reduce((s,r)=>s+r.igst,0) + b2b.reduce((s,r)=>s+r.igst,0);
+  const totalInvoice = totalTaxable + totalCgst + totalSgst + totalIgst;
+  const totalRecords = b2cs.reduce((s,r)=>s+r.count,0);
+
+  gstrFinal = { b2cs, b2b, totalTaxable, totalCgst, totalSgst, totalIgst, totalInvoice, totalRecords };
+
+  document.getElementById('b2cs-summary-row').innerHTML = `<tr>
+    <td>${totalRecords}</td><td>${fmtINR(totalTaxable)}</td><td>${fmtINR(totalIgst)}</td><td>${fmtINR(totalCgst)}</td><td>${fmtINR(totalSgst)}</td><td>${fmtINR(totalInvoice)}</td>
+  </tr>`;
+  document.getElementById('return-period-label').textContent = profile ? `Return of ${profile.month} - ${profile.year}` : '';
+
+  let detail = '<thead><tr><th>Type</th><th>State / GSTIN</th><th>Rate %</th><th>Taxable Value</th><th>CGST</th><th>SGST</th><th>IGST</th><th>Invoices</th></tr></thead><tbody>';
+  b2cs.forEach(g => detail += `<tr><td>B2C</td><td>${GST_STATE_CODES[g.stateCode]||g.stateCode}</td><td>${g.rate}</td><td>${fmtINR(g.taxable)}</td><td>${fmtINR(g.cgst)}</td><td>${fmtINR(g.sgst)}</td><td>${fmtINR(g.igst)}</td><td>${g.count}</td></tr>`);
+  b2b.forEach(g => detail += `<tr><td>B2B</td><td>${g.gstin}</td><td>${g.rate}</td><td>${fmtINR(g.taxable)}</td><td>${fmtINR(g.cgst)}</td><td>${fmtINR(g.sgst)}</td><td>${fmtINR(g.igst)}</td><td>${g.count}</td></tr>`);
+  detail += '</tbody>';
+  document.getElementById('detail-table').innerHTML = detail;
+
+  goStep(4);
+}
+
+function downloadGSTR1Excel() {
+  if (!gstrFinal) return;
+  const sheets = {
+    'Summary': [{ GSTIN: profile?.gstin||'', Period: `${profile?.month||''} ${profile?.year||''}`, 'Total Taxable': round2(gstrFinal.totalTaxable), 'Total Invoice Value': round2(gstrFinal.totalInvoice), 'Generated On': new Date().toLocaleString('en-IN') }],
+    'B2C Others (Table 7)': gstrFinal.b2cs.map(g => ({ 'Place of Supply': `${g.stateCode}-${GST_STATE_CODES[g.stateCode]||''}`, Rate:g.rate, 'Taxable Value':round2(g.taxable), 'Integrated Tax':round2(g.igst), 'Central Tax':round2(g.cgst), 'State Tax':round2(g.sgst), Invoices:g.count })),
+    'B2B (Table 4)': gstrFinal.b2b.map(g => ({ 'GSTIN of Recipient': g.gstin, Rate:g.rate, 'Taxable Value':round2(g.taxable), 'Integrated Tax':round2(g.igst), 'Central Tax':round2(g.cgst), 'State Tax':round2(g.sgst), Invoices:g.count }))
+  };
+  if (document.getElementById('toggle-hsn').checked) {
+    sheets['HSN Summary'] = Object.values(importedData).map(d => ({ Platform:'', 'Taxable Value': round2(d.hsnTotal) }));
+  }
+  if (document.getElementById('toggle-docs').checked) {
+    sheets['Documents Issued'] = Object.keys(importedData).map(k => ({ Platform: PLATFORMS.find(p=>p.key===k).name, 'Invoices Count': (importedData[k].b2cs.length+importedData[k].b2b.length) }));
+  }
+  downloadExcelFile(sheets, `GSTR1-${profile?.month||''}${profile?.year||''}-${Date.now()}.xlsx`);
+}
+
+function downloadGSTR1JSON() {
+  if (!gstrFinal) return;
+  const json = {
+    gstin: profile?.gstin||'', fp: '', version: 'GST3.2.4 (reference format — verify before upload)',
+    b2cs: gstrFinal.b2cs.map(g => ({ sply_ty:'INTRA', pos:g.stateCode, rt:g.rate, typ:'OE', txval:round2(g.taxable), iamt:round2(g.igst), camt:round2(g.cgst), samt:round2(g.sgst), csamt:0 })),
+    b2b: (() => { const byG={}; gstrFinal.b2b.forEach(g=>{ if(!byG[g.gstin])byG[g.gstin]={ctin:g.gstin,inv:[]}; byG[g.gstin].inv.push({itms:[{num:1,itm_det:{rt:g.rate,txval:round2(g.taxable),iamt:round2(g.igst),camt:round2(g.cgst),samt:round2(g.sgst),csamt:0}}]}); }); return Object.values(byG); })(),
+    _meta: { generated_by:'Kunwar Accounting Services GST Online Seller Tool', note:'Reference structure — validate on the GST portal before filing.' }
+  };
+  downloadJSONFile(json, `GSTR1-${profile?.month||''}${profile?.year||''}-${Date.now()}.json`);
+}
+
+function round2(n){ return Math.round(n*100)/100; }
+function resetAll() {
+  profile = null; importedData = {}; gstrFinal = null;
+  document.getElementById('profile-bar').classList.add('hidden');
+  document.getElementById('p-gstin').value=''; document.getElementById('import-msg').innerHTML='';
+  goStep(1);
+}
+goStep(1);
+</script>
+</body>
+</html>

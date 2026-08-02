@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="../../favicon.svg"/>
+  <link rel="shortcut icon" href="../../favicon.svg"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Merge Excel Files Online | Free Tool | Kunwar Accounting Services</title>
+  <meta name="description" content="Merge multiple Excel or CSV files into one — combine monthly sales reports, GST data, or any spreadsheets in seconds. Free, browser-based, no upload to any server."/>
+  <meta name="keywords" content="merge excel files online, combine excel sheets, merge csv files free tool"/>
+  <link rel="canonical" href="https://www.kunwaraccountingservices.in/merge-excel-files.html"/>
+  <link rel="stylesheet" href="../../style.css"/>
+  <style>
+    body { background:var(--light); }
+    .calc-wrap { max-width:900px; margin:0 auto; padding:2rem; }
+    .calc-card { background:white; border-radius:16px; border:1px solid var(--border); padding:2rem; margin-bottom:1.5rem; }
+    .calc-card h2 { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--charcoal); margin-bottom:1rem; }
+    .dropzone { border:2px dashed var(--border); border-radius:14px; padding:2.5rem 1.5rem; text-align:center; cursor:pointer; transition:all 0.2s; background:var(--light); }
+    .dropzone.drag { border-color:var(--navy); background:var(--ice); }
+    .dropzone .dz-icon { font-size:2.2rem; margin-bottom:.5rem; }
+    .dropzone .dz-text { font-size:14px; color:var(--charcoal); font-weight:600; }
+    .dropzone .dz-sub { font-size:12px; color:var(--gray); margin-top:4px; }
+    .file-list { margin-top:1rem; display:flex; flex-direction:column; gap:8px; }
+    .file-row { display:flex; align-items:center; justify-content:space-between; background:var(--ice); border-radius:8px; padding:10px 14px; font-size:13px; color:var(--navy); font-weight:600; }
+    .file-row .remove { cursor:pointer; color:var(--gray); font-weight:400; }
+    .mode-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:1rem 0; }
+    @media(max-width:600px){ .mode-grid{ grid-template-columns:1fr; } }
+    .mode-opt { border:1.5px solid var(--border); border-radius:12px; padding:1rem; cursor:pointer; }
+    .mode-opt.sel { border-color:var(--navy); background:var(--ice); }
+    .mode-opt h4 { font-size:14px; margin-bottom:4px; color:var(--charcoal); }
+    .mode-opt p { font-size:12px; color:var(--gray); }
+    .calc-btn { background:var(--navy); color:white; padding:13px 26px; border-radius:10px; font-size:15px; font-weight:600; border:none; cursor:pointer; font-family:'DM Sans',sans-serif; transition:all 0.2s; }
+    .calc-btn:hover { background:var(--navy-dark); }
+    .calc-btn:disabled { opacity:.5; cursor:not-allowed; }
+    .btn-ghost { background:none; border:1.5px solid var(--border); color:var(--gray); padding:11px 20px; border-radius:10px; font-size:14px; cursor:pointer; font-family:'DM Sans',sans-serif; }
+    .btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:1rem; }
+    .hidden { display:none !important; }
+    .warn-box { background:#FEF3C7; border:1px solid #FCD34D; border-radius:8px; padding:12px 16px; font-size:13px; color:#78350F; margin-top:1rem; }
+    .summary-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin:1.25rem 0; }
+    .summary-box { background:var(--light); border-radius:12px; padding:1rem 1.25rem; }
+    .summary-box .lbl { font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--gray); }
+    .summary-box .val { font-size:1.35rem; font-weight:700; color:var(--navy); font-family:'Playfair Display',serif; margin-top:2px; }
+  </style>
+</head>
+<body>
+<div id="nav-placeholder"></div>
+<main>
+  <div style="background:linear-gradient(135deg,#042C53,#0C447C,#185FA5);padding:3rem 2rem 2.5rem;text-align:center;">
+    <div class="hero-badge">Free Tool · Instant</div>
+    <h1 style="font-family:'Playfair Display',serif;color:white;font-size:clamp(1.6rem,3.5vw,2.4rem);margin-bottom:.75rem;">Merge Excel Files</h1>
+    <p style="color:rgba(255,255,255,.75);font-size:15px;max-width:520px;margin:0 auto;">Combine multiple Excel or CSV files into one workbook — stack monthly reports into a single sheet, or keep each file as its own tab.</p>
+  </div>
+
+  <div class="calc-wrap">
+    <div class="calc-card">
+      <h2>Upload Files to Merge</h2>
+      <div class="dropzone" id="dropzone" onclick="document.getElementById('file-input').click()">
+        <div class="dz-icon">📤</div>
+        <div class="dz-text">Click to upload or drag & drop (multiple files)</div>
+        <div class="dz-sub">.xlsx, .xls or .csv — any number of files</div>
+        <input type="file" id="file-input" accept=".xlsx,.xls,.csv" multiple style="display:none;" onchange="handleFiles(this.files)"/>
+      </div>
+      <div class="file-list" id="file-list"></div>
+
+      <h2 style="margin-top:1.5rem;">Merge Mode</h2>
+      <div class="mode-grid">
+        <div class="mode-opt sel" data-mode="stack" onclick="selectMode('stack')">
+          <h4>📚 Stack into One Sheet</h4>
+          <p>Combines all rows from all files into a single sheet, matching columns by header name. Best for merging the same report from multiple months.</p>
+        </div>
+        <div class="mode-opt" data-mode="tabs" onclick="selectMode('tabs')">
+          <h4>📑 Keep as Separate Tabs</h4>
+          <p>Each uploaded file becomes its own sheet/tab in one workbook. Best for combining different report types.</p>
+        </div>
+      </div>
+
+      <div class="warn-box">Files are processed entirely in your browser — nothing is uploaded to any server.</div>
+      <div class="btn-row"><button class="calc-btn" id="merge-btn" onclick="doMerge()" disabled>Merge Files →</button></div>
+    </div>
+
+    <div class="calc-card hidden" id="result-section">
+      <h2>Merge Complete</h2>
+      <div class="summary-grid" id="summary-grid"></div>
+      <div class="btn-row">
+        <button class="calc-btn" onclick="downloadMerged()">⬇ Download Merged Excel</button>
+        <button class="btn-ghost" onclick="resetAll()">↺ Start Over</button>
+      </div>
+    </div>
+
+    <div class="cta-banner">
+      <h2>Need help organising your books?</h2>
+      <p>We handle full bookkeeping so you never have to merge spreadsheets by hand again.</p>
+      <a href="contact.html" class="btn-primary">Get Bookkeeping Help →</a>
+    </div>
+  </div>
+</main>
+<div id="footer-placeholder"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="../../js/gst-tools-utils.js"></script>
+<script src="../../js/nav.js"></script>
+<script>
+injectNav('tools');
+let uploadedFiles = []; // {name, headers, rows}
+let mergeMode = 'stack';
+let mergedSheets = null;
+
+const dz = document.getElementById('dropzone');
+dz.addEventListener('dragover', e=>{e.preventDefault();dz.classList.add('drag');});
+dz.addEventListener('dragleave', ()=>dz.classList.remove('drag'));
+dz.addEventListener('drop', e=>{e.preventDefault();dz.classList.remove('drag');if(e.dataTransfer.files.length)handleFiles(e.dataTransfer.files);});
+
+function selectMode(m) {
+  mergeMode = m;
+  document.querySelectorAll('.mode-opt').forEach(el => el.classList.toggle('sel', el.dataset.mode===m));
+}
+
+async function handleFiles(fileList) {
+  for (const file of Array.from(fileList)) {
+    try {
+      const wb = await readWorkbookFile(file);
+      const { headers, rows } = sheetToRows(wb);
+      uploadedFiles.push({ name: file.name, headers, rows: rowsToObjects(headers, rows) });
+    } catch(e) {
+      console.warn('Could not read', file.name, e);
+    }
+  }
+  renderFileList();
+}
+
+function renderFileList() {
+  document.getElementById('file-list').innerHTML = uploadedFiles.map((f,idx) =>
+    `<div class="file-row">📄 ${f.name} <span style="color:var(--gray);font-weight:400;">(${f.rows.length} rows)</span> <span class="remove" onclick="removeFile(${idx})">✕ remove</span></div>`
+  ).join('');
+  document.getElementById('merge-btn').disabled = uploadedFiles.length < 2;
+}
+function removeFile(idx) { uploadedFiles.splice(idx,1); renderFileList(); }
+
+function doMerge() {
+  if (uploadedFiles.length < 2) return;
+  if (mergeMode === 'tabs') {
+    mergedSheets = {};
+    uploadedFiles.forEach((f,idx) => {
+      const sheetName = f.name.replace(/\.(xlsx|xls|csv)$/i,'').slice(0,28) || `Sheet${idx+1}`;
+      mergedSheets[sheetName] = f.rows;
+    });
+  } else {
+    // stack: union of all headers
+    const allHeaders = [];
+    uploadedFiles.forEach(f => f.headers.forEach(h => { if (!allHeaders.includes(h)) allHeaders.push(h); }));
+    const merged = [];
+    uploadedFiles.forEach(f => {
+      f.rows.forEach(row => {
+        const obj = { '__Source File': f.name };
+        allHeaders.forEach(h => obj[h] = row[h] !== undefined ? row[h] : '');
+        merged.push(obj);
+      });
+    });
+    mergedSheets = { 'Merged Data': merged };
+  }
+
+  const totalRows = Object.values(mergedSheets).reduce((s,arr)=>s+arr.length,0);
+  document.getElementById('summary-grid').innerHTML = `
+    <div class="summary-box"><div class="lbl">Files Merged</div><div class="val">${uploadedFiles.length}</div></div>
+    <div class="summary-box"><div class="lbl">Output Sheets</div><div class="val">${Object.keys(mergedSheets).length}</div></div>
+    <div class="summary-box"><div class="lbl">Total Rows</div><div class="val">${totalRows}</div></div>
+  `;
+  document.getElementById('result-section').classList.remove('hidden');
+  document.getElementById('result-section').scrollIntoView({behavior:'smooth'});
+}
+
+function downloadMerged() {
+  if (!mergedSheets) return;
+  downloadExcelFile(mergedSheets, `Merged-Files-${Date.now()}.xlsx`);
+}
+function resetAll() {
+  uploadedFiles=[]; mergedSheets=null; document.getElementById('file-input').value='';
+  document.getElementById('file-list').innerHTML=''; document.getElementById('merge-btn').disabled=true;
+  document.getElementById('result-section').classList.add('hidden'); window.scrollTo({top:0,behavior:'smooth'});
+}
+</script>
+</body>
+</html>
