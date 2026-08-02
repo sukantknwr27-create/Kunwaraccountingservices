@@ -1,0 +1,168 @@
+{
+  "headers": [
+    {
+      "source": "/sw.js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/"
+        }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/firebase.js",
+      "destination": "/js/firebase.js"
+    },
+    {
+      "source": "/gst-tools-utils.js",
+      "destination": "/js/gst-tools-utils.js"
+    },
+    {
+      "source": "/nav.js",
+      "destination": "/js/nav.js"
+    },
+    {
+      "source": "/notifications.js",
+      "destination": "/js/notifications.js"
+    },
+    {
+      "source": "/supabase.js",
+      "destination": "/js/supabase.js"
+    },
+    {
+      "source": "/compliance-calendar.html",
+      "destination": "/tools/calculators/compliance-calendar.html"
+    },
+    {
+      "source": "/depreciation-calculator.html",
+      "destination": "/tools/calculators/depreciation-calculator.html"
+    },
+    {
+      "source": "/emi-calculator.html",
+      "destination": "/tools/calculators/emi-calculator.html"
+    },
+    {
+      "source": "/gst-calculator.html",
+      "destination": "/tools/calculators/gst-calculator.html"
+    },
+    {
+      "source": "/gst-checker.html",
+      "destination": "/tools/calculators/gst-checker.html"
+    },
+    {
+      "source": "/hra-calculator.html",
+      "destination": "/tools/calculators/hra-calculator.html"
+    },
+    {
+      "source": "/invoice-generator.html",
+      "destination": "/tools/calculators/invoice-generator.html"
+    },
+    {
+      "source": "/itr-calculator.html",
+      "destination": "/tools/calculators/itr-calculator.html"
+    },
+    {
+      "source": "/late-fee-calculator.html",
+      "destination": "/tools/calculators/late-fee-calculator.html"
+    },
+    {
+      "source": "/pl-calculator.html",
+      "destination": "/tools/calculators/pl-calculator.html"
+    },
+    {
+      "source": "/salary-calculator.html",
+      "destination": "/tools/calculators/salary-calculator.html"
+    },
+    {
+      "source": "/tools.html",
+      "destination": "/tools/calculators/tools.html"
+    },
+    {
+      "source": "/ecom-to-tally.html",
+      "destination": "/tools/ecommerce/ecom-to-tally.html"
+    },
+    {
+      "source": "/gst-2a-2b-reconcile.html",
+      "destination": "/tools/ecommerce/gst-2a-2b-reconcile.html"
+    },
+    {
+      "source": "/gst-error-report.html",
+      "destination": "/tools/ecommerce/gst-error-report.html"
+    },
+    {
+      "source": "/gst-online-seller.html",
+      "destination": "/tools/ecommerce/gst-online-seller.html"
+    },
+    {
+      "source": "/gstr1-json-excel.html",
+      "destination": "/tools/ecommerce/gstr1-json-excel.html"
+    },
+    {
+      "source": "/gstr1-json-validator.html",
+      "destination": "/tools/ecommerce/gstr1-json-validator.html"
+    },
+    {
+      "source": "/merge-excel-files.html",
+      "destination": "/tools/ecommerce/merge-excel-files.html"
+    },
+    {
+      "source": "/about.html",
+      "destination": "/pages/marketing/about.html"
+    },
+    {
+      "source": "/contact.html",
+      "destination": "/pages/marketing/contact.html"
+    },
+    {
+      "source": "/packages.html",
+      "destination": "/pages/marketing/packages.html"
+    },
+    {
+      "source": "/payment.html",
+      "destination": "/pages/marketing/payment.html"
+    },
+    {
+      "source": "/services.html",
+      "destination": "/pages/marketing/services.html"
+    },
+    {
+      "source": "/testimonials.html",
+      "destination": "/pages/marketing/testimonials.html"
+    },
+    {
+      "source": "/admin-login.html",
+      "destination": "/pages/account/admin-login.html"
+    },
+    {
+      "source": "/admin.html",
+      "destination": "/pages/account/admin.html"
+    },
+    {
+      "source": "/dashboard.html",
+      "destination": "/pages/account/dashboard.html"
+    },
+    {
+      "source": "/login.html",
+      "destination": "/pages/account/login.html"
+    }
+  ]
+}
